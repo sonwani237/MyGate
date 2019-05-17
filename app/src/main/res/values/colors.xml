@@ -3,4 +3,42 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorEnd">#49214d</color>
+
+    <color name="colorToolbar">#F95B83</color>
+    <color name="colorTab">#fc6f40</color>
+    <color name="colorPrimaryLight">#fc855e</color>
+
+    <color name="black_overlay">#e9e9e9</color>
+    <color name="textColor">#9b9b9b</color>
+    <color name="colorBackground">#F1F1F1</color>
+    <color name="semiTransparentWhite">#40FFFFFF</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="button_color">#32236e</color>
+    <color name="buttoncolor">#4000fd</color>
+    <color name="black">#000000</color>
+    <color name="background">#ececec</color>
+    <color name="icon_background">#434343</color>
+    <color name="trip_background">#f5f5f5</color>
+    <color name="indicator">#86F764</color>
+    <color name="shimmer_background_color">#d6d6d6</color>
+
+    <color name="iconColor">#197dda</color>
+    <color name="splashColor">#e5e5e5</color>
+    <color name="light_gray">#fafafa</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="back_bg">#e6e6e6</color>
+
+    <color name="bottommenu">#7e7e7e</color>
+    <color name="color_cut">#d26054</color>
+    <color name="color_alert">#de837a</color>
+
+    <color name="orange">#fd4b10</color>
+    <color name="blue">#000280</color>
+    <color name="green">#008000</color>
+    <color name="red">#FF0000</color>
+    <color name="colorlink">#0645AD</color>
+    <color name="brown">#804400</color>
 </resources>

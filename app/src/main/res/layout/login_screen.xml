@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parent"
     tools:context="com.troology.mygate.login_reg.ui.LoginScreen">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_13sdp"
+        android:layout_marginEnd="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_13sdp">
+        
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:hint="@string/mobile_no"
+            android:inputType="number"
+            android:maxLength="10"
+            android:id="@+id/number"
+            tools:ignore="Autofill" />
+        
+    </android.support.design.widget.TextInputLayout>
+
+</RelativeLayout>

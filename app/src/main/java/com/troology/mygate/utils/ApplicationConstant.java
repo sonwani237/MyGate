@@ -4,7 +4,8 @@ public enum ApplicationConstant {
 
     INSTANCE;
 
-    public String baseUrl = "";
+    public String baseUrl = "http://theme-nulled.in";
+    public String contentType = "application/json";
     public String appPref = "prefApp";
     public String loginPerf = "prefLogin";
 }
