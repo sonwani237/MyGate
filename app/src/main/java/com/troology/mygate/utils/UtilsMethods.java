@@ -49,7 +49,7 @@ public enum UtilsMethods {
 
     public void sendOTP(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
-        Call<ApiResponse> call = pointInterface.sendOTP( ApplicationConstant.INSTANCE.contentType, jsonObject);
+        Call<ApiResponse> call = pointInterface.sendOTP(ApplicationConstant.INSTANCE.contentType, jsonObject);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -57,12 +57,12 @@ public enum UtilsMethods {
                     loader.dismiss();
                 }
                 Log.e("SignUpRequest", "Signup response : " + response.body() + "   " + new Gson().toJson(response.body()));
-                if (response.body()!=null && response.body().getStatus()){
+                if (response.body() != null && response.body().getStatus()) {
                     context.startActivity(new Intent(context, OTPVerification.class)
                             .putExtra("mobile", response.body().getMobile()));
-                }else if (response.body() != null){
+                } else if (response.body() != null) {
                     snackBar(response.body().getMsg(), view);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -80,7 +80,7 @@ public enum UtilsMethods {
 
     public void verifyOTP(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
-        Call<ApiResponse> call = pointInterface.verifyOTP( ApplicationConstant.INSTANCE.contentType, jsonObject);
+        Call<ApiResponse> call = pointInterface.verifyOTP(ApplicationConstant.INSTANCE.contentType, jsonObject);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -89,16 +89,16 @@ public enum UtilsMethods {
                 }
                 Log.e("SignUpRequest", "Signup response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getUserDetails()!=null){
+                if (response.body() != null && response.body().getStatus() && response.body().getUserDetails() != null) {
                     save(context, ApplicationConstant.INSTANCE.loginPerf, response.body().getUserDetails());
 //                    context.startActivity(new Intent(context, Dashboard.class));
                     ApartmentsDetail(context, jsonObject, view, null);
-                }else if (response.body()!=null && !response.body().getMsg().equalsIgnoreCase("OTP does not Matched")){
+                } else if (response.body() != null && !response.body().getMsg().equalsIgnoreCase("OTP does not Matched")) {
                     context.startActivity(new Intent(context, RegisterScreen.class)
-                    .putExtra("mobile", response.body().getMobile()));
-                }else if (response.body()!=null){
+                            .putExtra("mobile", response.body().getMobile()));
+                } else if (response.body() != null) {
                     snackBar(response.body().getMsg(), view);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -116,7 +116,7 @@ public enum UtilsMethods {
 
     public void register(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
-        Call<ApiResponse> call = pointInterface.register( ApplicationConstant.INSTANCE.contentType, jsonObject);
+        Call<ApiResponse> call = pointInterface.register(ApplicationConstant.INSTANCE.contentType, jsonObject);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -125,7 +125,7 @@ public enum UtilsMethods {
                 }
                 Log.e("register", "Signup response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getUserDetails()!=null){
+                if (response.body() != null && response.body().getStatus() && response.body().getUserDetails() != null) {
 
                     save(context, ApplicationConstant.INSTANCE.loginPerf, response.body().getUserDetails());
                     JsonObject obj = new JsonObject();
@@ -133,9 +133,9 @@ public enum UtilsMethods {
 
                     ApartmentsDetail(context, obj, view, null);
 //                    context.startActivity(new Intent(context, Dashboard.class));
-                }else if (response.body()!=null){
+                } else if (response.body() != null) {
                     snackBar(response.body().getMsg(), view);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
 
@@ -163,13 +163,13 @@ public enum UtilsMethods {
                 }
                 Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getCities().size()>0){
+                if (response.body() != null && response.body().getStatus() && response.body().getCities().size() > 0) {
                     ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("CityList",new Gson().toJson(response.body().getCities()));
+                            new ActivityActivityMessage("CityList", new Gson().toJson(response.body().getCities()));
                     GlobalBus.getBus().post(activityMessage);
-                }else if (response.body()!=null && !response.body().getStatus()){
+                } else if (response.body() != null && !response.body().getStatus()) {
                     snackBar(response.body().getMsg(), view);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
 
@@ -197,13 +197,13 @@ public enum UtilsMethods {
                 }
                 Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getLocations().size()>0){
+                if (response.body() != null && response.body().getStatus() && response.body().getLocations().size() > 0) {
                     ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("LocationList",new Gson().toJson(response.body().getLocations()));
+                            new ActivityActivityMessage("LocationList", new Gson().toJson(response.body().getLocations()));
                     GlobalBus.getBus().post(activityMessage);
-                }else if (response.body()!=null && !response.body().getStatus()){
+                } else if (response.body() != null && !response.body().getStatus()) {
                     snackBar(response.body().getMsg(), view);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -230,13 +230,13 @@ public enum UtilsMethods {
                 }
                 Log.e("BuildingList", "response : " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getBuildings().size()>0){
+                if (response.body() != null && response.body().getStatus() && response.body().getBuildings().size() > 0) {
                     ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("BuildingList",new Gson().toJson(response.body().getBuildings()));
+                            new ActivityActivityMessage("BuildingList", new Gson().toJson(response.body().getBuildings()));
                     GlobalBus.getBus().post(activityMessage);
-                }else if (response.body()!=null && !response.body().getStatus()){
+                } else if (response.body() != null && !response.body().getStatus()) {
                     snackBar(response.body().getMsg(), view);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -263,16 +263,16 @@ public enum UtilsMethods {
                 }
                 Log.e("getApartment", "response : " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getApartment_no().size()>0){
+                if (response.body() != null && response.body().getStatus() && response.body().getApartment_no().size() > 0) {
                     ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("ApartmentList",new Gson().toJson(response.body().getApartment_no()));
+                            new ActivityActivityMessage("ApartmentList", new Gson().toJson(response.body().getApartment_no()));
                     GlobalBus.getBus().post(activityMessage);
-                }else if (response.body()!=null && !response.body().getStatus()){
+                } else if (response.body() != null && !response.body().getStatus()) {
                     snackBar(response.body().getMsg(), view);
                     ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("NoApartment","");
+                            new ActivityActivityMessage("NoApartment", "");
                     GlobalBus.getBus().post(activityMessage);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -295,21 +295,21 @@ public enum UtilsMethods {
             @Override
             public void onResponse(Call<ApartmentsResponse> call, Response<ApartmentsResponse> response) {
                 if (loader != null && loader.isShowing()) {
-                     loader.dismiss();
+                    loader.dismiss();
                 }
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus() && response.body().getApartment_details().size()>0){
+                if (response.body() != null && response.body().getStatus() && response.body().getApartment_details().size() > 0) {
                     Intent intent = new Intent(context, Dashboard.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("EXIT", true);
                     context.startActivity(intent);
-                }else if (response.body()!=null && response.body().getStatus() && response.body().getApartment_details().size() == 0){
+                } else if (response.body() != null && response.body().getStatus() && response.body().getApartment_details().size() == 0) {
                     Intent intent = new Intent(context, AddFlat.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("EXIT", true);
                     context.startActivity(intent);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -336,12 +336,12 @@ public enum UtilsMethods {
                 }
                 Log.e("AddFlat", "response : " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus()){
+                if (response.body() != null && response.body().getStatus()) {
                     save(context, ApplicationConstant.INSTANCE.userPerf, response.body());
                     Intent intent = new Intent(context, Dashboard.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
-                }else {
+                } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
@@ -357,18 +357,14 @@ public enum UtilsMethods {
         });
     }
 
-    public SharedPreferences getPerf(final Context context){
-        return context.getSharedPreferences(ApplicationConstant.INSTANCE.appPref, context.MODE_PRIVATE);
-    }
-
     public void save(final Context context, String key, Object o) {
-        getPerf(context).edit()
+        context.getSharedPreferences(ApplicationConstant.INSTANCE.appPref, Context.MODE_PRIVATE).edit()
                 .putString(key, new Gson().toJson(o))
                 .apply();
     }
 
     public <T> T get(final Context context, String key, Class<T> returnType) {
-        String json = getPerf(context).getString(key, null);
+        String json = context.getSharedPreferences(ApplicationConstant.INSTANCE.appPref, Context.MODE_PRIVATE).getString(key, null);
         if (json == null) {
             return null;
         }

@@ -39,11 +39,11 @@ public interface EndPointInterface {
 
     @POST("demo/mygetapp/api/add_appartments")
     Call<AddFlatResponse> AddFlat(@Header("Content-Type") String content,
-                                     @Body JsonObject jsonObject);
+                                  @Body JsonObject jsonObject);
 
     @POST("demo/mygetapp/api/apartments_detail")
     Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
-                                           @Body JsonObject jsonObject);
+                                              @Body JsonObject jsonObject);
 
     @GET("demo/mygetapp/api/get_city")
     Call<AddFlatResponse> getCity();

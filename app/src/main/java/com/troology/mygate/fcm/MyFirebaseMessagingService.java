@@ -45,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            Intent broadcastIntent = new Intent(getApplicationContext(), SensorRestarterBroadcastReceiver.class);
 //            sendBroadcast(broadcastIntent);
 
-//                methodnotify(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
+            methodNotify(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
 
         } else {
             Log.e(TAG, "FCM Notification failed");
@@ -71,7 +71,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
     }
 
-    private void methodnotify(String messageBody, String title) {
+    private void methodNotify(String messageBody, String title) {
         String channelId = getString(R.string.app_name);
         Intent intent = new Intent(this, Dashboard.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
