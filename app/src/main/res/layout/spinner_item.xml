@@ -3,11 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="top"
     android:singleLine="true"
     android:textColor="@color/black"
     android:fontFamily="@font/roboto_mono"
     android:textSize="@dimen/_12sdp"
-    android:paddingStart="@dimen/_2sdp"
+    android:layout_marginStart="@dimen/_2sdp"
     android:paddingTop="5sp"
     android:paddingBottom="5sp" />

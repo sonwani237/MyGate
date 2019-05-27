@@ -2,6 +2,7 @@ package com.troology.mygate.utils;
 
 import com.google.gson.JsonObject;
 import com.troology.mygate.add_flat.model.AddFlatResponse;
+import com.troology.mygate.login_reg.model.ApartmentsResponse;
 import com.troology.mygate.login_reg.model.ApiResponse;
 
 import retrofit2.Call;
@@ -38,7 +39,11 @@ public interface EndPointInterface {
 
     @POST("demo/mygetapp/api/add_appartments")
     Call<AddFlatResponse> AddFlat(@Header("Content-Type") String content,
-                                  @Body JsonObject jsonObject);
+                                     @Body JsonObject jsonObject);
+
+    @POST("demo/mygetapp/api/apartments_detail")
+    Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
+                                           @Body JsonObject jsonObject);
 
     @GET("demo/mygetapp/api/get_city")
     Call<AddFlatResponse> getCity();

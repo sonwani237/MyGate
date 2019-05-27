@@ -2,7 +2,6 @@ package com.troology.mygate.add_flat.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,7 +52,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
     ArrayList<BuildingList> building_no_list = new ArrayList<>();
     ArrayList<String> buildingNo;
 
-    ArrayAdapter<String> mAdapter;
     String user_type = "1", city_id = "", location_id = "", apartment_no_id = "", building_id = "";
     UserDetails userDetails;
 
@@ -79,10 +77,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         rental = findViewById(R.id.rental);
         submit = findViewById(R.id.submit);
         radio_grp = findViewById(R.id.radio_grp);
-
-        cityList.add("Select City");
-        mAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, cityList);
-        city.setAdapter(mAdapter);
 
         getCity();
 
@@ -121,6 +115,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         if (activityFragmentMessage.getMessage().equalsIgnoreCase("NoApartment")) {
             building_no.setVisibility(View.GONE);
             radio_grp.setVisibility(View.GONE);
+            submit.setVisibility(View.GONE);
         }
     }
 
@@ -128,7 +123,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         building_no_list = new Gson().fromJson(from, new TypeToken<List<BuildingList>>() {
         }.getType());
         buildingNo = new ArrayList<>();
-        submit.setVisibility(View.GONE);
         if (building_no_list != null && building_no_list.size() > 0) {
             building_no.setVisibility(View.VISIBLE);
             buildingNo.add("Select Building No");
@@ -137,6 +131,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
             }
         } else {
             buildingNo.clear();
+            submit.setVisibility(View.GONE);
             building_no.setVisibility(View.GONE);
         }
 
@@ -180,7 +175,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         building.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
                 if (!parent.getItemAtPosition(position).toString().equals("Select Building")) {
                     building_id = building_list.get(position - 1).getBuilding_id();
                     if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
@@ -265,6 +259,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         city_list = new Gson().fromJson(from, new TypeToken<List<CityList>>() {
         }.getType());
         if (city_list != null && city_list.size() > 0) {
+            cityList.add("Select City");
             for (int i = 0; i < city_list.size(); i++) {
                 cityList.add(city_list.get(i).getName());
             }

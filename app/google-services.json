@@ -1,0 +1,196 @@
+{
+  "project_info": {
+    "project_number": "248442268021",
+    "firebase_url": "https://troology-project-1539258885863.firebaseio.com",
+    "project_id": "troology-project-1539258885863",
+    "storage_bucket": "troology-project-1539258885863.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248442268021:android:b144ddc4cd3786f4",
+        "android_client_info": {
+          "package_name": "com.shippper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248442268021-nshuor352d2kl6rubifiuiog7io6bf8k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shippper",
+            "certificate_hash": "1bb6b7caf3c83d4ce4da0df6f73c58fa8c30bddf"
+          }
+        },
+        {
+          "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU9ORc1gevnh_WCn_DU69-YKarZpWhwTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248442268021:android:ddf360d5901168cd",
+        "android_client_info": {
+          "package_name": "com.shippper.partner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248442268021-ochfg8b1eredlnn1mq33ff8p7279rmbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shippper.partner",
+            "certificate_hash": "25754a7465e4ae323c7b7ebe73ffb63a2e125f46"
+          }
+        },
+        {
+          "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU9ORc1gevnh_WCn_DU69-YKarZpWhwTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248442268021:android:f2bc578031f5b9c1",
+        "android_client_info": {
+          "package_name": "com.troology.fleetware"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248442268021-j2o9g2cocv0c4reefi7chj7b3q3dn2bc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.troology.fleetware",
+            "certificate_hash": "46ceb9ade0aa051ae08c487c0af7fb6bcffc8834"
+          }
+        },
+        {
+          "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU9ORc1gevnh_WCn_DU69-YKarZpWhwTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248442268021:android:9518696a9e62de37",
+        "android_client_info": {
+          "package_name": "com.troology.mygate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248442268021-mq1nqf6cjiasfkbgqin9v3fels7djs98.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.troology.mygate",
+            "certificate_hash": "45d912701145e467f32eb1ef49ef031c31110749"
+          }
+        },
+        {
+          "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU9ORc1gevnh_WCn_DU69-YKarZpWhwTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248442268021:android:fde16207a983848b",
+        "android_client_info": {
+          "package_name": "com.troology.shipper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248442268021-t8mcj4jfj2gpq6uqmt91st4fttjro11l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.troology.shipper",
+            "certificate_hash": "1bb6b7caf3c83d4ce4da0df6f73c58fa8c30bddf"
+          }
+        },
+        {
+          "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU9ORc1gevnh_WCn_DU69-YKarZpWhwTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248442268021-fiiodhcouvjuae0lt2sts6ehi24k6ojj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

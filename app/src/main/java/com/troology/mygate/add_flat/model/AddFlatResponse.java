@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class AddFlatResponse {
+
     @SerializedName("status")
     @Expose
     private Boolean status;
