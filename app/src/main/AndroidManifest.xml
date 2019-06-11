@@ -19,7 +19,8 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:icon"
         tools:targetApi="n">
-        <activity android:name=".dashboard.ui.NotificationActivity"
+        <activity
+            android:name=".dashboard.ui.NotificationActivity"
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:excludeFromRecents="true"/>
@@ -35,9 +36,12 @@
         </activity>
 
         <receiver
-            android:name=".fcm.NotificationReceiver">
+            android:name=".fcm.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -76,6 +80,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

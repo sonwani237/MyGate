@@ -5,8 +5,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -25,25 +27,27 @@ import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
 
     private static final String TAG = "MyFirebaseMsgService";
+    BroadcastReceiver mReceiver = new NotificationReceiver();
+
+    @Override
+    public void onCreate() {
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(mReceiver, filter);
+        super.onCreate();
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         if (remoteMessage.getData() != null) {
             Log.e(TAG, "RemoteMessage: " + Objects.requireNonNull(remoteMessage.getNotification()).getTag());
-            Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
-            AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
 
-//            Intent broadcastIntent = new Intent(getApplicationContext(), SensorRestarterBroadcastReceiver.class);
-//            sendBroadcast(broadcastIntent);
+            Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+            sendBroadcast(broadcastIntent);
 
             methodNotify(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
 
@@ -64,11 +68,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onDeletedMessages() {
         super.onDeletedMessages();
-        
-        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
     }
 
     private void methodNotify(String messageBody, String title) {
@@ -101,5 +100,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public int genNotifyId() {
         Random r = new Random(System.currentTimeMillis());
         return ((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+        Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        sendBroadcast(broadcastIntent);
     }
 }

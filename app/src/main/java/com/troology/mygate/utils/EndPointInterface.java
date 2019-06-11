@@ -25,6 +25,9 @@ public interface EndPointInterface {
     Call<ApiResponse> register(@Header("Content-Type") String content,
                                @Body JsonObject jsonObject);
 
+    @GET("demo/mygetapp/api/get_city")
+    Call<AddFlatResponse> getCity();
+
     @POST("demo/mygetapp/api/get_location")
     Call<AddFlatResponse> getLocation(@Header("Content-Type") String content,
                                       @Body JsonObject jsonObject);
@@ -45,7 +48,5 @@ public interface EndPointInterface {
     Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
                                               @Body JsonObject jsonObject);
 
-    @GET("demo/mygetapp/api/get_city")
-    Call<AddFlatResponse> getCity();
 
 }
