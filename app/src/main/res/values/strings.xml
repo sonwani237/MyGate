@@ -3,7 +3,6 @@
     <string name="mobile_no">Mobile No</string>
     <string name="error">Something went wrong!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="activity">Activity</string>
     <string name="household">Household</string>
@@ -15,4 +14,25 @@
     <string name="owner">Owner</string>
     <string name="rental">Rental</string>
     <string name="submit">Submit</string>
+
+    <string name="transition_arrow">transition_arrow</string>
+    <string name="transition_tvMoving">transition_tvMoving</string>
+    <string name="transition_ivFlag">transition_ivFlag</string>
+    <string name="transition_tvCode">transition_tvCode</string>
+    <string name="transition_tvPhoneNo">transition_tvPhoneNo</string>
+    <string name="transition_llPhone">transition_llPhone</string>
+    <string name="enter_no">Enter your mobile number</string>
+    <string name="add_member">Add Member</string>
+    <string name="create_req">Create Request</string>
+    <string name="member_name">Member Name</string>
+    <string name="add">+ ADD</string>
+    <string name="add_flat">Add Flat</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="purpose">Purpose</string>
+    <string name="known">Known</string>
+    <string name="register">Register</string>
+    <string name="approved">Approved</string>
+    <string name="date_and_time">Date and Time</string>
+
 </resources>

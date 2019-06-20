@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class LocationList {
 
-    @SerializedName("location_id")
+    @SerializedName("state_id")
     @Expose
     private String location_id;
     @SerializedName("name")

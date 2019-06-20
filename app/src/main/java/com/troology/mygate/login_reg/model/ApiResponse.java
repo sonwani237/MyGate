@@ -3,22 +3,27 @@ package com.troology.mygate.login_reg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class ApiResponse {
 
     @SerializedName("status")
     @Expose
-    private Boolean status;
+    private String status;
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("otp")
+    @Expose
+    private OTP otp;
     @SerializedName("mobile")
     @Expose
     private String mobile;
-    @SerializedName("user_details")
+    @SerializedName("User_data")
     @Expose
-    private UserDetails userDetails;
+    private ArrayList<UserDetails> userDetails;
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -26,7 +31,11 @@ public class ApiResponse {
         return msg;
     }
 
-    public UserDetails getUserDetails() {
+    public OTP getOtp() {
+        return otp;
+    }
+
+    public ArrayList<UserDetails> getUserDetails() {
         return userDetails;
     }
 

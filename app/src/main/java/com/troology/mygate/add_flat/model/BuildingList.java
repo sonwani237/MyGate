@@ -5,19 +5,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class BuildingList {
 
-    @SerializedName("building_id")
+    @SerializedName("id")
     @Expose
-    private String building_id;
-    @SerializedName("name")
+    private String id;
+    @SerializedName("apartment_id")
     @Expose
-    private String name;
+    private String apartment_id;
+    @SerializedName("apartment_no")
+    @Expose
+    private String apartment_no;
 
-    public String getBuilding_id() {
-        return building_id;
+    public String getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public String getApartment_id() {
+        return apartment_id;
     }
 
+    public String getApartment_no() {
+        return apartment_no;
+    }
 }

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.chaos.view.PinView;
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
+import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
 
@@ -46,9 +47,12 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
                 loader.setCancelable(false);
                 loader.setCanceledOnTouchOutside(false);
 
+                String fcm = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.fireBaseToken, String.class);
+
                 JsonObject object = new JsonObject();
                 object.addProperty("mobile", mobile);
                 object.addProperty("otp", otp_code.getText().toString());
+                object.addProperty("fcm_token", fcm);
 
                 UtilsMethods.INSTANCE.verifyOTP(getApplicationContext(), object, parent, loader);
             } else {

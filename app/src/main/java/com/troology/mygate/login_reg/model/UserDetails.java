@@ -8,7 +8,10 @@ public class UserDetails {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("mobile")
+    @SerializedName("uid")
+    @Expose
+    private String uid;
+    @SerializedName("phone")
     @Expose
     private String mobile;
     @SerializedName("name")
@@ -17,6 +20,9 @@ public class UserDetails {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("token")
+    @Expose
+    private String token;
 
     public String getId() {
         return id;
@@ -32,6 +38,14 @@ public class UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getToken() {
+        return token;
     }
 
 }

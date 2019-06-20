@@ -18,11 +18,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public void addFragments(Fragment fragments, String titles){
         this.fragments.add(fragments);
         this.tabTitles.add(titles);
-
     }
 
-    public ViewPagerAdapter(FragmentManager fm)
-    {
+    public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

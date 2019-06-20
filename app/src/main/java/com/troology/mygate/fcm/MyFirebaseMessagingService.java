@@ -12,8 +12,10 @@ import android.content.IntentFilter;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -27,9 +29,9 @@ import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-
     private static final String TAG = "MyFirebaseMsgService";
     BroadcastReceiver mReceiver = new NotificationReceiver();
+    String tag;
 
     @Override
     public void onCreate() {
@@ -43,13 +45,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        tag = remoteMessage.getData().get("requestId");
+        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
+                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("name"));
+
         if (remoteMessage.getData() != null) {
-            Log.e(TAG, "RemoteMessage: " + Objects.requireNonNull(remoteMessage.getNotification()).getTag());
+            if (tag!=null){
+                Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+                broadcastIntent.putExtra("requestId", tag);
+                sendBroadcast(broadcastIntent);
+            }
 
-            Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
-            sendBroadcast(broadcastIntent);
-
-            methodNotify(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
+            methodNotify(remoteMessage.getData().get("title"), remoteMessage.getData().get("title"));
 
         } else {
             Log.e(TAG, "FCM Notification failed");
@@ -106,7 +113,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
-        Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
-        sendBroadcast(broadcastIntent);
     }
 }

@@ -8,7 +8,9 @@ public enum ApplicationConstant {
     public String contentType = "application/json";
     public String appPref = "prefApp";
     public String loginPerf = "prefLogin";
+    public String flatPerf = "prefFlat";
     public String userPerf = "prefUser";
     public String fireBaseToken = "prefToken";
+    public String userToken = "prefUserToken";
 
 }

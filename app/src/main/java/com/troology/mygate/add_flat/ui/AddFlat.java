@@ -2,10 +2,12 @@ package com.troology.mygate.add_flat.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -17,6 +19,8 @@ import com.google.gson.reflect.TypeToken;
 import com.troology.mygate.R;
 import com.troology.mygate.add_flat.model.BuildingList;
 import com.troology.mygate.add_flat.model.CityList;
+import com.troology.mygate.add_flat.model.CountryList;
+import com.troology.mygate.add_flat.model.FlatList;
 import com.troology.mygate.add_flat.model.LocationList;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.utils.ActivityActivityMessage;
@@ -33,26 +37,27 @@ import java.util.List;
 
 public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
-    Spinner city, location, building, building_no;
-    RadioButton owner, rental;
+    Spinner country, state, city, apartment, flatNo;
     Button submit;
     Loader loader;
     RelativeLayout parent;
-    RadioGroup radio_grp;
+
+    ArrayList<CountryList> country_list = new ArrayList<>();
+    ArrayList<String> countryList = new ArrayList<>();
+
+    ArrayList<LocationList> state_list = new ArrayList<>();
+    ArrayList<String> stateList;
 
     ArrayList<CityList> city_list = new ArrayList<>();
-    ArrayList<String> cityList = new ArrayList<>();
+    ArrayList<String> cityList;
 
-    ArrayList<LocationList> location_list = new ArrayList<>();
-    ArrayList<String> locationList;
+    ArrayList<BuildingList> apartment_list = new ArrayList<>();
+    ArrayList<String> apartmentList;
 
-    ArrayList<BuildingList> building_list = new ArrayList<>();
-    ArrayList<String> buildingList;
+    ArrayList<FlatList> flat_list = new ArrayList<>();
+    ArrayList<String> flatList;
 
-    ArrayList<BuildingList> building_no_list = new ArrayList<>();
-    ArrayList<String> buildingNo;
-
-    String user_type = "1", city_id = "", location_id = "", apartment_no_id = "", building_id = "";
+    String country_id = "", state_id = "", city_id = "",  apartment_id = "", flat_id = "", flat_no = "";
     UserDetails userDetails;
 
     @Override
@@ -60,39 +65,41 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_flat);
 
-        InItView();
-        userDetails = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.add_flat);
+        setSupportActionBar(toolbar);
 
+        userDetails = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class);
+        InItView();
     }
 
     private void InItView() {
 
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);
         parent = findViewById(R.id.parent);
+        country = findViewById(R.id.country);
+        state = findViewById(R.id.state);
         city = findViewById(R.id.city);
-        location = findViewById(R.id.location);
-        building = findViewById(R.id.building);
-        building_no = findViewById(R.id.building_no);
-        owner = findViewById(R.id.owner);
-        rental = findViewById(R.id.rental);
+        apartment = findViewById(R.id.apartment);
+        flatNo = findViewById(R.id.flatNo);
+
         submit = findViewById(R.id.submit);
-        radio_grp = findViewById(R.id.radio_grp);
 
-        getCity();
-
-        owner.setOnClickListener(this);
-        rental.setOnClickListener(this);
+        getCountry();
         submit.setOnClickListener(this);
     }
 
-    private void getCity() {
+    private void getCountry() {
         if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
             loader.show();
             loader.setCancelable(false);
             loader.setCanceledOnTouchOutside(false);
 
-            UtilsMethods.INSTANCE.getCity(getApplicationContext(), parent, loader);
+            JsonObject object = new JsonObject();
+            object.addProperty("token", userDetails.getToken());
+
+            UtilsMethods.INSTANCE.getCountry(getApplicationContext(), object, parent, loader);
         } else {
             UtilsMethods.INSTANCE.snackBar("", parent);
         }
@@ -100,83 +107,38 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
     @Subscribe
     public void onActivityActivityMessage(ActivityActivityMessage activityFragmentMessage) {
+        if (activityFragmentMessage.getMessage().equalsIgnoreCase("CountryList")) {
+            LoadCountryData(activityFragmentMessage.getFrom());
+        }
         if (activityFragmentMessage.getMessage().equalsIgnoreCase("CityList")) {
             LoadCityData(activityFragmentMessage.getFrom());
         }
         if (activityFragmentMessage.getMessage().equalsIgnoreCase("LocationList")) {
-            LoadLocation(activityFragmentMessage.getFrom());
-        }
-        if (activityFragmentMessage.getMessage().equalsIgnoreCase("BuildingList")) {
-            LoadBuilding(activityFragmentMessage.getFrom());
+            LoadState(activityFragmentMessage.getFrom());
         }
         if (activityFragmentMessage.getMessage().equalsIgnoreCase("ApartmentList")) {
             LoadApartment(activityFragmentMessage.getFrom());
         }
-        if (activityFragmentMessage.getMessage().equalsIgnoreCase("NoApartment")) {
-            building_no.setVisibility(View.GONE);
-            radio_grp.setVisibility(View.GONE);
-            submit.setVisibility(View.GONE);
+        if (activityFragmentMessage.getMessage().equalsIgnoreCase("FlatList")) {
+            LoadFlat(activityFragmentMessage.getFrom());
         }
     }
 
-    private void LoadApartment(String from) {
-        building_no_list = new Gson().fromJson(from, new TypeToken<List<BuildingList>>() {
+    private void LoadCountryData(String from) {
+        country_list = new Gson().fromJson(from, new TypeToken<List<CountryList>>() {
         }.getType());
-        buildingNo = new ArrayList<>();
-        if (building_no_list != null && building_no_list.size() > 0) {
-            building_no.setVisibility(View.VISIBLE);
-            buildingNo.add("Select Building No");
-            for (int i = 0; i < building_no_list.size(); i++) {
-                buildingNo.add(building_no_list.get(i).getName());
+        if (country_list != null && country_list.size() > 0) {
+            countryList.add("Select Country");
+            for (int i = 0; i < country_list.size(); i++) {
+                countryList.add(country_list.get(i).getName());
             }
-        } else {
-            buildingNo.clear();
-            submit.setVisibility(View.GONE);
-            building_no.setVisibility(View.GONE);
         }
 
-        building_no.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).toString().equals("Select Building No")) {
-                    apartment_no_id = building_list.get(position - 1).getBuilding_id();
-                    radio_grp.setVisibility(View.VISIBLE);
-                    submit.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        ArrayAdapter<String> buildingNoAdapter;
-        buildingNoAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, buildingNo);
-        building_no.setAdapter(buildingNoAdapter);
-    }
-
-    private void LoadBuilding(String from) {
-        building_list = new Gson().fromJson(from, new TypeToken<List<BuildingList>>() {
-        }.getType());
-        buildingList = new ArrayList<>();
-        building.setVisibility(View.GONE);
-        building_no.setVisibility(View.GONE);
-        submit.setVisibility(View.GONE);
-        if (building_list != null && building_list.size() > 0) {
-            building.setVisibility(View.VISIBLE);
-            buildingList.add("Select Building");
-            for (int i = 0; i < building_list.size(); i++) {
-                buildingList.add(building_list.get(i).getName());
-            }
-        } else {
-            buildingList.clear();
-            building.setVisibility(View.GONE);
-        }
-
-        building.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).toString().equals("Select Building")) {
-                    building_id = building_list.get(position - 1).getBuilding_id();
+                if (!parent.getItemAtPosition(position).toString().equals("Select Country")) {
+                    country_id = country_list.get(position - 1).getCountry_id();
                     if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
                         loader.show();
@@ -184,62 +146,10 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                         loader.setCanceledOnTouchOutside(false);
 
                         JsonObject object = new JsonObject();
-                        object.addProperty("building_id", building_list.get(position - 1).getBuilding_id());
+                        object.addProperty("country_id", country_list.get(position - 1).getCountry_id());
+                        object.addProperty("token", userDetails.getToken());
 
-                        UtilsMethods.INSTANCE.getApartment(getApplicationContext(), object, parent, loader);
-                    } else {
-                        UtilsMethods.INSTANCE.snackBar("", parent);
-                    }
-                }/* else {
-                 *//* *//*
-
-                }*/
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        ArrayAdapter<String> buildingAdapter;
-        buildingAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, buildingList);
-        building.setAdapter(buildingAdapter);
-    }
-
-    private void LoadLocation(String from) {
-        location_list = new Gson().fromJson(from, new TypeToken<List<LocationList>>() {
-        }.getType());
-        locationList = new ArrayList<>();
-        location.setVisibility(View.GONE);
-        building.setVisibility(View.GONE);
-        building_no.setVisibility(View.GONE);
-        radio_grp.setVisibility(View.GONE);
-        submit.setVisibility(View.GONE);
-        if (location_list != null && location_list.size() > 0) {
-            location.setVisibility(View.VISIBLE);
-            locationList.add("Select Location");
-            for (int i = 0; i < location_list.size(); i++) {
-                locationList.add(location_list.get(i).getName());
-            }
-        } else {
-            locationList.clear();
-            location.setVisibility(View.GONE);
-        }
-
-        location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).toString().equals("Select Location")) {
-                    location_id = location_list.get(position - 1).getLocation_id();
-                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
-
-                        loader.show();
-                        loader.setCancelable(false);
-                        loader.setCanceledOnTouchOutside(false);
-
-                        JsonObject object = new JsonObject();
-                        object.addProperty("location_id", location_list.get(position - 1).getLocation_id());
-
-                        UtilsMethods.INSTANCE.getBuilding(getApplicationContext(), object, parent, loader);
+                        UtilsMethods.INSTANCE.getState(getApplicationContext(), object, parent, loader);
                     } else {
                         UtilsMethods.INSTANCE.snackBar("", parent);
                     }
@@ -250,19 +160,80 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        ArrayAdapter<String> locationAdapter;
-        locationAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, locationList);
-        location.setAdapter(locationAdapter);
+        ArrayAdapter<String> countryAdapter;
+        countryAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, countryList);
+        country.setAdapter(countryAdapter);
+    }
+
+    private void LoadState(String from) {
+        state_list = new Gson().fromJson(from, new TypeToken<List<LocationList>>() {
+        }.getType());
+        stateList = new ArrayList<>();
+        state.setVisibility(View.GONE);
+        city.setVisibility(View.GONE);
+        apartment.setVisibility(View.GONE);
+        flatNo.setVisibility(View.GONE);
+        submit.setVisibility(View.GONE);
+        if (state_list != null && state_list.size() > 0) {
+            state.setVisibility(View.VISIBLE);
+            stateList.add("Select State");
+            for (int i = 0; i < state_list.size(); i++) {
+                stateList.add(state_list.get(i).getName());
+            }
+        } else {
+            stateList.clear();
+            state.setVisibility(View.GONE);
+        }
+
+        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!parent.getItemAtPosition(position).toString().equals("Select State")) {
+                    state_id = state_list.get(position - 1).getLocation_id();
+                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
+
+                        loader.show();
+                        loader.setCancelable(false);
+                        loader.setCanceledOnTouchOutside(false);
+
+                        JsonObject object = new JsonObject();
+                        object.addProperty("state_id", state_list.get(position - 1).getLocation_id());
+                        object.addProperty("token", userDetails.getToken());
+
+                        UtilsMethods.INSTANCE.getCity(getApplicationContext(), object, parent, loader);
+                    } else {
+                        UtilsMethods.INSTANCE.snackBar("", parent);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        ArrayAdapter<String> stateAdapter;
+        stateAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, stateList);
+        state.setAdapter(stateAdapter);
     }
 
     private void LoadCityData(String from) {
         city_list = new Gson().fromJson(from, new TypeToken<List<CityList>>() {
         }.getType());
+        cityList = new ArrayList<>();
+        city.setVisibility(View.GONE);
+        apartment.setVisibility(View.GONE);
+        submit.setVisibility(View.GONE);
+        flatNo.setVisibility(View.GONE);
+        flatNo.setVisibility(View.GONE);
         if (city_list != null && city_list.size() > 0) {
+            city.setVisibility(View.VISIBLE);
             cityList.add("Select City");
             for (int i = 0; i < city_list.size(); i++) {
                 cityList.add(city_list.get(i).getName());
             }
+        }else {
+            cityList.clear();
+            city.setVisibility(View.GONE);
         }
 
         city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -278,8 +249,9 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
                         JsonObject object = new JsonObject();
                         object.addProperty("city_id", city_list.get(position - 1).getId());
+                        object.addProperty("token", userDetails.getToken());
 
-                        UtilsMethods.INSTANCE.getLocation(getApplicationContext(), object, parent, loader);
+                        UtilsMethods.INSTANCE.getApartment(getApplicationContext(), object, parent, loader);
                     } else {
                         UtilsMethods.INSTANCE.snackBar("", parent);
                     }
@@ -293,6 +265,92 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         ArrayAdapter<String> cityAdapter;
         cityAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, cityList);
         city.setAdapter(cityAdapter);
+    }
+
+    private void LoadApartment(String from) {
+        apartment_list = new Gson().fromJson(from, new TypeToken<List<BuildingList>>() {
+        }.getType());
+        apartmentList = new ArrayList<>();
+        apartment.setVisibility(View.GONE);
+        flatNo.setVisibility(View.GONE);
+        submit.setVisibility(View.GONE);
+        if (apartment_list != null && apartment_list.size() > 0) {
+            apartment.setVisibility(View.VISIBLE);
+            apartmentList.add("Select Apartment");
+            for (int i = 0; i < apartment_list.size(); i++) {
+                apartmentList.add(apartment_list.get(i).getApartment_no());
+            }
+        } else {
+            apartmentList.clear();
+            apartment.setVisibility(View.GONE);
+        }
+
+        apartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!parent.getItemAtPosition(position).toString().equals("Select Apartment")) {
+                    apartment_id = apartment_list.get(position - 1).getApartment_id();
+
+                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
+
+                        loader.show();
+                        loader.setCancelable(false);
+                        loader.setCanceledOnTouchOutside(false);
+
+                        JsonObject object = new JsonObject();
+                        object.addProperty("apartment_id", apartment_id);
+                        object.addProperty("token", userDetails.getToken());
+
+                        UtilsMethods.INSTANCE.getFlat(getApplicationContext(), object, parent, loader);
+                    } else {
+                        UtilsMethods.INSTANCE.snackBar("", parent);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        ArrayAdapter<String> apartmentAdapter;
+        apartmentAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, apartmentList);
+        apartment.setAdapter(apartmentAdapter);
+    }
+
+    private void LoadFlat(String from) {
+        flat_list = new Gson().fromJson(from, new TypeToken<List<FlatList>>() {
+        }.getType());
+        flatList = new ArrayList<>();
+        flatNo.setVisibility(View.GONE);
+        submit.setVisibility(View.GONE);
+        if (flat_list != null && flat_list.size() > 0) {
+            flatNo.setVisibility(View.VISIBLE);
+            flatList.add("Select Flat");
+            for (int i = 0; i < flat_list.size(); i++) {
+                flatList.add(flat_list.get(i).getFlat_no());
+            }
+        } else {
+            flatList.clear();
+            flatNo.setVisibility(View.GONE);
+        }
+
+        flatNo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!parent.getItemAtPosition(position).toString().equals("Select Flat")) {
+                    flat_id = flat_list.get(position - 1).getFlat_id();
+                    flat_no = flat_list.get(position - 1).getFlat_no();
+                    submit.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        ArrayAdapter<String> flatAdapter;
+        flatAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, flatList);
+        flatNo.setAdapter(flatAdapter);
     }
 
     @Override
@@ -312,16 +370,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rental:
-                rental.setChecked(true);
-                owner.setChecked(false);
-                user_type = "2";
-                break;
-            case R.id.owner:
-                rental.setChecked(false);
-                owner.setChecked(true);
-                user_type = "1";
-                break;
             case R.id.submit:
                 if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
@@ -330,12 +378,14 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                     loader.setCanceledOnTouchOutside(false);
 
                     JsonObject object = new JsonObject();
-                    object.addProperty("mobile",userDetails.getMobile());
-                    object.addProperty("city_id",city_id);
-                    object.addProperty("location_id",location_id);
-                    object.addProperty("apartment_no_id",apartment_no_id);
-                    object.addProperty("building_id",building_id);
-                    object.addProperty("rental_owner",user_type);
+                    object.addProperty("token", userDetails.getToken());
+                    object.addProperty("uid", userDetails.getUid());
+                    object.addProperty("flat_id", flat_id);
+                    object.addProperty("flat_no", flat_no);
+                    object.addProperty("apartment_id", apartment_id);
+                    object.addProperty("city_id", city_id);
+                    object.addProperty("state_id", state_id);
+                    object.addProperty("country_id", country_id);
 
                     UtilsMethods.INSTANCE.AddFlat(getApplicationContext(), object, parent, loader);
                 } else {

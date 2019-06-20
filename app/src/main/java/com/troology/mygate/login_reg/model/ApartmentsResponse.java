@@ -13,7 +13,7 @@ public class ApartmentsResponse {
     @SerializedName("user_details")
     @Expose
     private UserDetails user_details;
-    @SerializedName("apartment_details")
+    @SerializedName("flat_detail")
     @Expose
     private ArrayList<ApartmentDetails> apartment_details;
 

@@ -13,18 +13,24 @@ public class AddFlatResponse {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("countries")
+    @Expose
+    private ArrayList<CountryList> countries;
     @SerializedName("cities")
     @Expose
     private ArrayList<CityList> cities;
-    @SerializedName("locations")
+    @SerializedName("states")
     @Expose
     private ArrayList<LocationList> locations;
     @SerializedName("buildings")
     @Expose
     private ArrayList<BuildingList> buildings;
-    @SerializedName("apartment_no")
+    @SerializedName("apartments")
     @Expose
     private ArrayList<BuildingList> apartment_no;
+    @SerializedName("flats")
+    @Expose
+    private ArrayList<FlatList> flats;
 
     public Boolean getStatus() {
         return status;
@@ -48,5 +54,13 @@ public class AddFlatResponse {
 
     public ArrayList<BuildingList> getApartment_no() {
         return apartment_no;
+    }
+
+    public ArrayList<CountryList> getCountries() {
+        return countries;
+    }
+
+    public ArrayList<FlatList> getFlats() {
+        return flats;
     }
 }

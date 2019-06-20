@@ -1,40 +1,130 @@
 package com.troology.mygate.dashboard.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.troology.mygate.R;
+import com.troology.mygate.dashboard.model.MemberData;
+import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.utils.ApplicationConstant;
+import com.troology.mygate.utils.FragmentActivityMessage;
+import com.troology.mygate.utils.GlobalBus;
+import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
 
-public class SecondFragment extends Fragment {
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-    TextView name;
-    UserDetails details;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class SecondFragment extends Fragment implements View.OnClickListener {
+
+    TextView name, passcode, addMember;
+    ApartmentDetails details;
+    ArrayList<MemberData> memberData;
+    RecyclerView recycler;
+    LinearLayoutManager layoutManager;
+    MemberListAdapter adapter;
+    Loader loader;
+    ScrollView parent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         InItView(view);
         return view;
     }
 
     private void InItView(View view) {
+        loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar);
+        parent = view.findViewById(R.id.parent);
         name = view.findViewById(R.id.name);
+        passcode = view.findViewById(R.id.passcode);
+        addMember = view.findViewById(R.id.addMember);
+        recycler = view.findViewById(R.id.recycler);
 
-        details = UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class);
+        details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
         if (details!=null){
-            name.setText(details.getName());
+            name.setText(details.getUsername());
+            passcode.setText(details.getPasscode());
         }
 
+        addMember.setOnClickListener(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getMemberData();
+    }
+
+    private void getMemberData() {
+
+        if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("flat_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getFlat_id());
+            jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+
+            UtilsMethods.INSTANCE.viewMember(getActivity(), jsonObject, parent, null);
+        } else {
+            UtilsMethods.INSTANCE.snackBar("", parent);
+        }
+    }
+
+    @Subscribe
+    public void onFragmentActivityMessage(FragmentActivityMessage fragmentActivityMessage) {
+        if (fragmentActivityMessage.getMessage().equalsIgnoreCase("MemberList")){
+            memberData = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<MemberData>>(){}.getType());
+            if (memberData.size()>0){
+                layoutManager = new LinearLayoutManager(getActivity());
+                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                recycler.setLayoutManager(layoutManager);
+                adapter = new MemberListAdapter(memberData, getActivity());
+                recycler.setAdapter(adapter);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            GlobalBus.getBus().register(this);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            GlobalBus.getBus().register(this);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == addMember){
+            startActivity(new Intent(getActivity(), AddMember.class));
+        }
+    }
 }

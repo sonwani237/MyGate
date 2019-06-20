@@ -20,15 +20,14 @@ import com.troology.mygate.utils.UtilsMethods;
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "Splash" ;
-    private static int SPLASH_TIME_OUT = 3000;
+    int SPLASH_TIME_OUT = 3000;
     RelativeLayout parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
         parent = findViewById(R.id.parent);
@@ -39,11 +38,11 @@ public class SplashActivity extends AppCompatActivity {
                 UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getMobile().length() > 0){
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("mobile", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getMobile());
+            jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());
+            jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
             UtilsMethods.INSTANCE.ApartmentsDetail(SplashActivity.this, jsonObject, parent, null);
 
-//                    startActivity(new Intent(SplashActivity.this, Dashboard.class));
         }else {
             new Handler().postDelayed(new Runnable() {
                 @Override
