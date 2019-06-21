@@ -64,11 +64,22 @@ public enum UtilsMethods {
                 Log.e("SignUpRequest", "Sign_up response : " + new Gson().toJson(response.body()));
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
                     Toast.makeText(context, ""+response.body().getOtp().getPhone_otp(), Toast.LENGTH_LONG).show();
-                    context.startActivity(new Intent(context, OTPVerification.class)
-                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
+
+                    Intent i = new Intent(context, OTPVerification.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("mobile", jsonObject.get("mobile").getAsString());
+                    context.startActivity(i);
+
+//                    context.startActivity(new Intent(context, OTPVerification.class)
+//                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
                 } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
-                    context.startActivity(new Intent(context, RegisterScreen.class)
-                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
+                    Intent i = new Intent(context, RegisterScreen.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("mobile", jsonObject.get("mobile").getAsString());
+                    context.startActivity(i);
+
+//                    context.startActivity(new Intent(context, RegisterScreen.class)
+//                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }

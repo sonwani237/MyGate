@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".add_flat.ui.AddFlat">
 
+    <ImageView
+        android:id="@+id/ivaddflat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_20sdp"
+        android:src="@drawable/app_logo" />
+
     <include
         layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
@@ -27,7 +34,7 @@
                 android:id="@+id/country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp" />
+                android:layout_margin="@dimen/_5sdp"/>
 
         </android.support.v7.widget.CardView>
 
@@ -105,6 +112,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/submit"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:fontFamily="@font/opensans_semibold"
+        android:background="@color/colorPrimaryDark"
+        android:layout_margin="@dimen/_20sdp"/>
 
 </RelativeLayout>

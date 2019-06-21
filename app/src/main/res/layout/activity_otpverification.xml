@@ -22,13 +22,88 @@
         android:layout_marginEnd="@dimen/_13sdp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/otp_code"/>
+        android:id="@+id/otp_codee"
+        android:visibility="gone"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Verify"
-        android:id="@+id/verify"/>
+        android:visibility="gone"
+        android:id="@+id/verifyy"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/app_logo"
+            android:layout_marginBottom="@dimen/_20sdp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/otp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/opensans_regular"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sdp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/otpmessage"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/opensans_regular"
+            android:textAlignment="center"
+            android:paddingLeft="@dimen/_50sdp"
+            android:paddingRight="@dimen/_50sdp"/>
+
+
+        <com.chaos.view.PinView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:cursorVisible="true"
+            android:textColor="@color/colorPrimary"
+            app:itemCount="4"
+            style="@style/PinWidget.PinView"
+            app:viewType="line"
+            android:textSize="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/otp_code"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@null"
+            android:fontFamily="@font/opensans_regular"
+            app:cursorColor="@color/black"
+            app:lineColor="@color/black"
+            android:visibility="visible"/>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Verify"
+            android:visibility="visible"
+            android:id="@+id/verify"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/white"
+            android:fontFamily="@font/opensans_semibold"
+            android:layout_marginLeft="@dimen/_50sdp"
+            android:layout_marginRight="@dimen/_50sdp"/>
+
+
+    </LinearLayout>
 
 </RelativeLayout>

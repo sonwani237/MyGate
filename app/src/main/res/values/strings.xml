@@ -14,6 +14,8 @@
     <string name="owner">Owner</string>
     <string name="rental">Rental</string>
     <string name="submit">Submit</string>
+    <string name="otp">Enter One Time Password (OTP)</string>
+    <string name="otpmessage">One Time Password (OTP) has been send to your mobile number, please enter the same here to login</string>
 
     <string name="transition_arrow">transition_arrow</string>
     <string name="transition_tvMoving">transition_tvMoving</string>

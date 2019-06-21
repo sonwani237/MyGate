@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dashboard.ui.UserProfile">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backblack"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/iv_backuserprofile"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/lightblue"
+            android:gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:src="@drawable/demoimage"
+                app:civ_border_width="@dimen/_5sdp"
+                app:civ_border_color="@color/colorPrimaryDark"/>
+
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_margin="@dimen/_20sdp"
+            android:background="@drawable/roundedcorners">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:src="@drawable/persondemo"
+                        android:id="@+id/iv_name"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Viraj Dobriyal"
+                    android:padding="@dimen/_14sdp"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:id="@+id/tv_name"
+                    android:layout_toRightOf="@+id/iv_name"
+                    android:fontFamily="@font/opensans_regular"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:src="@drawable/iv_email"
+                        android:id="@+id/iv_email"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="VirajDobriyal123@hmail.com"
+                        android:padding="@dimen/_14sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/black"
+                        android:id="@+id/tv_email"
+                        android:layout_toRightOf="@+id/iv_email"
+                        android:fontFamily="@font/opensans_regular"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:src="@drawable/phoneimg"
+                        android:id="@+id/iv_number"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+91 8112799875"
+                        android:padding="@dimen/_14sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/black"
+                        android:id="@+id/tv_number"
+                        android:layout_toRightOf="@+id/iv_number"
+                        android:fontFamily="@font/opensans_regular"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:src="@drawable/flatimg"
+                        android:id="@+id/iv_flatdetails"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="B-19, Apex Apartment, Kanpur, Uttar Pradesh ,India"
+                        android:padding="@dimen/_14sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:textColor="@color/black"
+                        android:id="@+id/tv_flatdetails"
+                        android:layout_toRightOf="@+id/iv_flatdetails"
+                        android:fontFamily="@font/opensans_regular"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+
+    </LinearLayout>
+</RelativeLayout>

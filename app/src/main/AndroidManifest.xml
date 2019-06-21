@@ -20,7 +20,8 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:icon"
         tools:targetApi="n">
-        <activity android:name=".dashboard.ui.CreateRequest"></activity>
+        <activity android:name=".dashboard.ui.UserProfile"></activity>
+        <activity android:name=".dashboard.ui.CreateRequest" />
         <activity android:name=".dashboard.ui.ResidentActivity" />
         <activity android:name=".dashboard.ui.AddMember" />
         <activity android:name=".login_reg.ui.LoginWithPhone" />
@@ -56,6 +57,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="NotificationActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>

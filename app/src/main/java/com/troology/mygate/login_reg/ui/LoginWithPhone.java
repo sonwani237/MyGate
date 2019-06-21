@@ -29,7 +29,7 @@ import static android.view.Gravity.LEFT;
 
 public class LoginWithPhone extends AppCompatActivity implements View.OnClickListener {
 
-    ImageView ivBack, ivFlag;
+    ImageView ivBack, ivFlag,logo;
     EditText etPhoneNo;
     TextView tvMoving, tvCode;
     FrameLayout rootFrame;
@@ -49,6 +49,8 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
         tvCode = findViewById(R.id.tvCode);
         rootFrame = findViewById(R.id.rootFrame);
         llPhone = findViewById(R.id.llphone);
+        logo = findViewById(R.id.loginwithphoneimg);
+        logo.setAlpha(100);
 
         setupWindowAnimations();
 

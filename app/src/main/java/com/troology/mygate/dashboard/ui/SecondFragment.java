@@ -4,6 +4,7 @@ package com.troology.mygate.dashboard.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     MemberListAdapter adapter;
     Loader loader;
     ScrollView parent;
+    CardView cv_userdetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +62,15 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         passcode = view.findViewById(R.id.passcode);
         addMember = view.findViewById(R.id.addMember);
         recycler = view.findViewById(R.id.recycler);
+        cv_userdetails = view.findViewById(R.id.cv_profile);
+
+        cv_userdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),UserProfile.class);
+                startActivity(intent);
+            }
+        });
 
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
         if (details!=null){

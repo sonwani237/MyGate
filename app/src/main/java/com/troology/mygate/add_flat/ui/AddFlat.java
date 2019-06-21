@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -41,6 +42,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
     Button submit;
     Loader loader;
     RelativeLayout parent;
+    ImageView iv_addflat;
 
     ArrayList<CountryList> country_list = new ArrayList<>();
     ArrayList<String> countryList = new ArrayList<>();
@@ -82,6 +84,8 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         city = findViewById(R.id.city);
         apartment = findViewById(R.id.apartment);
         flatNo = findViewById(R.id.flatNo);
+        iv_addflat = findViewById(R.id.ivaddflat);
+        iv_addflat.setAlpha(100);
 
         submit = findViewById(R.id.submit);
 

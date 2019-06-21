@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     android:singleLine="true"
     android:textColor="@color/black"
-    android:fontFamily="@font/roboto_mono"
+    android:fontFamily="@font/opensans_regular"
+    android:paddingLeft="@dimen/_10sdp"
     android:textSize="@dimen/_12sdp"
     android:layout_marginStart="@dimen/_2sdp"
-    android:paddingTop="5sp"
-    android:paddingBottom="5sp" />
+    android:paddingTop="@dimen/_4sdp"
+    android:paddingBottom="@dimen/_4sdp"/>
