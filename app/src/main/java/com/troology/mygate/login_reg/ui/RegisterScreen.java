@@ -27,8 +27,15 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_register_screen);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.register);
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         mobile = getIntent().getStringExtra("mobile");
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);
@@ -53,7 +60,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                 object.addProperty("name", name.getText().toString());
                 object.addProperty("email", email.getText().toString());
 
-                UtilsMethods.INSTANCE.register(getApplicationContext(), object, parent, loader);
+                UtilsMethods.INSTANCE.register(RegisterScreen.this, object, parent, loader);
             } else {
                 UtilsMethods.INSTANCE.snackBar("", parent);
             }

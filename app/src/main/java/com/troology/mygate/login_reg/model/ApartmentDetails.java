@@ -88,4 +88,5 @@ public class ApartmentDetails {
     public String getApartment_id() {
         return apartment_id;
     }
+
 }

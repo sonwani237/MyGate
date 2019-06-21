@@ -11,10 +11,10 @@ public class MemberData {
     @SerializedName("uid")
     @Expose
     private String uid;
-    @SerializedName("m_name")
+    @SerializedName("name")
     @Expose
     private String mName;
-    @SerializedName("m_mobile")
+    @SerializedName("mobile")
     @Expose
     private String mMobile;
     @SerializedName("passcode")

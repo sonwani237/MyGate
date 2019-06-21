@@ -16,7 +16,7 @@
             android:id="@+id/appLogo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="@dimen/_20sdp"
+            android:padding="@dimen/_80sdp"
             android:src="@drawable/app_logo"
             tools:ignore="Suspicious0dp" />
 

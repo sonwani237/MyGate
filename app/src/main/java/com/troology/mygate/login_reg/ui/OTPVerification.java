@@ -1,7 +1,9 @@
 package com.troology.mygate.login_reg.ui;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,7 +21,7 @@ import com.troology.mygate.utils.UtilsMethods;
 public class OTPVerification extends AppCompatActivity implements View.OnClickListener {
 
     PinView otp_code;
-    Button verify;
+    FloatingActionButton verify;
     Loader loader;
     String mobile= "";
     RelativeLayout parent;
@@ -28,6 +30,17 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otpverification);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         mobile = getIntent().getStringExtra("mobile");
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);

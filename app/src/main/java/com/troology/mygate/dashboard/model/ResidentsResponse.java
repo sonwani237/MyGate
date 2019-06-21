@@ -16,6 +16,9 @@ public class ResidentsResponse {
     @SerializedName("ResientsData")
     @Expose
     private ArrayList<ApartmentDetails> ResidentsData;
+    @SerializedName("MeetingData")
+    @Expose
+    private MeetingData MeetingData;
 
     public String getStatus() {
         return status;
@@ -27,5 +30,9 @@ public class ResidentsResponse {
 
     public ArrayList<ApartmentDetails> getResidentsData() {
         return ResidentsData;
+    }
+
+    public MeetingData getMeetingData() {
+        return MeetingData;
     }
 }

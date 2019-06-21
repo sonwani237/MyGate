@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent"
     tools:context=".dashboard.ui.CreateRequest">
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/submit">
+        android:layout_above="@+id/submit"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,116 +24,130 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_13sdp">
 
                 <EditText
+                    android:id="@+id/ed_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:hint="@string/name"
-                    android:id="@+id/ed_name"/>
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_13sdp">
 
                 <EditText
+                    android:id="@+id/number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:maxLength="10"
-                    android:inputType="phone"
                     android:hint="@string/mobile_no"
-                    android:id="@+id/number"/>
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_13sdp"
-                android:layout_marginEnd="@dimen/_13sdp">
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:visibility="gone">
 
                 <EditText
+                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:hint="@string/address"
-                    android:id="@+id/address"/>
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_13sdp">
 
                 <EditText
+                    android:id="@+id/purpose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:hint="@string/purpose"
-                    android:id="@+id/purpose"/>
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/date"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_13sdp"
                 android:layout_marginEnd="@dimen/_13sdp"
-                android:textSize="@dimen/_14sdp"
                 android:fontFamily="@font/roboto_mono"
-                android:text="@string/date_and_time"/>
+                android:textColor="@color/textColor"
+                android:text="@string/date_and_time"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_select"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="@string/date_and_time"
+                android:textSize="@dimen/_14sdp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/gray_btn_bg_color"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_height="@dimen/_1sdp"
                 android:layout_marginStart="@dimen/_13sdp"
-                android:layout_marginEnd="@dimen/_13sdp"/>
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:background="@color/icon_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/_10sdp">
+                android:visibility="gone">
 
                 <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/known"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_mono"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_13sdp"
-                    android:layout_marginEnd="@dimen/_13sdp"
-                    android:text="@string/known"/>
-
-                <CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/approved"
+                    android:layout_marginStart="@dimen/_13sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_13sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_mono"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/known" />
+
+                <CheckBox
+                    android:id="@+id/approved"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_13sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_13sdp"
-                    android:text="@string/approved"/>
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_mono"
+                    android:text="@string/approved" />
 
             </LinearLayout>
 
@@ -144,12 +156,12 @@
     </ScrollView>
 
     <Button
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/submit"
-        android:text="@string/submit"
-        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        android:layout_alignParentBottom="true"/>
+        android:text="@string/submit"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

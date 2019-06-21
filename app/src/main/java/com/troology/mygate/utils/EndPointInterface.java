@@ -14,59 +14,63 @@ import retrofit2.http.POST;
 
 public interface EndPointInterface {
 
-    @POST("/demo/mygateapp/api/user_login")
+    @POST("/api/user_login")
     Call<ApiResponse> sendOTP(@Header("Content-Type") String content,
                               @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/verify_otp")
+    @POST("/api/verify_otp")
     Call<ApiResponse> verifyOTP(@Header("Content-Type") String content,
                                 @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/register")
+    @POST("/api/register")
     Call<ApiResponse> register(@Header("Content-Type") String content,
                                @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/view_member")
+    @POST("/api/view_member")
     Call<MemberListResponse> viewMember(@Header("Content-Type") String content,
                                         @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/add_flat_member")
+    @POST("/api/add_flat_member")
     Call<MemberListResponse> addMember(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/get_city")
+    @POST("/api/get_city")
     Call<AddFlatResponse> getCity(@Header("Content-Type") String content,
                                   @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/get_country")
+    @POST("/api/get_country")
     Call<AddFlatResponse> getCountry(@Header("Content-Type") String content,
                                      @Body JsonObject object);
 
-    @POST("/demo/mygateapp/api/get_state")
+    @POST("/api/get_state")
     Call<AddFlatResponse> getState(@Header("Content-Type") String content,
                                    @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/get_apartment")
+    @POST("/api/get_apartment")
     Call<AddFlatResponse> getApartment(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/get_flats")
+    @POST("/api/get_flats")
     Call<AddFlatResponse> getFlat(@Header("Content-Type") String content,
                                   @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/view_residents_for_user")
+    @POST("/api/view_residents_for_user")
     Call<ResidentsResponse> getResidents(@Header("Content-Type") String content,
                                          @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/add_flat_details")
+    @POST("/api/get_meetingdetails_foruser ")
+    Call<ResidentsResponse> getRequest(@Header("Content-Type") String content,
+                                       @Body JsonObject jsonObject);
+
+    @POST("/api/add_flat_details")
     Call<AddFlatResponse> AddFlat(@Header("Content-Type") String content,
                                   @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/add_meeting_request")
+    @POST("/api/add_meeting_request")
     Call<ResidentsResponse> AddRequest(@Header("Content-Type") String content,
-                                     @Body JsonObject jsonObject);
+                                       @Body JsonObject jsonObject);
 
-    @POST("/demo/mygateapp/api/flat_details")
+    @POST("/api/flat_details")
     Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
                                               @Body JsonObject jsonObject);
 

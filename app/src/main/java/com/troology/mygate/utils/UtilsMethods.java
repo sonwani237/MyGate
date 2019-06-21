@@ -26,6 +26,11 @@ import com.troology.mygate.login_reg.model.ApiResponse;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.login_reg.ui.OTPVerification;
 import com.troology.mygate.login_reg.ui.RegisterScreen;
+import com.troology.mygate.splash.ui.SplashActivity;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +47,37 @@ public enum UtilsMethods {
         TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
+        snackbar.show();
+    }
+
+    public String ScheduleTime(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+            Date parsedDate = dateFormat.parse(time);
+            DateFormat date = new SimpleDateFormat("dd-MMM-yyyy hh:mm a");
+            return date.format(parsedDate);
+        } catch (Exception e) {
+            return time;
+        }
+    }
+
+    public void snackBarLong(final Context context, View view) {
+        final Snackbar snackbar = Snackbar.make(view, context.getResources().getString(R.string.invalid_session), Snackbar.LENGTH_INDEFINITE);
+
+        View sbView = snackbar.getView();
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save(context, ApplicationConstant.INSTANCE.loginPerf, "");
+                snackbar.dismiss();
+                Intent intent = new Intent(context, SplashActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXIT", true);
+                context.startActivity(intent);
+            }
+        });
         snackbar.show();
     }
 
@@ -63,6 +99,11 @@ public enum UtilsMethods {
                 }
                 Log.e("SignUpRequest", "Sign_up response : " + new Gson().toJson(response.body()));
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
+                    try {
+                        ((RegisterScreen)context).finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     Toast.makeText(context, ""+response.body().getOtp().getPhone_otp(), Toast.LENGTH_LONG).show();
 
                     Intent i = new Intent(context, OTPVerification.class);
@@ -116,12 +157,15 @@ public enum UtilsMethods {
                     jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
                     ApartmentsDetail(context, jsonObject, view, null);
-                } else if (response.body() != null) {
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                }else if (response.body() != null) {
                     snackBar(response.body().getMsg(), view);
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
+//            risika interprises raj motors
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
@@ -351,6 +395,44 @@ public enum UtilsMethods {
         });
     }
 
+    public void getRequest(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<ResidentsResponse> call = pointInterface.getRequest(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ResidentsResponse>() {
+            @Override
+            public void onResponse(Call<ResidentsResponse> call, Response<ResidentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("getMeetingData", "response : " + new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
+
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getMeetingData().getUser_meetings().size() > 0) {
+                    FragmentActivityMessage activityMessage =
+                            new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
+                    GlobalBus.getBus().post(activityMessage);
+                } else if (response.body() != null && !response.body().getStatus().equalsIgnoreCase("200")) {
+                    snackBar(response.body().getMsg(), view);
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("RequestList", "");
+                    GlobalBus.getBus().post(activityMessage);
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                } else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResidentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("getApartment", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
     public void getResidents(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<ResidentsResponse> call = pointInterface.getResidents(ApplicationConstant.INSTANCE.contentType, jsonObject);
@@ -371,6 +453,8 @@ public enum UtilsMethods {
                     ActivityActivityMessage activityMessage =
                             new ActivityActivityMessage("ResidentsList", "");
                     GlobalBus.getBus().post(activityMessage);
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
@@ -437,11 +521,15 @@ public enum UtilsMethods {
                 }
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 
-                if (response.body()!=null && response.body().getStatus()== 200){
+                if (response.body()!=null && response.body().getStatus() == 200){
                     snackBar(response.body().getMsg(), view);
                     ActivityActivityMessage activityMessage =
                             new ActivityActivityMessage("MemberAdd","");
                     GlobalBus.getBus().post(activityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 500) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
                 }
 
             }
@@ -471,6 +559,10 @@ public enum UtilsMethods {
                     FragmentActivityMessage fragmentActivityMessage =
                             new FragmentActivityMessage("MemberList", new Gson().toJson(response.body().getMemberData()));
                     GlobalBus.getBus().post(fragmentActivityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 500) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
 
@@ -537,14 +629,13 @@ public enum UtilsMethods {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(context, Dashboard.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("EXIT", true);
-                            context.startActivity(intent);
+                            ((CreateRequest)context).onBackPressed();
                         }
                     }, 1000);
 
-                } else {
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                }else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
             }

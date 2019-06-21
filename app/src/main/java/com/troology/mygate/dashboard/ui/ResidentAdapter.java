@@ -13,8 +13,10 @@ import com.troology.mygate.R;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-public class ResidentAdapter  extends RecyclerView.Adapter<ResidentAdapter.MyViewHolder> {
+public class ResidentAdapter extends RecyclerView.Adapter<ResidentAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<ApartmentDetails> apartmentDetails;
@@ -43,6 +45,11 @@ public class ResidentAdapter  extends RecyclerView.Adapter<ResidentAdapter.MyVie
     @Override
     public int getItemCount() {
         return apartmentDetails.size();
+    }
+
+    public void updateList(ArrayList<ApartmentDetails> list){
+        apartmentDetails = list;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

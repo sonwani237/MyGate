@@ -36,5 +36,8 @@
     <string name="register">Register</string>
     <string name="approved">Approved</string>
     <string name="date_and_time">Date and Time</string>
+    <string name="enter_otp">Please enter OTP.</string>
+    <string name="no_flat">Opps, No Flat found</string>
+    <string name="invalid_session">Invalid session.</string>
 
 </resources>

@@ -1,13 +1,18 @@
 package com.troology.mygate.dashboard.ui;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -15,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import com.troology.mygate.R;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
-import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ActivityActivityMessage;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.GlobalBus;
@@ -114,4 +118,35 @@ public class ResidentActivity extends AppCompatActivity implements SwipeRefreshL
     public void onRefresh() {
         getData();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.app_bar_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<ApartmentDetails> temp = new ArrayList();
+                for(ApartmentDetails d: residents){
+                    //or use .equal(text) with you want equal match
+                    //use .toLowerCase() for better matches
+                    if(d.getUsername().toLowerCase().contains(newText.toLowerCase())){
+                        temp.add(d);
+                    }
+                }
+                adapter.updateList(temp);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
 }
