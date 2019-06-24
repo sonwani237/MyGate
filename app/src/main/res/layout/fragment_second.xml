@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/parent"
     tools:context=".dashboard.ui.SecondFragment">
 
     <LinearLayout
@@ -13,12 +13,12 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:layout_height="wrap_content"
+            android:id="@+id/cv_profile"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_13sdp"
-            android:layout_marginEnd="@dimen/_13sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:id="@+id/cv_profile">
+            android:layout_marginEnd="@dimen/_13sdp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -27,23 +27,23 @@
                 android:layout_marginBottom="@dimen/_20sdp">
 
                 <ImageView
+                    android:id="@+id/user_img"
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:id="@+id/user_img"
-                    android:src="@drawable/ic_person"
-                    android:padding="@dimen/_3sdp"
-                    android:background="@drawable/circular_drawable"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_13sdp"
-                    android:layout_gravity="center"/>
+                    android:background="@drawable/circular_drawable"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_person" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_13sdp"
-                    android:layout_toEndOf="@+id/user_img">
+                    android:layout_toEndOf="@+id/user_img"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/name"
@@ -51,18 +51,18 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_mono"
                         android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/passcode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/roboto_mono"
                         android:textColor="@color/colorAccent"
-                        android:textStyle="bold"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -74,39 +74,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_13sdp"
-            android:layout_marginEnd="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_13sdp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/opensans_semibold"
                 android:text="MY FAMILY"
-                android:textSize="@dimen/_10sdp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/opensans_semibold"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_alignParentStart="true"/>
+                android:textSize="@dimen/_10sdp" />
 
             <TextView
+                android:id="@+id/addMember"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add"
-                android:id="@+id/addMember"
-                android:textSize="@dimen/_10sdp"
-                android:textColor="@color/colorPrimary"
-                android:fontFamily="@font/opensans_semibold"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_alignParentEnd="true"/>
+                android:fontFamily="@font/opensans_semibold"
+                android:text="@string/add"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10sdp" />
 
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recycler"
+            android:minHeight="@dimen/_100sdp"
             android:layout_marginStart="@dimen/_13sdp"
             android:layout_marginEnd="@dimen/_13sdp"
-            android:paddingTop="@dimen/_5sdp"/>
+            android:paddingTop="@dimen/_5sdp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_13sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="MY LOCAL SERVICES"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp" />
+
+
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/service_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:paddingTop="@dimen/_5sdp" />
 
     </LinearLayout>
 

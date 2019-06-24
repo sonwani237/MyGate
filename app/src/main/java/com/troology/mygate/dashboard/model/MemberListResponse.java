@@ -15,6 +15,9 @@ public class MemberListResponse {
     @SerializedName("member_data")
     @Expose
     private ArrayList<MemberData> memberData;
+    @SerializedName("ServiceRequestDetails")
+    @Expose
+    private ArrayList<ServiceRequestDetails> ServiceRequestDetails;
 
     public Integer getStatus() {
         return status;
@@ -26,5 +29,9 @@ public class MemberListResponse {
 
     public ArrayList<MemberData> getMemberData() {
         return memberData;
+    }
+
+    public ArrayList<ServiceRequestDetails> getServiceRequestDetails() {
+        return ServiceRequestDetails;
     }
 }

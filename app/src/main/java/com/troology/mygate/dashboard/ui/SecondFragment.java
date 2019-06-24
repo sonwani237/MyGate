@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.MemberData;
+import com.troology.mygate.dashboard.model.ServiceRequestDetails;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.utils.ApplicationConstant;
@@ -40,9 +41,11 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     TextView name, passcode, addMember;
     ApartmentDetails details;
     ArrayList<MemberData> memberData;
-    RecyclerView recycler;
+    ArrayList<ServiceRequestDetails> serviceRequestDetails;
+    RecyclerView recycler, service_recycler;
     LinearLayoutManager layoutManager;
     MemberListAdapter adapter;
+    ServiceListAdapter serviceListAdapter;
     ScrollView parent;
     CardView cv_userdetails;
 
@@ -60,6 +63,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         passcode = view.findViewById(R.id.passcode);
         addMember = view.findViewById(R.id.addMember);
         recycler = view.findViewById(R.id.recycler);
+        service_recycler = view.findViewById(R.id.service_recycler);
         cv_userdetails = view.findViewById(R.id.cv_profile);
 
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
@@ -85,9 +89,11 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("flat_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getFlat_id());
+            jsonObject.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
             jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
             UtilsMethods.INSTANCE.viewMember(getActivity(), jsonObject, parent, null);
+            UtilsMethods.INSTANCE.viewServiceMember(getActivity(), jsonObject, parent, null);
         } else {
             UtilsMethods.INSTANCE.snackBar("", parent);
         }
@@ -104,6 +110,17 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
                 recycler.setLayoutManager(layoutManager);
                 adapter = new MemberListAdapter(memberData, getActivity());
                 recycler.setAdapter(adapter);
+            }
+        }
+        if (fragmentActivityMessage.getMessage().equalsIgnoreCase("ServiceList")) {
+            serviceRequestDetails = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<ServiceRequestDetails>>() {
+            }.getType());
+            if (serviceRequestDetails.size() > 0) {
+                layoutManager = new LinearLayoutManager(getActivity());
+                layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                service_recycler.setLayoutManager(layoutManager);
+                serviceListAdapter = new ServiceListAdapter(serviceRequestDetails, getActivity());
+                service_recycler.setAdapter(serviceListAdapter);
             }
         }
     }

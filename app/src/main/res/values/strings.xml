@@ -43,5 +43,8 @@
     <string name="flat_approval">Please wait, Your flat approval is pending..</string>
     <string name="logout">Logout</string>
     <string name="verify">Verify</string>
+    <string name="select_time">Select Time</string>
+    <string name="entry_time">Entry time</string>
+    <string name="exit_time">Exit time</string>
 
 </resources>

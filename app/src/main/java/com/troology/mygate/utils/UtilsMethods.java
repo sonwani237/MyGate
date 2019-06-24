@@ -651,6 +651,40 @@ public enum UtilsMethods {
         });
     }
 
+    public void viewServiceMember(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<MemberListResponse> call = pointInterface.viewServiceMember(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<MemberListResponse>() {
+            @Override
+            public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("ServiceRequest", "response : " + new Gson().toJson(response.body()));
+                if (response.body()!=null && response.body().getServiceRequestDetails()!=null){
+                    FragmentActivityMessage fragmentActivityMessage =
+                            new FragmentActivityMessage("ServiceList", new Gson().toJson(response.body().getServiceRequestDetails()));
+                    GlobalBus.getBus().post(fragmentActivityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 404) {
+                    snackBar(response.body().getMsg(), view);
+                }else if (response.body() != null && response.body().getStatus() == 500) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MemberListResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("ApartmentsDetail", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
     public void AddFlat(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<AddFlatResponse> call = pointInterface.AddFlat(ApplicationConstant.INSTANCE.contentType, jsonObject);

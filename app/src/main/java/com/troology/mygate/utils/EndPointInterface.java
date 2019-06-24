@@ -30,6 +30,10 @@ public interface EndPointInterface {
     Call<MemberListResponse> viewMember(@Header("Content-Type") String content,
                                         @Body JsonObject jsonObject);
 
+    @POST("/api/get_servicerequest_details")
+    Call<MemberListResponse> viewServiceMember(@Header("Content-Type") String content,
+                                        @Body JsonObject jsonObject);
+
     @POST("/api/add_flat_member")
     Call<MemberListResponse> addMember(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
@@ -72,7 +76,7 @@ public interface EndPointInterface {
 
     @POST("/api/add_service_request")
     Call<ResidentsResponse> AddServiceRequest(@Header("Content-Type") String content,
-                                       @Body JsonObject jsonObject);
+                                              @Body JsonObject jsonObject);
 
     @POST("/api/flat_details")
     Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
