@@ -1,121 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Accent"
+    android:background="@drawable/gradient_colour"
     tools:context=".dashboard.ui.NotificationActivity">
 
-    <!-- <Button
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:onClick="onFinish"
-         android:text="Finish" />-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onFinish"
+        android:text="Finish"
+        android:visibility="gone" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:fontFamily="@font/opensans_semibold"
+            android:gravity="center"
+            android:text="Guest is waiting at the gate"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/opensans_regular"
+            android:gravity="center"
+            android:text="Puranjay"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
+            android:textSize="@dimen/_18sdp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/_10sdp"
+        android:layout_above="@+id/info"
+        android:src="@drawable/man"
+        android:layout_marginBottom="@dimen/_minus25sdp"
+        android:background="@drawable/circular_drawable" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/info"
+        android:layout_marginTop="@dimen/_minus20sdp">
 
         <LinearLayout
-            android:layout_width="@dimen/_260sdp"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_background">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:text="Guest is waiting at the gate"
-                android:fontFamily="@font/opensans_semibold"
-                android:gravity="center"
-                android:textSize="@dimen/_15sdp"
-                android:textColor="@color/black"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_18sdp"
-                android:orientation="horizontal"
-                android:weightSum="3">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:src="@drawable/man"
-                    android:layout_marginLeft="@dimen/_60sdp"
-                    android:layout_gravity="center"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/opensans_regular"
-                    android:text="Puranjay"/>
-                <ImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:src="@drawable/telephone"
-                    android:layout_gravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/circle_white"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/cancel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Deny"
+                android:textAllCaps="true"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@color/circular"
-        android:layout_marginTop="@dimen/_190sdp"
-        android:src="@drawable/man"
-        />
-
-    <ImageView
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/circle_white"
-        android:layout_marginTop="@dimen/_340sdp"
-        android:layout_marginLeft="@dimen/_80sdp"
-        android:src="@drawable/cancel"
-        android:padding="@dimen/_14sdp"
-        />
-    <ImageView
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/circle_green"
-        android:layout_marginTop="@dimen/_340sdp"
-        android:padding="@dimen/_8sdp"
-        android:layout_marginLeft="@dimen/_200sdp"
-        android:src="@drawable/ic_check"
-        />
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_400sdp"
-       >-->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_85sdp"
-            android:text="Deny"
-            android:textAllCaps="true"
-            android:fontFamily="@font/opensans_semibold"
-            android:layout_marginTop="@dimen/_385sdp"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_385sdp"
-            android:layout_marginLeft="@dimen/_195sdp"
-            android:text="Approve"
-            android:textAllCaps="true"
-            android:fontFamily="@font/opensans_semibold"
-            android:textColor="@color/black"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/circle_green"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_check" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Approve"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textAllCaps="true"
+                android:textColor="@color/black" />
 
+        </LinearLayout>
 
-</FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

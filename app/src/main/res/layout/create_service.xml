@@ -4,124 +4,118 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="Divyanshu"
+            android:id="@+id/name"
+            android:fontFamily="@font/opensans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="9807564216"
+            android:id="@+id/number"
+            android:fontFamily="@font/opensans_regular"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="Divyanshu"
-                android:id="@+id/name"
-                android:fontFamily="@font/opensans_semibold"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_14sdp" />
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:fontFamily="@font/opensans_regular"
+                android:text="@string/entry_time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                tools:text="9807564216"
-                android:id="@+id/number"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/in_time"
+                android:fontFamily="@font/opensans_regular"
+                android:hint="@string/select_time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/exit_time"
+                android:layout_marginStart="@dimen/_13sdp"
                 android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/out_time"
+                android:fontFamily="@font/opensans_regular"
+                android:hint="@string/select_time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_marginStart="@dimen/_13sdp"
-                    android:fontFamily="@font/opensans_regular"
-                    android:text="@string/entry_time"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:id="@+id/in_time"
-                    android:fontFamily="@font/opensans_regular"
-                    android:hint="@string/select_time"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="@string/exit_time"
-                    android:layout_marginStart="@dimen/_13sdp"
-                    android:fontFamily="@font/opensans_regular"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:id="@+id/out_time"
-                    android:fontFamily="@font/opensans_regular"
-                    android:hint="@string/select_time"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/_13sdp"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:fontFamily="@font/opensans_semibold"
-                    android:text="@string/submit"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_16sdp" />
-
-            </LinearLayout>
         </LinearLayout>
 
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_13sdp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="@dimen/_70sdp"
