@@ -22,6 +22,7 @@ import com.troology.mygate.dashboard.model.MemberListResponse;
 import com.troology.mygate.dashboard.model.ResidentsResponse;
 import com.troology.mygate.dashboard.ui.CreateRequest;
 import com.troology.mygate.dashboard.ui.Dashboard;
+import com.troology.mygate.dashboard.ui.LocalServices;
 import com.troology.mygate.login_reg.model.ApartmentsResponse;
 import com.troology.mygate.login_reg.model.ApiResponse;
 import com.troology.mygate.login_reg.model.UserDetails;
@@ -706,6 +707,47 @@ public enum UtilsMethods {
                         }
                     }, 1000);
 
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResidentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("Signresponse", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+    public void AddServices(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<ResidentsResponse> call = pointInterface.AddServiceRequest(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ResidentsResponse>() {
+            @Override
+            public void onResponse(Call<ResidentsResponse> call, Response<ResidentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("AddFlat", "response : " + new Gson().toJson(response.body()));
+
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
+
+                    snackBar(response.body().getMsg(), view);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((LocalServices)context).onBackPressed();
+                        }
+                    }, 1000);
+
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
+                    snackBar(response.body().getMsg(), view);
                 }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
                     snackBarLong(context, view);
                 }else {

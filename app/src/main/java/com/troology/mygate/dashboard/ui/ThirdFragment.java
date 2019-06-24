@@ -33,6 +33,7 @@ public class ThirdFragment extends Fragment implements View.OnClickListener {
         local = view.findViewById(R.id.local);
 
         residents.setOnClickListener(this);
+        local.setOnClickListener(this);
     }
 
     @Override

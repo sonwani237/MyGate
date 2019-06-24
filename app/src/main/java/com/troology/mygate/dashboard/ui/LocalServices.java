@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.troology.mygate.R;
-import com.troology.mygate.add_flat.model.FlatList;
 import com.troology.mygate.dashboard.model.ServicemenData;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
@@ -34,15 +34,16 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalServices extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class LocalServices extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     Loader loader;
-    RelativeLayout parent;
+    public static RelativeLayout parent;
     ArrayList<ServicemenData> servicemenData;
     RecyclerView recycler;
     LinearLayoutManager layoutManager;
     ServiceAdapter adapter;
     SwipeRefreshLayout swipe;
+    LocalServices localServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
         setContentView(R.layout.activity_resident);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.residents);
+        toolbar.setTitle(R.string.local_services);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -149,5 +150,6 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
         });
         return super.onCreateOptionsMenu(menu);
     }
+
 
 }

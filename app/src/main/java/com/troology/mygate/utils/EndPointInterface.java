@@ -70,6 +70,10 @@ public interface EndPointInterface {
     Call<ResidentsResponse> AddRequest(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 
+    @POST("/api/add_service_request")
+    Call<ResidentsResponse> AddServiceRequest(@Header("Content-Type") String content,
+                                       @Body JsonObject jsonObject);
+
     @POST("/api/flat_details")
     Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
                                               @Body JsonObject jsonObject);
