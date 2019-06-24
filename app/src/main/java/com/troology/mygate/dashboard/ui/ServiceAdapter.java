@@ -1,23 +1,41 @@
 package com.troology.mygate.dashboard.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.ServicemenData;
+import com.troology.mygate.login_reg.model.ApartmentDetails;
+import com.troology.mygate.login_reg.model.UserDetails;
+import com.troology.mygate.utils.ApplicationConstant;
+import com.troology.mygate.utils.Loader;
+import com.troology.mygate.utils.UtilsMethods;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder> {
+public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder> implements View.OnClickListener {
 
-    Context context;
-    ArrayList<ServicemenData> servicemenData;
+    private Context context;
+    private ArrayList<ServicemenData> servicemenData;
+    private TextView d_name, d_number, in_time, out_time;
+    private Button submit;
+    private String unique_id;
 
     public ServiceAdapter(Context ctx, ArrayList<ServicemenData> apartment) {
         this.context = ctx;
@@ -37,26 +55,121 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
         holder.name.setText(servicemenData.get(position).getName());
         holder.number.setText(servicemenData.get(position).getMobile());
         holder.service.setText(servicemenData.get(position).getService_type());
+        holder.service_lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocalService(servicemenData.get(position).getName(), servicemenData.get(position).getMobile(), servicemenData.get(position).getId());
+            }
+        });
     }
+
+    View dialogView;
+    private void LocalService(String name, String mobile, String id) {
+        dialogView = View.inflate(context, R.layout.create_service, null);
+
+        Dialog dialog = new Dialog(context, R.style.DialogSlideAnim);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(dialogView);
+
+        unique_id = id;
+
+        d_name = dialog.findViewById(R.id.name);
+        d_number = dialog.findViewById(R.id.number);
+        in_time = dialog.findViewById(R.id.in_time);
+        out_time = dialog.findViewById(R.id.out_time);
+        submit = dialog.findViewById(R.id.submit);
+
+        d_name.setText(name);
+        d_number.setText(mobile);
+        submit.setOnClickListener(this);
+        in_time.setOnClickListener(this);
+        out_time.setOnClickListener(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        dialog.show();
+    }
+
 
     @Override
     public int getItemCount() {
         return servicemenData.size();
     }
 
-    public void updateList(ArrayList<ServicemenData> list){
+    public void updateList(ArrayList<ServicemenData> list) {
         servicemenData = list;
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.in_time:
+                ShowTime(1);
+                break;
+            case R.id.out_time:
+                ShowTime(2);
+                break;
+            case R.id.submit:
+
+                ApartmentDetails details = UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
+                if (UtilsMethods.INSTANCE.isNetworkAvailable(context)) {
+
+                    Loader loader = new Loader(context, android.R.style.Theme_Translucent_NoTitleBar);
+                    loader.show();
+                    loader.setCancelable(false);
+                    loader.setCanceledOnTouchOutside(false);
+
+                    JsonObject object = new JsonObject();
+                    object.addProperty("flat_id", details.getFlat_id());
+                    object.addProperty("apartment_id", details.getApartment_id());
+                    object.addProperty("unique_id", unique_id);
+                    object.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+                    object.addProperty("name", "1");
+                    object.addProperty("name", d_name.getText().toString());
+                    object.addProperty("mobile", d_number.getText().toString());
+                    object.addProperty("time_slot_in", in_time.getText().toString());
+                    object.addProperty("time_slot_out", out_time.getText().toString());
+                    object.addProperty("status", "1");
+
+                    UtilsMethods.INSTANCE.AddServices(context, object, dialogView, loader);
+                } else {
+                    UtilsMethods.INSTANCE.snackBar(context.getResources().getString(R.string.network_error), dialogView);
+                }
+
+                break;
+        }
+    }
+
+    private void ShowTime(final int i) {
+        final Calendar c = Calendar.getInstance();
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
+        int mMinute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if (i==1){
+                            in_time.setText(hourOfDay + ":" + minute);
+                        }else {
+                            out_time.setText(hourOfDay + ":" + minute);
+                        }
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, number, service;
+        LinearLayout service_lay;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             number = itemView.findViewById(R.id.number);
             service = itemView.findViewById(R.id.service);
+            service_lay = itemView.findViewById(R.id.service_lay);
         }
     }
 
