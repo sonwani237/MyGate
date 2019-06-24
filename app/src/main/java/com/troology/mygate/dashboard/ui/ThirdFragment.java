@@ -16,7 +16,7 @@ import com.troology.mygate.utils.UtilsMethods;
 
 public class ThirdFragment extends Fragment implements View.OnClickListener {
 
-    CardView residents;
+    CardView residents, local;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,15 +30,19 @@ public class ThirdFragment extends Fragment implements View.OnClickListener {
 
     private void initView(View view) {
         residents = view.findViewById(R.id.residents);
+        local = view.findViewById(R.id.local);
 
         residents.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.residents:
                 startActivity(new Intent(getActivity(), ResidentActivity.class));
+                break;
+            case R.id.local:
+                startActivity(new Intent(getActivity(), LocalServices.class));
                 break;
         }
     }

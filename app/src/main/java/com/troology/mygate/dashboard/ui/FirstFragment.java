@@ -58,7 +58,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     private void inItView(View view) {
         fab = view.findViewById(R.id.fab);
 
-        loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar);
+        loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         parent = view.findViewById(R.id.parent);
         recycler = view.findViewById(R.id.recycler);
         swipe = view.findViewById(R.id.swipe);
@@ -67,7 +67,6 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
                 R.color.green,
                 R.color.orange,
                 R.color.red);
-        getData();
 
         fab.setOnClickListener(this);
     }
@@ -125,6 +124,12 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
 
     @Override
     public void onRefresh() {
+        getData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getData();
     }
 }

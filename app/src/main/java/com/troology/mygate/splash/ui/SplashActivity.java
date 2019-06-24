@@ -22,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "Splash" ;
     int SPLASH_TIME_OUT = 3000;
     RelativeLayout parent;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,9 @@ public class SplashActivity extends AppCompatActivity {
 
         Log.e(TAG, "onCreate: "+UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.fireBaseToken, String.class) );
 
-        if (UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class)!=null &&
-                UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getMobile().length() > 0){
+        status = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.userToken, String.class);
+
+        if (status!=null && status.length() > 0){
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());

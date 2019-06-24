@@ -7,6 +7,7 @@
     <android.support.v7.widget.CardView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_marginStart="@dimen/_13sdp"
         android:layout_marginEnd="@dimen/_13sdp"
         android:layout_marginTop="@dimen/_5sdp"
@@ -15,8 +16,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp">
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
 
             <ImageView
                 android:layout_width="@dimen/_35sdp"
@@ -37,59 +38,137 @@
                 android:layout_marginStart="@dimen/_13sdp"
                 android:layout_toEndOf="@+id/user_img">
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_mono"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    tools:text="name"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:id="@+id/mobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_mono"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    tools:text="name"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_mono"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_12sdp" />
-
-                <TextView
-                    android:id="@+id/remark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_mono"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:textSize="@dimen/_10sdp" />
-
-                <TextView
-                    android:id="@+id/passcode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_mono"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>
 
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginEnd="@dimen/_13sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3:30 PM"
+                android:textColor="@color/black"
+                android:fontFamily="@font/opensans_semibold"
+                android:textSize="@dimen/_12sdp"
+                android:id="@+id/time"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5sp"
+                android:background="@color/gray_btn_bg_color"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@+id/time"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_weight=".8">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:id="@+id/date"
+                    android:text="June\n7"/>
+
+                <TextView
+                    android:id="@+id/passcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_bold"
+                    android:textColor="@color/colorAccent"
+                    android:gravity="center"
+                    android:hint="55656"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rac_back"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:layout_weight=".2">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:textColor="@color/colorPrimary"
+                    tools:text="name"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_14sdp" />
+
+                <TextView
+                    android:id="@+id/mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_regular"
+                    android:textColor="@color/black"
+                    tools:text="name"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:textSize="@dimen/_10sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".5sp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/gray_btn_bg_color"/>
+
+                <TextView
+                    android:id="@+id/remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensans_regular"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textSize="@dimen/_12sdp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

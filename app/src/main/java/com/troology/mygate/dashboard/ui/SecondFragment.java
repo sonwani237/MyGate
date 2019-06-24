@@ -43,7 +43,6 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     RecyclerView recycler;
     LinearLayoutManager layoutManager;
     MemberListAdapter adapter;
-    Loader loader;
     ScrollView parent;
     CardView cv_userdetails;
 
@@ -56,7 +55,6 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     }
 
     private void InItView(View view) {
-        loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar);
         parent = view.findViewById(R.id.parent);
         name = view.findViewById(R.id.name);
         passcode = view.findViewById(R.id.passcode);
@@ -64,21 +62,14 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         recycler = view.findViewById(R.id.recycler);
         cv_userdetails = view.findViewById(R.id.cv_profile);
 
-        cv_userdetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),UserProfile.class);
-                startActivity(intent);
-            }
-        });
-
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
-        if (details!=null){
+        if (details != null) {
             name.setText(details.getUsername());
-            passcode.setText(details.getPasscode());
+            passcode.setText("#"+UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.userPassPerf, String.class));
         }
 
         addMember.setOnClickListener(this);
+        cv_userdetails.setOnClickListener(this);
     }
 
     @Override
@@ -104,9 +95,10 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
 
     @Subscribe
     public void onFragmentActivityMessage(FragmentActivityMessage fragmentActivityMessage) {
-        if (fragmentActivityMessage.getMessage().equalsIgnoreCase("MemberList")){
-            memberData = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<MemberData>>(){}.getType());
-            if (memberData.size()>0){
+        if (fragmentActivityMessage.getMessage().equalsIgnoreCase("MemberList")) {
+            memberData = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<MemberData>>() {
+            }.getType());
+            if (memberData.size() > 0) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 recycler.setLayoutManager(layoutManager);
@@ -134,8 +126,11 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v == addMember){
+        if (v == addMember) {
             startActivity(new Intent(getActivity(), AddMember.class));
+        }
+        if (v == cv_userdetails) {
+            startActivity(new Intent(getActivity(), UserProfile.class));
         }
     }
 }

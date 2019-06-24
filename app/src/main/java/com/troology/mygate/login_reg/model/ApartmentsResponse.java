@@ -2,6 +2,7 @@ package com.troology.mygate.login_reg.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.troology.mygate.dashboard.model.ServicemenData;
 
 import java.util.ArrayList;
 
@@ -9,15 +10,18 @@ public class ApartmentsResponse {
 
     @SerializedName("status")
     @Expose
-    private Boolean status;
+    private String status;
     @SerializedName("user_details")
     @Expose
     private UserDetails user_details;
     @SerializedName("flat_detail")
     @Expose
     private ArrayList<ApartmentDetails> apartment_details;
+    @SerializedName("ServicemenData")
+    @Expose
+    private ArrayList<ServicemenData> ServicemenData;
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -27,5 +31,9 @@ public class ApartmentsResponse {
 
     public ArrayList<ApartmentDetails> getApartment_details() {
         return apartment_details;
+    }
+
+    public ArrayList<ServicemenData> getServicemenData() {
+        return ServicemenData;
     }
 }

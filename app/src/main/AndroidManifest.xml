@@ -20,16 +20,6 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:icon"
         tools:targetApi="n">
-        <activity android:name=".dashboard.ui.UserProfile"></activity>
-        <activity android:name=".dashboard.ui.CreateRequest" />
-        <activity android:name=".dashboard.ui.ResidentActivity" />
-        <activity android:name=".dashboard.ui.AddMember" />
-        <activity android:name=".login_reg.ui.LoginWithPhone" />
-        <activity
-            android:name=".dashboard.ui.NotificationActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:taskAffinity="" />
         <activity
             android:name=".splash.ui.SplashActivity"
             android:screenOrientation="portrait"
@@ -91,6 +81,38 @@
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".dashboard.ui.UserProfile"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.ui.CreateRequest"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.ui.ResidentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.ui.AddMember"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".login_reg.ui.LoginWithPhone"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.ui.NotificationActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="" />
+        <activity android:name=".dashboard.ui.LocalServices" />
 
         <meta-data
             android:name="preloaded_fonts"
