@@ -58,7 +58,7 @@ public interface EndPointInterface {
     Call<ResidentsResponse> getResidents(@Header("Content-Type") String content,
                                          @Body JsonObject jsonObject);
 
-    @POST("/api/get_meetingdetails_foruser ")
+    @POST("/api/get_meetingdetails_foruser")
     Call<ResidentsResponse> getRequest(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 
@@ -73,5 +73,9 @@ public interface EndPointInterface {
     @POST("/api/flat_details")
     Call<ApartmentsResponse> ApartmentsDetail(@Header("Content-Type") String content,
                                               @Body JsonObject jsonObject);
+
+    @POST("/api/get_servicemen_details")
+    Call<ApartmentsResponse> serviceMenList(@Header("Content-Type") String content,
+                                            @Body JsonObject jsonObject);
 
 }

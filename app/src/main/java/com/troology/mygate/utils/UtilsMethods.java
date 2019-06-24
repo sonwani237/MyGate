@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.add_flat.model.AddFlatResponse;
 import com.troology.mygate.add_flat.ui.AddFlat;
+import com.troology.mygate.dashboard.model.MemberData;
 import com.troology.mygate.dashboard.model.MemberListResponse;
 import com.troology.mygate.dashboard.model.ResidentsResponse;
 import com.troology.mygate.dashboard.ui.CreateRequest;
@@ -30,6 +31,7 @@ import com.troology.mygate.splash.ui.SplashActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -61,6 +63,28 @@ public enum UtilsMethods {
         }
     }
 
+    public String ShortTime(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+            Date parsedDate = dateFormat.parse(time);
+            DateFormat date = new SimpleDateFormat("hh:mm a");
+            return date.format(parsedDate);
+        } catch (Exception e) {
+            return time;
+        }
+    }
+
+    public String ShortDate(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+            Date parsedDate = dateFormat.parse(time);
+            DateFormat date = new SimpleDateFormat("MMM\ndd");
+            return date.format(parsedDate);
+        } catch (Exception e) {
+            return time;
+        }
+    }
+
     public void snackBarLong(final Context context, View view) {
         final Snackbar snackbar = Snackbar.make(view, context.getResources().getString(R.string.invalid_session), Snackbar.LENGTH_INDEFINITE);
 
@@ -70,7 +94,7 @@ public enum UtilsMethods {
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save(context, ApplicationConstant.INSTANCE.loginPerf, "");
+                save(context, ApplicationConstant.INSTANCE.userToken,"");
                 snackbar.dismiss();
                 Intent intent = new Intent(context, SplashActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -481,7 +505,7 @@ public enum UtilsMethods {
                     loader.dismiss();
                 }
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
-
+//                {"status":500,"msg":"token not matched. Unauthorized access"}
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getApartment_details().size() > 0) {
                     save(context, ApplicationConstant.INSTANCE.flatPerf, response.body().getApartment_details().get(0));
                     Intent intent = new Intent(context, Dashboard.class);
@@ -494,6 +518,45 @@ public enum UtilsMethods {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("EXIT", true);
                     context.startActivity(intent);
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                } else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApartmentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("ApartmentsDetail", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+    public void serviceMenList(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<ApartmentsResponse> call = pointInterface.serviceMenList(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ApartmentsResponse>() {
+            @Override
+            public void onResponse(Call<ApartmentsResponse> call, Response<ApartmentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
+//                {"status":500,"msg":"token not matched. Unauthorized access"}
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getServicemenData().size() > 0) {
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("ServicemenList", new Gson().toJson(response.body().getServicemenData()));
+                    GlobalBus.getBus().post(activityMessage);
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("ServicemenList", "");
+                    GlobalBus.getBus().post(activityMessage);
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
@@ -526,6 +589,8 @@ public enum UtilsMethods {
                     ActivityActivityMessage activityMessage =
                             new ActivityActivityMessage("MemberAdd","");
                     GlobalBus.getBus().post(activityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 404) {
+                    snackBar(response.body().getMsg(), view);
                 }else if (response.body() != null && response.body().getStatus() == 500) {
                     snackBarLong(context, view);
                 }else {
@@ -556,8 +621,16 @@ public enum UtilsMethods {
                 }
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
                 if (response.body()!=null && response.body().getMemberData()!=null){
+                    ArrayList<MemberData> memberData = new ArrayList<>();
+                    for (MemberData obj : response.body().getMemberData()){
+                        if (!obj.getmMobile().equalsIgnoreCase(get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getMobile())){
+                            memberData.add(obj);
+                        }else {
+                            save(context, ApplicationConstant.INSTANCE.userPassPerf, obj.getPasscode());
+                        }
+                    }
                     FragmentActivityMessage fragmentActivityMessage =
-                            new FragmentActivityMessage("MemberList", new Gson().toJson(response.body().getMemberData()));
+                            new FragmentActivityMessage("MemberList", new Gson().toJson(memberData));
                     GlobalBus.getBus().post(fragmentActivityMessage);
                 }else if (response.body() != null && response.body().getStatus() == 500) {
                     snackBarLong(context, view);

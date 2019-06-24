@@ -74,8 +74,8 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
                     JsonObject object = new JsonObject();
                     object.addProperty("flat_id", details.getFlat_id());
                     object.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                    object.addProperty("name", ed_name.getText().toString());
-                    object.addProperty("mobile", ed_number.getText().toString());
+                    object.addProperty("name", ed_name.getText().toString().trim());
+                    object.addProperty("mobile", ed_number.getText().toString().trim());
 
                     UtilsMethods.INSTANCE.addMember(getApplicationContext(), object, parent, loader);
                 } else {

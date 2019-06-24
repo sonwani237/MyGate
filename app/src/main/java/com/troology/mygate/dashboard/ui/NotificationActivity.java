@@ -20,4 +20,5 @@ public class NotificationActivity extends AppCompatActivity {
     public void onFinish(View view) {
         finish();
     }
+
 }

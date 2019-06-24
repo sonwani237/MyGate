@@ -29,24 +29,23 @@
             android:id="@+id/m_name"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_mono"
+            android:fontFamily="@font/opensans_semibold"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_12sdp"
             android:hint="@string/add"
+            android:singleLine="true"
             android:gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/_10sdp" />
 
         <TextView
             android:id="@+id/m_passcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/roboto_mono"
+            android:fontFamily="@font/opensans_bold"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_10sdp"
-            android:gravity="center"
-            android:textStyle="bold" />
+            android:gravity="center" />
 
         <View
             android:layout_width="match_parent"

@@ -10,7 +10,7 @@ public enum ApplicationConstant {
     public String appPref = "prefApp";
     public String loginPerf = "prefLogin";
     public String flatPerf = "prefFlat";
-    public String userPerf = "prefUser";
+    public String userPassPerf = "prefUserPass";
     public String fireBaseToken = "prefToken";
     public String userToken = "prefUserToken";
 

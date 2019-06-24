@@ -66,8 +66,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Verify"
+            android:text="@string/verify"
             android:visibility="visible"
             android:id="@+id/verify"
             android:layout_marginTop="@dimen/_20sdp"
@@ -76,7 +75,6 @@
             android:fontFamily="@font/opensans_semibold"
             android:layout_marginLeft="@dimen/_50sdp"
             android:layout_marginRight="@dimen/_50sdp"/>
-
 
     </LinearLayout>
 

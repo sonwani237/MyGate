@@ -43,7 +43,7 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v == verify) {
-            Log.e("onClick: ", ">>> " + otp_code.getText().toString());
+//            Log.e("onClick: ", ">>> " + otp_code.getText().toString());
             if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
                 loader.show();
                 loader.setCancelable(false);
@@ -58,7 +58,7 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
 
                 UtilsMethods.INSTANCE.verifyOTP(getApplicationContext(), object, parent, loader);
             } else {
-                UtilsMethods.INSTANCE.snackBar("", parent);
+                UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
             }
         }
     }

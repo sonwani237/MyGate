@@ -30,6 +30,7 @@
 
                 <EditText
                     android:id="@+id/ed_name"
+                    android:inputType="textCapSentences|textCapWords"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
@@ -84,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/purpose"
+                    android:inputType="textCapSentences|textCapWords"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>

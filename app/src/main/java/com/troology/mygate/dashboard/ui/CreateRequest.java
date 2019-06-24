@@ -82,7 +82,7 @@ public class CreateRequest extends AppCompatActivity implements View.OnClickList
                 object.addProperty("request_by", "1");
                 object.addProperty("name", ed_name.getText().toString());
                 object.addProperty("mobile", number.getText().toString());
-                object.addProperty("meeting_time", "2019-06-20 06:31:50");
+                object.addProperty("meeting_time", schedule_date + " " + schedule_time);
                 object.addProperty("remarks", purpose.getText().toString());
                 object.addProperty("status", "1");
 
