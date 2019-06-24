@@ -482,14 +482,14 @@ public enum UtilsMethods {
                 }
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 
-                if (response.body() != null && response.body().getStatus() && response.body().getApartment_details().size() > 0) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getApartment_details().size() > 0) {
                     save(context, ApplicationConstant.INSTANCE.flatPerf, response.body().getApartment_details().get(0));
                     Intent intent = new Intent(context, Dashboard.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("EXIT", true);
                     intent.putExtra("approval_status", response.body().getApartment_details().get(0).getApproval_status());
                     context.startActivity(intent);
-                } else if (response.body() != null && !response.body().getStatus()) {
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
                     Intent intent = new Intent(context, AddFlat.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("EXIT", true);

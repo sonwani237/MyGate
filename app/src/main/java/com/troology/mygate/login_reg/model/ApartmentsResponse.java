@@ -9,7 +9,7 @@ public class ApartmentsResponse {
 
     @SerializedName("status")
     @Expose
-    private Boolean status;
+    private String status;
     @SerializedName("user_details")
     @Expose
     private UserDetails user_details;
@@ -17,7 +17,7 @@ public class ApartmentsResponse {
     @Expose
     private ArrayList<ApartmentDetails> apartment_details;
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
