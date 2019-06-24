@@ -42,4 +42,7 @@
     <color name="red">#FF0000</color>
     <color name="colorlink">#0645AD</color>
     <color name="brown">#804400</color>
+
+
+    <color name="Accent">#63FFE0</color>
 </resources>
