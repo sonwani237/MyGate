@@ -105,11 +105,11 @@
                     android:id="@+id/passcode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:fontFamily="@font/opensans_bold"
-                    android:textColor="@color/colorAccent"
                     android:gravity="center"
                     android:hint="55656"
-                    android:layout_marginTop="@dimen/_2sdp"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_12sdp" />
 
             </LinearLayout>
