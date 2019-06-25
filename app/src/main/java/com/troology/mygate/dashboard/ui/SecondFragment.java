@@ -95,7 +95,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
             UtilsMethods.INSTANCE.viewMember(getActivity(), jsonObject, parent, null);
             UtilsMethods.INSTANCE.viewServiceMember(getActivity(), jsonObject, parent, null);
         } else {
-            UtilsMethods.INSTANCE.snackBar("", parent);
+            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
         }
     }
 

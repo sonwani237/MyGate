@@ -14,9 +14,9 @@ public class NotificationReceiver extends BroadcastReceiver {
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context k1, Intent k2) {
-        String state = k2.getStringExtra("requestId");
-        Toast.makeText(k1, ">>>"+state, Toast.LENGTH_LONG).show();
-        k1.startActivity(new Intent(k1, NotificationActivity.class));
+        String request = k2.getStringExtra("request");
+        k1.startActivity(new Intent(k1, NotificationActivity.class)
+                .putExtra("request", request));
     }
 
 }

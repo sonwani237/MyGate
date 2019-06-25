@@ -19,10 +19,15 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.troology.mygate.R;
+import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.dashboard.ui.Dashboard;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.UtilsMethods;
+
+import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Random;
@@ -45,18 +50,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        tag = remoteMessage.getData().get("requestId");
+        tag = remoteMessage.getData().get("body");
+        UserMeetings model = new Gson().fromJson(remoteMessage.getData().get("body"), UserMeetings.class);
         Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
-                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("name"));
+                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));
 
         if (remoteMessage.getData() != null) {
-            if (tag!=null){
+            if (model.getRequest_id()!=null){
                 Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
-                broadcastIntent.putExtra("requestId", tag);
+                broadcastIntent.putExtra("request", tag);
                 sendBroadcast(broadcastIntent);
             }
 
-            methodNotify(remoteMessage.getData().get("title"), remoteMessage.getData().get("title"));
+            methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate for, "+model.getRemarks());
 
         } else {
             Log.e(TAG, "FCM Notification failed");
@@ -114,4 +120,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onDestroy();
         unregisterReceiver(mReceiver);
     }
+
 }

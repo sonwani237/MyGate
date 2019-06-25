@@ -62,7 +62,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
                 UtilsMethods.INSTANCE.register(RegisterScreen.this, object, parent, loader);
             } else {
-                UtilsMethods.INSTANCE.snackBar("", parent);
+                UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
             }
         }
     }

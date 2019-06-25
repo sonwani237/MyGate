@@ -79,7 +79,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
 
                     UtilsMethods.INSTANCE.addMember(getApplicationContext(), object, parent, loader);
                 } else {
-                    UtilsMethods.INSTANCE.snackBar("", parent);
+                    UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                 }
 
                 break;

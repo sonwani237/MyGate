@@ -78,7 +78,7 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
 
                         UtilsMethods.INSTANCE.sendOTP(getApplicationContext(), object, rootFrame, loader);
                     }else {
-                        UtilsMethods.INSTANCE.snackBar("", rootFrame);
+                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), rootFrame);
                     }
 
                 }

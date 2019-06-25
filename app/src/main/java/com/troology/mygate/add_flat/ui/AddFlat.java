@@ -105,7 +105,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
             UtilsMethods.INSTANCE.getCountry(getApplicationContext(), object, parent, loader);
         } else {
-            UtilsMethods.INSTANCE.snackBar("", parent);
+            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
         }
     }
 
@@ -155,7 +155,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
                         UtilsMethods.INSTANCE.getState(getApplicationContext(), object, parent, loader);
                     } else {
-                        UtilsMethods.INSTANCE.snackBar("", parent);
+                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }
                 }
             }
@@ -206,7 +206,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
                         UtilsMethods.INSTANCE.getCity(getApplicationContext(), object, parent, loader);
                     } else {
-                        UtilsMethods.INSTANCE.snackBar("", parent);
+                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }
                 }
             }
@@ -307,7 +307,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
                         UtilsMethods.INSTANCE.getFlat(getApplicationContext(), object, parent, loader);
                     } else {
-                        UtilsMethods.INSTANCE.snackBar("", parent);
+                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }
                 }
             }
@@ -393,7 +393,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
                     UtilsMethods.INSTANCE.AddFlat(getApplicationContext(), object, parent, loader);
                 } else {
-                    UtilsMethods.INSTANCE.snackBar("", parent);
+                    UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                 }
                 break;
         }

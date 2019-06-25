@@ -88,7 +88,7 @@ public class CreateRequest extends AppCompatActivity implements View.OnClickList
 
                 UtilsMethods.INSTANCE.AddRequest(this, object, parent, loader);
             } else {
-                UtilsMethods.INSTANCE.snackBar("", parent);
+                UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
             }
         }
         if (v ==  date_select){
