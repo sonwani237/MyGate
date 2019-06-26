@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.dashboard.ui.Dashboard;
+import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.UtilsMethods;
 
@@ -52,16 +54,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         tag = remoteMessage.getData().get("body");
         UserMeetings model = new Gson().fromJson(remoteMessage.getData().get("body"), UserMeetings.class);
-        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
-                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));
+      /*  Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
+                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));*/
 
         if (remoteMessage.getData() != null) {
             if (model.getRequest_id()!=null){
                 Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
                 broadcastIntent.putExtra("request", tag);
                 sendBroadcast(broadcastIntent);
-            }
-
+            }            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+            pushNotification.putExtra("message", model.getName()+" is on the gate for, "+model.getRemarks());
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
             methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate for, "+model.getRemarks());
 
         } else {
@@ -83,10 +86,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onDeletedMessages();
     }
 
-    private void methodNotify(String messageBody, String title) {
+    private void methodNotify(String title, String messageBody) {
         String channelId = getString(R.string.app_name);
-        Intent intent = new Intent(this, Dashboard.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent;
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
@@ -96,6 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody));
 
         NotificationManager notificationManager =

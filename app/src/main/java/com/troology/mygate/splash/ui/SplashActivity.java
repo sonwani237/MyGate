@@ -1,7 +1,11 @@
 package com.troology.mygate.splash.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +13,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
+import com.troology.mygate.fcm.Config;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.login_reg.ui.LoginScreen;
 import com.troology.mygate.utils.ApplicationConstant;
@@ -23,6 +29,24 @@ public class SplashActivity extends AppCompatActivity {
     int SPLASH_TIME_OUT = 3000;
     RelativeLayout parent;
     String status;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +54,17 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                }
+            }
+        };
 
         parent = findViewById(R.id.parent);
 
@@ -55,4 +90,5 @@ public class SplashActivity extends AppCompatActivity {
             }, SPLASH_TIME_OUT);
         }
     }
+
 }

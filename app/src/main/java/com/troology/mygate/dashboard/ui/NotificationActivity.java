@@ -84,6 +84,8 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
             JsonObject object = new JsonObject();
             object.addProperty("status", model.getStatus());
             object.addProperty("request_id", model.getRequest_id());
+            object.addProperty("apartment_id", model.getApartment_id());
+            object.addProperty("flat_id", model.getFlat_id());
             object.addProperty("token", UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
             if (i == 1){
                 object.addProperty("action", "1");
@@ -95,6 +97,20 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         } else {
             UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ringtone.stop();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ringtone.stop();
+        finish();
     }
 
 }
