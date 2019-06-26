@@ -7,26 +7,26 @@
     tools:context=".dashboard.ui.UserProfile">
 
     <ImageView
+        android:id="@+id/iv_backuserprofile"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/backblack"
         android:layout_alignParentStart="true"
         android:layout_margin="@dimen/_10sdp"
-        android:id="@+id/iv_backuserprofile"/>
+        android:src="@drawable/backblack" />
 
     <ImageView
+        android:id="@+id/iv_logout"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/ic_exit_to_app_black_24dp"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/_10sdp"
-        android:id="@+id/iv_logout"/>
+        android:src="@drawable/ic_exit_to_app_black_24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="3"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="3">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -39,8 +39,8 @@
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_120sdp"
                 android:src="@drawable/demoimage"
-                app:civ_border_width="@dimen/_5sdp"
-                app:civ_border_color="@color/colorPrimaryDark"/>
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="@dimen/_5sdp" />
 
 
         </RelativeLayout>
@@ -48,8 +48,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:layout_margin="@dimen/_20sdp"
+            android:layout_weight="2"
             android:background="@drawable/roundedcorners">
 
             <LinearLayout
@@ -59,110 +59,108 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/iv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
-                        android:src="@drawable/persondemo"
-                        android:id="@+id/iv_name"/>
+                        android:src="@drawable/persondemo" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Viraj Dobriyal"
-                    android:padding="@dimen/_14sdp"
-                    android:textSize="@dimen/_10sdp"
-                    android:textColor="@color/black"
-                    android:id="@+id/tv_name"
-                    android:layout_toRightOf="@+id/iv_name"
-                    android:fontFamily="@font/opensans_regular"/>
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_name"
+                        android:fontFamily="@font/opensans_regular"
+                        android:padding="@dimen/_14sdp"
+                        android:text="Viraj Dobriyal"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/iv_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
-                        android:src="@drawable/iv_email"
-                        android:id="@+id/iv_email"/>
+                        android:src="@drawable/iv_email" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="VirajDobriyal123@hmail.com"
-                        android:padding="@dimen/_14sdp"
-                        android:textSize="@dimen/_10sdp"
-                        android:textColor="@color/black"
                         android:id="@+id/tv_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/iv_email"
-                        android:fontFamily="@font/opensans_regular"/>
+                        android:fontFamily="@font/opensans_regular"
+                        android:padding="@dimen/_14sdp"
+                        android:text="VirajDobriyal123@hmail.com"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/iv_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
-                        android:src="@drawable/phoneimg"
-                        android:id="@+id/iv_number"/>
+                        android:src="@drawable/phoneimg" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="+91 8112799875"
-                        android:padding="@dimen/_14sdp"
-                        android:textSize="@dimen/_10sdp"
-                        android:textColor="@color/black"
                         android:id="@+id/tv_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/iv_number"
-                        android:fontFamily="@font/opensans_regular"/>
+                        android:fontFamily="@font/opensans_regular"
+                        android:padding="@dimen/_14sdp"
+                        android:text="+91 8112799875"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/iv_flatdetails"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
-                        android:src="@drawable/flatimg"
-                        android:id="@+id/iv_flatdetails"/>
+                        android:src="@drawable/flatimg" />
 
                     <TextView
+                        android:id="@+id/tv_flatdetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="B-19, Apex Apartment, Kanpur, Uttar Pradesh ,India"
-                        android:padding="@dimen/_14sdp"
-                        android:textSize="@dimen/_10sdp"
-                        android:textColor="@color/black"
-                        android:id="@+id/tv_flatdetails"
                         android:layout_toRightOf="@+id/iv_flatdetails"
-                        android:fontFamily="@font/opensans_regular"/>
+                        android:fontFamily="@font/opensans_regular"
+                        android:padding="@dimen/_14sdp"
+                        android:text="B-19, Apex Apartment, Kanpur, Uttar Pradesh ,India"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
+
                 <ImageView
+                    android:id="@+id/qr_code_img"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
-                    android:padding="@dimen/_10sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/iv_email"
-                    android:id="@+id/qr_code_img"/>
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/iv_email" />
+
 
             </LinearLayout>
 

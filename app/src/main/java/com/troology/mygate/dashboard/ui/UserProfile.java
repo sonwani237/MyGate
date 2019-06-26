@@ -22,7 +22,7 @@ import com.troology.mygate.utils.UtilsMethods;
 
 public class UserProfile extends AppCompatActivity implements View.OnClickListener {
 
-    ImageView iv_back, iv_logout,qr_code_img;
+    ImageView iv_back, iv_logout, qr_code_img;
     ApartmentDetails details;
     TextView tv_name, tv_email, tv_number, tv_flatdetails;
     Bitmap bitmap;
@@ -50,11 +50,11 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         tv_name.setText(details.getUsername());
         tv_email.setText(UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getEmail());
         tv_number.setText(UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getMobile());
-        tv_flatdetails.setText(details.getFlat_no()+", "+details.getApartment_name()+", "+details.getCity_name()+", "+details.getState_name()+", "+details.getCountry_name());
-        String text=UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.userPassPerf, String.class); // Whatever you need to encode in the QR code
+        tv_flatdetails.setText(details.getFlat_no() + ", " + details.getApartment_name() + ", " + details.getCity_name() + ", " + details.getState_name() + ", " + details.getCountry_name());
+        String text = UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.userPassPerf, String.class); // Whatever you need to encode in the QR code
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,200,200);
+            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
             qr_code_img.setImageBitmap(bitmap);
@@ -78,10 +78,11 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.qr_code_img:
                 Intent i = new Intent(this, QrCodeActivity.class);
-                i.putExtra("BitmapImage", bitmap);
+                //i.putExtra("BitmapImage", bitmap);
+                i.putExtra("name",details.getUsername());
+                i.putExtra("passcode",UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.userPassPerf, String.class)); // Whatever you need to encode in the QR code);
                 startActivity(i);
                 break;
         }
     }
-
 }

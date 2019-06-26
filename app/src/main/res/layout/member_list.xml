@@ -6,7 +6,8 @@
     android:layout_marginStart="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_5sdp"
-    android:layout_marginBottom="@dimen/_5sdp">
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:id="@+id/cvmemberList">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/share"
+                android:id="@+id/iv_share"
                 android:src="@drawable/ic_share"
                 android:padding="@dimen/_5sdp"/>
 

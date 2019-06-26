@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +28,16 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView m_name, m_passcode;
-        ImageView call;
+        ImageView call,iv_share;
+        CardView cv_memberList;
 
         public MyViewHolder(View view) {
             super(view);
             m_name = view.findViewById(R.id.m_name);
             m_passcode = view.findViewById(R.id.m_passcode);
             call = view.findViewById(R.id.call);
+            cv_memberList = view.findViewById(R.id.cvmemberList);
+            iv_share = view.findViewById(R.id.iv_share);
         }
     }
 
@@ -61,6 +65,27 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
             @Override
             public void onClick(View v) {
                 mContext.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + memberData.getmMobile())));
+            }
+        });
+
+        holder.cv_memberList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,QrCodeActivity.class);
+                intent.putExtra("name",memberData.getmName());
+                intent.putExtra("passcode",memberData.getPasscode());
+                mContext.startActivity(intent);
+            }
+        });
+
+        holder.iv_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, memberData.getmName());
+                shareIntent.putExtra(Intent.EXTRA_TEXT,memberData.getPasscode());
+                shareIntent.setType("text/plain");
+                mContext.startActivity(shareIntent);
             }
         });
 
