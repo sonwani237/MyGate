@@ -112,6 +112,7 @@
             android:launchMode="singleTask"
             android:taskAffinity="" />
         <activity android:name=".dashboard.ui.LocalServices" />
+        <activity android:name=".dashboard.ui.QrCodeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
