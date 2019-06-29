@@ -16,6 +16,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context k1, Intent k2) {
         String request = k2.getStringExtra("request");
         k1.startActivity(new Intent(k1, NotificationActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra("request", request));
     }
 

@@ -54,8 +54,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         tag = remoteMessage.getData().get("body");
         UserMeetings model = new Gson().fromJson(remoteMessage.getData().get("body"), UserMeetings.class);
-      /*  Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
-                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));*/
+        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
+                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));
 
         if (remoteMessage.getData() != null) {
             if (model.getRequest_id()!=null){

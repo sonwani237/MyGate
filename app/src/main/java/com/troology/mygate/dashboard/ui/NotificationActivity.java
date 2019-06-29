@@ -1,11 +1,13 @@
 package com.troology.mygate.dashboard.ui;
 
+import android.graphics.PixelFormat;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,6 +34,12 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int flags = WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+
+        getWindow().addFlags(flags);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
@@ -49,8 +57,6 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         name.setText(model.getName());
         remark.setText(model.getRemarks());
 
-        int flags = WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
-        getWindow().addFlags(flags);
 
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(this, alarmUri);
@@ -73,7 +79,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void sendRequest(int i){
+    public void sendRequest(int i) {
         if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
             ringtone.stop();
@@ -87,9 +93,9 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
             object.addProperty("apartment_id", model.getApartment_id());
             object.addProperty("flat_id", model.getFlat_id());
             object.addProperty("token", UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-            if (i == 1){
+            if (i == 1) {
                 object.addProperty("action", "1");
-            }else {
+            } else {
                 object.addProperty("action", "3");
             }
 
