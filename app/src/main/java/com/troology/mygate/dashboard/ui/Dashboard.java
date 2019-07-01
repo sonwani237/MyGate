@@ -112,7 +112,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         tabs.setupWithViewPager(viewpager);
     }
 
-
     @Override
     public void onClick(View v) {
         if (v == logout){

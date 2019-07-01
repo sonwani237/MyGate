@@ -88,7 +88,6 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                 mContext.startActivity(shareIntent);
             }
         });
-
     }
 
     @Override

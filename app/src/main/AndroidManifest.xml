@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:allowBackup="true"
@@ -36,8 +38,6 @@
             android:name=".fcm.NotificationReceiver"
             android:enabled="true"
             android:exported="true"
-            android:showOnLockScreen="true"
-            android:screenOrientation="sensorPortrait"
             android:label="RestartServiceWhenStopped">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -113,6 +113,7 @@
             android:name=".dashboard.ui.NotificationActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
+            android:showOnLockScreen="true"
             android:taskAffinity="" />
         <activity android:name=".dashboard.ui.LocalServices" />
         <activity android:name=".dashboard.ui.QrCodeActivity" />

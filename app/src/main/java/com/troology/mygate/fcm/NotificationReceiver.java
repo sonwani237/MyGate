@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.troology.mygate.dashboard.ui.NotificationActivity;
+
+import static android.content.Context.POWER_SERVICE;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -19,5 +22,6 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra("request", request));
     }
+
 
 }
