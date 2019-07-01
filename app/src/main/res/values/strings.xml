@@ -17,7 +17,7 @@
     <string name="submit">Submit</string>
     <string name="otp">Enter One Time Password (OTP)</string>
     <string name="otpmessage">One Time Password (OTP) has been send to your mobile number, please enter the same here to login</string>
-
+    <string name="exit_alert">Press again to exit!</string>
     <string name="transition_arrow">transition_arrow</string>
     <string name="transition_tvMoving">transition_tvMoving</string>
     <string name="transition_ivFlag">transition_ivFlag</string>

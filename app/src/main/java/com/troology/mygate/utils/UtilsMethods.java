@@ -179,7 +179,7 @@ public enum UtilsMethods {
                     jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());
                     jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
-                    ApartmentsDetail(context, jsonObject, view, null);
+                    ApartmentsDetail(context, jsonObject, view, 0,null);
                 } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
                     snackBarLong(context, view);
                 }else if (response.body() != null) {
@@ -434,14 +434,11 @@ public enum UtilsMethods {
                             new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
                     GlobalBus.getBus().post(activityMessage);
                 } else if (response.body() != null && !response.body().getStatus().equalsIgnoreCase("200")) {
-                    snackBar(response.body().getMsg(), view);
                     ActivityActivityMessage activityMessage =
                             new ActivityActivityMessage("RequestList", "");
                     GlobalBus.getBus().post(activityMessage);
                 }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
                     snackBarLong(context, view);
-                } else {
-                    snackBar(context.getResources().getString(R.string.error), view);
                 }
             }
 
@@ -494,7 +491,7 @@ public enum UtilsMethods {
         });
     }
 
-    public void ApartmentsDetail(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+    public void ApartmentsDetail(final Context context, final JsonObject jsonObject, final View view, final int key, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<ApartmentsResponse> call = pointInterface.ApartmentsDetail(ApplicationConstant.INSTANCE.contentType, jsonObject);
         call.enqueue(new Callback<ApartmentsResponse>() {
@@ -506,12 +503,19 @@ public enum UtilsMethods {
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 //                {"status":500,"msg":"token not matched. Unauthorized access"}
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getApartment_details().size() > 0) {
-                    save(context, ApplicationConstant.INSTANCE.flatPerf, response.body().getApartment_details().get(0));
-                    Intent intent = new Intent(context, Dashboard.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("EXIT", true);
-                    intent.putExtra("approval_status", response.body().getApartment_details().get(0).getApproval_status());
-                    context.startActivity(intent);
+
+                    if (key == 0){
+                        save(context, ApplicationConstant.INSTANCE.flatPerf, response.body().getApartment_details().get(0));
+                        Intent intent = new Intent(context, Dashboard.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("EXIT", true);
+                        intent.putExtra("approval_status", response.body().getApartment_details().get(0).getApproval_status());
+                        context.startActivity(intent);
+                    }else {
+                        ActivityActivityMessage activityMessage =
+                                new ActivityActivityMessage("approval_status", response.body().getApartment_details().get(0).getApproval_status());
+                        GlobalBus.getBus().post(activityMessage);
+                    }
                 } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
                     Intent intent = new Intent(context, AddFlat.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -700,7 +704,7 @@ public enum UtilsMethods {
                     jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());
                     jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
-                    UtilsMethods.INSTANCE.ApartmentsDetail(context, jsonObject, view, null);
+                    UtilsMethods.INSTANCE.ApartmentsDetail(context, jsonObject, view, 0,null);
 
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);

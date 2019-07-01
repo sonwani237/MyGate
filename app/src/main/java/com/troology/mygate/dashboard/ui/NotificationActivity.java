@@ -1,13 +1,15 @@
 package com.troology.mygate.dashboard.ui;
 
-import android.annotation.SuppressLint;
+import android.graphics.PixelFormat;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -42,6 +44,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_notification);
 
         request = getIntent().getStringExtra("request");
+        Log.e("onCreate "," >>> "+request);
         model = new Gson().fromJson(request, UserMeetings.class);
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);
 
@@ -54,20 +57,6 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
 
         name.setText(model.getName());
         remark.setText(model.getRemarks());
-
-
-
-       // turnondisplay();
-
-
-
-
-
-
-
-
-
-
 
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(this, alarmUri);
@@ -90,7 +79,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void sendRequest(int i){
+    public void sendRequest(int i) {
         if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
             ringtone.stop();
@@ -104,9 +93,9 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
             object.addProperty("apartment_id", model.getApartment_id());
             object.addProperty("flat_id", model.getFlat_id());
             object.addProperty("token", UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-            if (i == 1){
+            if (i == 1) {
                 object.addProperty("action", "1");
-            }else {
+            } else {
                 object.addProperty("action", "3");
             }
 
@@ -115,31 +104,19 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
             UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
         }
     }
-/*
-    @Override
-    protected void onPause() {
-        super.onPause();
-        ringtone.stop();
-        finish();
-    }*/
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ringtone.stop();
-        finish();
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        ringtone.stop();
+//        finish();
+//    }
 
-
-    public void turnondisplay(){
-        PowerManager powerManager = (PowerManager) this.getSystemService(POWER_SERVICE);
-
-        if (!powerManager.isInteractive()){ // if screen is not already on, turn it on (get wake_lock for 10 seconds)
-            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK |PowerManager.ACQUIRE_CAUSES_WAKEUP |PowerManager.ON_AFTER_RELEASE,"MH24_SCREENLOCK");
-            wl.acquire(10000);
-            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl_cpu = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MH24_SCREENLOCK");
-            wl_cpu.acquire(10000);
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        ringtone.stop();
+//        finish();
+//    }
 
 }

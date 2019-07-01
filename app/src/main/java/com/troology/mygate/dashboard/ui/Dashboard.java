@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -24,10 +25,15 @@ import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.splash.ui.SplashActivity;
+import com.troology.mygate.utils.ActivityActivityMessage;
 import com.troology.mygate.utils.ApplicationConstant;
+import com.troology.mygate.utils.GlobalBus;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
 import com.troology.mygate.utils.ViewPagerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Objects;
 
@@ -38,10 +44,12 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     String approval_status = "";
     RelativeLayout parent;
     Loader loader;
-    private static String[] PERMISSIONS = {Manifest.permission.CALL_PHONE};
+    private static String[] PERMISSIONS = {Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_PERMISSIONS = 1;
     RelativeLayout active, inactive;
     Button logout;
+    Handler handler;
+    private static long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +59,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        if (getIntent()!=null){
+        if (getIntent() != null) {
             approval_status = getIntent().getStringExtra("approval_status");
         }
 
@@ -72,19 +80,37 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         setUpDashboard(tabs, viewpager);
         callPermission();
 
-        if (approval_status.equalsIgnoreCase("1")){
+        if (approval_status.equalsIgnoreCase("1")) {
             active.setVisibility(View.VISIBLE);
             inactive.setVisibility(View.GONE);
-        }else {
+        } else {
             active.setVisibility(View.GONE);
             inactive.setVisibility(View.VISIBLE);
+
+            handler = new Handler(Dashboard.this.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());
+                    jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+
+
+                    UtilsMethods.INSTANCE.ApartmentsDetail(Dashboard.this, jsonObject, parent, 1, null);
+
+                    handler.postDelayed(this, 5000);
+                }
+            }, 1000);
         }
 
         logout.setOnClickListener(this);
     }
 
     public void callPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
             ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, REQUEST_PERMISSIONS);
         } else {
@@ -95,12 +121,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
 
-        if (requestCode == REQUEST_PERMISSIONS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-
-            }
-        }
     }
 
     private void setUpDashboard(TabLayout tabs, ViewPager viewpager) {
@@ -114,7 +134,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (v == logout){
+        if (v == logout) {
             UtilsMethods.INSTANCE.save(this, ApplicationConstant.INSTANCE.userToken, "");
             Intent intent = new Intent(this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -122,4 +142,45 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            GlobalBus.getBus().register(this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        GlobalBus.getBus().unregister(this);
+    }
+
+    @Subscribe
+    public void onActivityActivityMessage(final ActivityActivityMessage activityFragmentMessage) {
+        if (activityFragmentMessage.getMessage().equalsIgnoreCase("approval_status")) {
+            if (activityFragmentMessage.getFrom().equalsIgnoreCase("1")) {
+                active.setVisibility(View.VISIBLE);
+                inactive.setVisibility(View.GONE);
+                handler.removeCallbacks(null);
+                handler.removeCallbacksAndMessages(null);
+            }else {
+                active.setVisibility(View.GONE);
+                inactive.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finish();
+        } else {
+            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.exit_alert), parent);
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
 }

@@ -62,9 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
                 broadcastIntent.putExtra("request", tag);
                 sendBroadcast(broadcastIntent);
-            }            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", model.getName()+" is on the gate for, "+model.getRemarks());
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+            }
             methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate for, "+model.getRemarks());
 
         } else {

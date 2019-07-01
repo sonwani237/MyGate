@@ -3,6 +3,7 @@ package com.troology.mygate.dashboard.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -69,7 +70,12 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
         if (details != null) {
             name.setText(details.getUsername());
-            passcode.setText("#"+UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.userPassPerf, String.class));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    passcode.setText("#"+UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.userPassPerf, String.class));
+                }
+            }, 1500);
         }
 
         addMember.setOnClickListener(this);
