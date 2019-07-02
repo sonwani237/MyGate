@@ -87,24 +87,20 @@ public class QrCodeActivity extends AppCompatActivity {
 
 
     public void onClickApp(Bitmap bitmap) {
-        PackageManager pm = this.getPackageManager();
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Title", null);
+            String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, name+", "+passcode, null);
             Uri imageUri = Uri.parse(path);
 
             Intent waIntent = new Intent(Intent.ACTION_SEND);
-            waIntent.putExtra(Intent.EXTRA_TEXT, name+" Please use this QR code for Entry/Exit");
+            waIntent.putExtra(Intent.EXTRA_TEXT, name+", Please use this QR code for Entry/Exit.");
             waIntent.setType("image/*");
             waIntent.putExtra(android.content.Intent.EXTRA_STREAM, imageUri);
             startActivity(Intent.createChooser(waIntent, "Share with"));
         } catch (Exception e) {
-            Log.e("Error on sharing", e + " ");
-            Toast.makeText(this, "App not Installed", Toast.LENGTH_SHORT).show();
+//            Log.e("Error on sharing", e + " ");
+            Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }
 

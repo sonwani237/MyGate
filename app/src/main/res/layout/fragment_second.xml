@@ -109,6 +109,15 @@
             android:layout_marginEnd="@dimen/_13sdp"
             android:paddingTop="@dimen/_5sdp" />
 
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:padding="@dimen/_25sdp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/family"
+            android:src="@drawable/ic_family"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,6 +147,15 @@
             android:layout_marginStart="@dimen/_13sdp"
             android:layout_marginEnd="@dimen/_13sdp"
             android:paddingTop="@dimen/_5sdp" />
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:padding="@dimen/_25sdp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:id="@+id/loc_services"
+            android:src="@drawable/ic_loc_services"/>
 
     </LinearLayout>
 

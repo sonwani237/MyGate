@@ -130,7 +130,6 @@ public enum UtilsMethods {
                     Toast.makeText(context, ""+response.body().getOtp().getPhone_otp(), Toast.LENGTH_LONG).show();
 
                     Intent i = new Intent(context, OTPVerification.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("mobile", jsonObject.get("mobile").getAsString());
                     context.startActivity(i);
 
@@ -429,15 +428,17 @@ public enum UtilsMethods {
                 }
 //                Log.e("getMeetingData", "response : " + new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
 
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getMeetingData().getUser_meetings().size() > 0) {
-                    FragmentActivityMessage activityMessage =
-                            new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
-                    GlobalBus.getBus().post(activityMessage);
-                } else if (response.body() != null && !response.body().getStatus().equalsIgnoreCase("200")) {
-                    ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("RequestList", "");
-                    GlobalBus.getBus().post(activityMessage);
-                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
+                    if (response.body().getMeetingData()!=null && response.body().getMeetingData().getUser_meetings().size() > 0){
+                        FragmentActivityMessage activityMessage =
+                                new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
+                        GlobalBus.getBus().post(activityMessage);
+                    }else {
+                        FragmentActivityMessage activityMessage =
+                                new FragmentActivityMessage("RequestList", "");
+                        GlobalBus.getBus().post(activityMessage);
+                    }
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
                     snackBarLong(context, view);
                 }
             }
@@ -663,10 +664,17 @@ public enum UtilsMethods {
                     loader.dismiss();
                 }
                 Log.e("ServiceRequest", "response : " + new Gson().toJson(response.body()));
-                if (response.body()!=null && response.body().getServiceRequestDetails()!=null){
-                    FragmentActivityMessage fragmentActivityMessage =
-                            new FragmentActivityMessage("ServiceList", new Gson().toJson(response.body().getServiceRequestDetails()));
-                    GlobalBus.getBus().post(fragmentActivityMessage);
+                if (response.body()!=null && response.body().getStatus() == 200 ){
+                    if (response.body().getServiceRequestDetails()!=null && response.body().getServiceRequestDetails().size()>0){
+                        FragmentActivityMessage fragmentActivityMessage =
+                                new FragmentActivityMessage("ServiceList", new Gson().toJson(response.body().getServiceRequestDetails()));
+                        GlobalBus.getBus().post(fragmentActivityMessage);
+                    }else {
+                        FragmentActivityMessage fragmentActivityMessage =
+                                new FragmentActivityMessage("ServiceList","");
+                        GlobalBus.getBus().post(fragmentActivityMessage);
+                    }
+
                 }else if (response.body() != null && response.body().getStatus() == 404) {
 
                 }else if (response.body() != null && response.body().getStatus() == 500) {
@@ -707,7 +715,7 @@ public enum UtilsMethods {
                     UtilsMethods.INSTANCE.ApartmentsDetail(context, jsonObject, view, 0,null);
 
                 } else {
-                    snackBar(context.getResources().getString(R.string.error), view);
+                    snackBar(response.body().getMsg(), view);
                 }
             }
 
@@ -739,10 +747,12 @@ public enum UtilsMethods {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            ((NotificationActivity)context).finish();
+                            try {
+                                ((NotificationActivity)context).finish();
+                            } catch (Exception ignored) {
+                            }
                         }
                     }, 1000);
-
                 }else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }

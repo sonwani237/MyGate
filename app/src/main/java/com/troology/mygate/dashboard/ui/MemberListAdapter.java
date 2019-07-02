@@ -82,8 +82,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
             @Override
             public void onClick(View v) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, memberData.getmName()+" Please use this pass code for Entry/Exit");
-                shareIntent.putExtra(Intent.EXTRA_TEXT,memberData.getPasscode());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, memberData.getmName()+", Please use "+memberData.getPasscode()+" pass code for Entry/Exit");
                 shareIntent.setType("text/plain");
                 mContext.startActivity(shareIntent);
             }

@@ -106,9 +106,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".login_reg.ui.LoginWithPhone"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".dashboard.ui.NotificationActivity"
             android:excludeFromRecents="true"
@@ -116,8 +115,16 @@
             android:showOnLockScreen="true"
             android:taskAffinity="" />
 
-        <activity android:name=".dashboard.ui.LocalServices" />
-        <activity android:name=".dashboard.ui.QrCodeActivity" />
+        <activity
+            android:name=".dashboard.ui.LocalServices"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".dashboard.ui.QrCodeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="preloaded_fonts"

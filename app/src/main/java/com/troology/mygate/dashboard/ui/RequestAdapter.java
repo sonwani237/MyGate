@@ -29,16 +29,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     private Context context;
     private ArrayList<UserMeetings> userMeetings;
-    Ringtone ringtone;
     Loader loader;
-    RelativeLayout parent;
+    View parent;
 
-    //UserMeetings model;
-    //String request = "";
-
-    public RequestAdapter(Context ctx, ArrayList<UserMeetings> meetings) {
+    public RequestAdapter(Context ctx, ArrayList<UserMeetings> meetings, View view) {
         this.context = ctx;
         this.userMeetings = meetings;
+        this.parent = view;
     }
 
     @NonNull
@@ -51,16 +48,16 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RequestAdapter.MyViewHolder holder, final int position) {
-        holder.name.setText(userMeetings.get(position).getName());
-        holder.mobile.setText(userMeetings.get(position).getMobile());
+        holder.name.setText(""+userMeetings.get(position).getName());
+        holder.mobile.setText(""+userMeetings.get(position).getMobile());
         holder.time.setText(UtilsMethods.INSTANCE.ShortTime(userMeetings.get(position).getMeeting_time()));
         holder.date.setText(UtilsMethods.INSTANCE.ShortDate(userMeetings.get(position).getMeeting_time()));
-        holder.remark.setText(userMeetings.get(position).getRemarks());
+        holder.remark.setText(""+userMeetings.get(position).getRemarks());
         if (userMeetings.get(position).getStatus().equalsIgnoreCase("1")){
             holder.passcode.setText("#"+userMeetings.get(position).getPasscode());//Hit sendRequest like method from this adapter when status  = 0
         }else {
-            holder.passcode.setText("Not Approved");
-            holder.passcode.setOnClickListener(new View.OnClickListener() {
+            holder.passcode.setText("Click to Approve");
+            holder.rellayparent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     sendRequest(position);
@@ -76,7 +73,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, mobile, time, date, remark, passcode;
-
+        RelativeLayout rellayparent;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -86,21 +83,16 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             date = itemView.findViewById(R.id.date);
             remark = itemView.findViewById(R.id.remark);
             passcode = itemView.findViewById(R.id.passcode);
-            parent = itemView.findViewById(R.id.rellayparent);
-
-            Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-            ringtone = RingtoneManager.getRingtone(context, alarmUri);
-            //ringtone.play();
+            rellayparent = itemView.findViewById(R.id.rellayparent);
 
             loader = new Loader(context, android.R.style.Theme_Translucent_NoTitleBar);
-            //model = new Gson().fromJson(request, UserMeetings.class);
 
         }
     }
 
     public void sendRequest(int pos) {
+
         if (UtilsMethods.INSTANCE.isNetworkAvailable(context)) {
-            ringtone.stop();
             loader.show();
             loader.setCancelable(false);
             loader.setCanceledOnTouchOutside(false);
@@ -112,7 +104,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             object.addProperty("flat_id", userMeetings.get(pos).getFlat_id());
             object.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
             object.addProperty("action", "1");
-
 
             UtilsMethods.INSTANCE.RequestAction(context, object, parent, loader);
         } else {

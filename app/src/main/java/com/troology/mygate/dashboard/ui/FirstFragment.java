@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -44,6 +45,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     LinearLayoutManager layoutManager;
     RequestAdapter adapter;
     SwipeRefreshLayout swipe;
+    LinearLayout no_data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +63,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         parent = view.findViewById(R.id.parent);
         recycler = view.findViewById(R.id.recycler);
+        no_data = view.findViewById(R.id.no_data);
         swipe = view.findViewById(R.id.swipe);
         swipe.setOnRefreshListener(this);
         swipe.setColorSchemeResources(R.color.blue,
@@ -96,12 +99,17 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         if (fragmentActivityMessage.getMessage().equalsIgnoreCase("RequestList")){
             swipe.setRefreshing(false);
             userMeetings = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<UserMeetings>>(){}.getType());
-            if (userMeetings.size()>0){
+            if (userMeetings!=null && userMeetings.size()>0){
+                no_data.setVisibility(View.GONE);
+                recycler.setVisibility(View.VISIBLE);
                 layoutManager = new LinearLayoutManager(getActivity());
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recycler.setLayoutManager(layoutManager);
-                adapter = new RequestAdapter(getActivity(), userMeetings);
+                adapter = new RequestAdapter(getActivity(), userMeetings, parent);
                 recycler.setAdapter(adapter);
+            }else {
+                no_data.setVisibility(View.VISIBLE);
+                recycler.setVisibility(View.GONE);
             }
         }
     }
@@ -132,4 +140,5 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
         super.onResume();
         getData();
     }
+
 }

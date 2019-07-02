@@ -58,13 +58,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));
 
         if (remoteMessage.getData() != null) {
-            if (model.getRequest_id()!=null){
+            if (model.getRequest_id()!=null && model.getStatus().equalsIgnoreCase("0")){
                 Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
                 broadcastIntent.putExtra("request", tag);
                 sendBroadcast(broadcastIntent);
+                methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate for, "+model.getRemarks());
+            }else  if (model.getRequest_id()!=null && model.getStatus().equalsIgnoreCase("5")){
+                methodNotify(remoteMessage.getData().get("title"), model.getName()+" has entered the apartment.");
+            }else  if (model.getRequest_id()!=null && model.getStatus().equalsIgnoreCase("2")){
+                methodNotify(remoteMessage.getData().get("title"), model.getName()+" has exit the apartment.");
             }
-            methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate for, "+model.getRemarks());
-
         } else {
             Log.e(TAG, "FCM Notification failed");
         }

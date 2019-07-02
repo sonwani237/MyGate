@@ -37,7 +37,7 @@ import java.util.List;
 public class LocalServices extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     Loader loader;
-    public static RelativeLayout parent;
+    RelativeLayout parent;
     ArrayList<ServicemenData> servicemenData;
     RecyclerView recycler;
     LinearLayoutManager layoutManager;

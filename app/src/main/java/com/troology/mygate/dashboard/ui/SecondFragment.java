@@ -49,6 +49,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     ServiceListAdapter serviceListAdapter;
     ScrollView parent;
     CardView cv_userdetails;
+    ImageView loc_services, family;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +63,8 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         parent = view.findViewById(R.id.parent);
         name = view.findViewById(R.id.name);
         passcode = view.findViewById(R.id.passcode);
+        family = view.findViewById(R.id.family);
+        loc_services = view.findViewById(R.id.loc_services);
         addMember = view.findViewById(R.id.addMember);
         recycler = view.findViewById(R.id.recycler);
         service_recycler = view.findViewById(R.id.service_recycler);
@@ -69,7 +72,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
 
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
         if (details != null) {
-            name.setText(details.getUsername());
+            name.setText(details.getUsername()+" (Me)");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -110,23 +113,33 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         if (fragmentActivityMessage.getMessage().equalsIgnoreCase("MemberList")) {
             memberData = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<MemberData>>() {
             }.getType());
-            if (memberData.size() > 0) {
+            if (memberData!=null && memberData.size() > 0) {
+                family.setVisibility(View.GONE);
+                recycler.setVisibility(View.VISIBLE);
                 layoutManager = new LinearLayoutManager(getActivity());
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 recycler.setLayoutManager(layoutManager);
                 adapter = new MemberListAdapter(memberData, getActivity());
                 recycler.setAdapter(adapter);
+            }else {
+                family.setVisibility(View.VISIBLE);
+                recycler.setVisibility(View.GONE);
             }
         }
         if (fragmentActivityMessage.getMessage().equalsIgnoreCase("ServiceList")) {
             serviceRequestDetails = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<ServiceRequestDetails>>() {
             }.getType());
-            if (serviceRequestDetails.size() > 0) {
+            if (serviceRequestDetails!=null && serviceRequestDetails.size() > 0) {
+                loc_services.setVisibility(View.GONE);
+                service_recycler.setVisibility(View.VISIBLE);
                 layoutManager = new LinearLayoutManager(getActivity());
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 service_recycler.setLayoutManager(layoutManager);
                 serviceListAdapter = new ServiceListAdapter(serviceRequestDetails, getActivity());
                 service_recycler.setAdapter(serviceListAdapter);
+            }else {
+                loc_services.setVisibility(View.VISIBLE);
+                service_recycler.setVisibility(View.GONE);
             }
         }
     }

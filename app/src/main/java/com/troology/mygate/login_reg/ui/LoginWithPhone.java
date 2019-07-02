@@ -1,7 +1,9 @@
 package com.troology.mygate.login_reg.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +12,7 @@ import android.transition.ChangeBounds;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -18,10 +21,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
+import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
 
@@ -29,10 +34,10 @@ import static android.view.Gravity.LEFT;
 
 public class LoginWithPhone extends AppCompatActivity implements View.OnClickListener {
 
-    ImageView ivBack, ivFlag,logo;
+    ImageView ivBack, ivFlag, logo;
     EditText etPhoneNo;
     TextView tvMoving, tvCode;
-    FrameLayout rootFrame;
+    RelativeLayout rootFrame;
     LinearLayout llPhone;
     Loader loader;
 
@@ -67,8 +72,8 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().trim().length()==10){
-                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())){
+                if (s.toString().trim().length() == 10) {
+                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
                         loader.show();
                         loader.setCancelable(false);
                         loader.setCanceledOnTouchOutside(false);
@@ -77,7 +82,7 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
                         object.addProperty("mobile", s.toString());
 
                         UtilsMethods.INSTANCE.sendOTP(getApplicationContext(), object, rootFrame, loader);
-                    }else {
+                    } else {
                         UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), rootFrame);
                     }
 
@@ -130,6 +135,9 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
             Animation animation = AnimationUtils.loadAnimation(LoginWithPhone.this, R.anim.slide_right);
             ivBack.startAnimation(animation);
 
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
 
         @Override
@@ -168,8 +176,6 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
 
         @Override
         public void onTransitionEnd(Transition transition) {
-
-
         }
 
         @Override
@@ -230,9 +236,6 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
 
             llPhone.setBackgroundColor(Color.parseColor("#FFFFFF"));
             etPhoneNo.setCursorVisible(true);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
         }
 
         @Override
@@ -253,7 +256,7 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v==ivBack){
+        if (v == ivBack) {
             super.onBackPressed();
         }
     }
