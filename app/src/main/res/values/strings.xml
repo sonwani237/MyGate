@@ -47,5 +47,15 @@
     <string name="entry_time">Entry time</string>
     <string name="exit_time">Exit time</string>
     <string name="no_request_found">No request found.</string>
+    <string name="once">Once</string>
+    <string name="category_places">Frequent</string>
+
+
+    <string-array name="days_of_months">
+        <item>1 Day</item>
+        <item>7 Days</item>
+        <item>15 Days</item>
+        <item>30 Days</item>
+    </string-array>
 
 </resources>

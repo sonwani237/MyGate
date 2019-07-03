@@ -90,4 +90,8 @@ public interface EndPointInterface {
     Call<ApartmentsResponse> serviceMenList(@Header("Content-Type") String content,
                                             @Body JsonObject jsonObject);
 
+    @POST("/api/add_activity")
+    Call<ApartmentsResponse> AddActivity(@Header("Content-Type") String content,
+                                            @Body JsonObject jsonObject);
+
 }

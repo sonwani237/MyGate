@@ -19,10 +19,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
+import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ActivityActivityMessage;
@@ -49,7 +52,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     RelativeLayout active, inactive;
     Button logout;
     Handler handler;
+    TextView toolbar_flatno,toolbar_flataddress;
     private static long back_pressed;
+    ApartmentDetails details;
+    ImageView iv_cab,iv_delivery,iv_guest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         if (getIntent() != null) {
             approval_status = getIntent().getStringExtra("approval_status");
         }
+
+        details = UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
+
 
         Window window = this.getWindow();
         Drawable background = this.getResources().getDrawable(R.drawable.gradient_colour);
@@ -77,6 +86,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         active = findViewById(R.id.active);
         inactive = findViewById(R.id.inactive);
         logout = findViewById(R.id.logout);
+        iv_cab = findViewById(R.id.ivcar);
+        iv_delivery = findViewById(R.id.ivscooter);
+        iv_guest = findViewById(R.id.ivguest);
+        toolbar_flatno = toolbar.findViewById(R.id.toolbar_flatno);
+        toolbar_flataddress = toolbar.findViewById(R.id.toolbarflataddress);
         setUpDashboard(tabs, viewpager);
         callPermission();
 
@@ -103,8 +117,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 }
             }, 1000);
         }
-
         logout.setOnClickListener(this);
+
+        toolbar_flatno.setText(details.getFlat_no());
+        toolbar_flataddress.setText(details.getApartment_name());
+        onClickimages();
     }
 
     public void callPermission() {
@@ -181,6 +198,41 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.exit_alert), parent);
         }
         back_pressed = System.currentTimeMillis();
+    }
+
+    public void onClickimages(){
+
+        iv_cab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,PopupActivity.class);
+                intent.putExtra("type","1");
+                startActivity(intent);
+            }
+        });
+
+        //==========================================================================================
+
+        iv_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,PopupActivity.class);
+                intent.putExtra("type","2");
+                startActivity(intent);
+            }
+        });
+
+        //==========================================================================================
+
+        iv_guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,PopupActivity.class);
+                intent.putExtra("type","3");
+                startActivity(intent);
+            }
+        });
+
     }
 
 }

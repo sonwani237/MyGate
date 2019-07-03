@@ -14,12 +14,12 @@
         android:src="@drawable/backblack" />
 
     <LinearLayout
+        android:id="@+id/share"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:id="@+id/share"
         android:orientation="vertical">
 
         <TextView
@@ -53,14 +53,14 @@
 
 
         <Button
+            android:id="@+id/btnshare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Share"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/colorPrimaryDark"
             android:fontFamily="@font/opensans_semibold"
-            android:textColor="@color/white"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:id="@+id/btnshare"/>
+            android:text="Share"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </RelativeLayout>

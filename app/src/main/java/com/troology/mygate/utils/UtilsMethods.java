@@ -131,6 +131,7 @@ public enum UtilsMethods {
 
                     Intent i = new Intent(context, OTPVerification.class);
                     i.putExtra("mobile", jsonObject.get("mobile").getAsString());
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
 
 //                    context.startActivity(new Intent(context, OTPVerification.class)
@@ -564,6 +565,43 @@ public enum UtilsMethods {
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ApartmentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("ApartmentsDetail", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+    public void AddActivity(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<ApartmentsResponse> call = pointInterface.AddActivity(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ApartmentsResponse>() {
+            @Override
+            public void onResponse(Call<ApartmentsResponse> call, Response<ApartmentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
+//                {"status":500,"msg":"token not matched. Unauthorized access"}
+              /*  if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getServicemenData().size() > 0) {
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("ServicemenList", new Gson().toJson(response.body().getServicemenData()));
+                    GlobalBus.getBus().post(activityMessage);
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("ServicemenList", "");
+                    GlobalBus.getBus().post(activityMessage);
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                } else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }*/
             }
 
             @Override

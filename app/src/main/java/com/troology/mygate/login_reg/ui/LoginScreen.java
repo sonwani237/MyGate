@@ -72,37 +72,29 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         reenterTransition.addListener(reenterListener);
         reenterTransition.setInterpolator(new DecelerateInterpolator(4));
         getWindow().setSharedElementReenterTransition(reenterTransition);
-
     }
 
     Transition.TransitionListener exitListener = new Transition.TransitionListener() {
         @Override
         public void onTransitionStart(Transition transition) {
-
-
         }
 
         @Override
         public void onTransitionEnd(Transition transition) {
-
         }
 
         @Override
         public void onTransitionCancel(Transition transition) {
-
         }
 
         @Override
         public void onTransitionPause(Transition transition) {
-
         }
 
         @Override
         public void onTransitionResume(Transition transition) {
-
         }
     };
-
 
     Transition.TransitionListener reenterListener = new Transition.TransitionListener() {
         @Override
@@ -116,23 +108,18 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
         @Override
         public void onTransitionEnd(Transition transition) {
-
-
         }
 
         @Override
         public void onTransitionCancel(Transition transition) {
-
         }
 
         @Override
         public void onTransitionPause(Transition transition) {
-
         }
 
         @Override
         public void onTransitionResume(Transition transition) {
-
             tvMoving.setAlpha(1);
         }
     };
@@ -142,13 +129,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         if (v == llInfo){
             Intent intent = new Intent(this, LoginWithPhone.class);
-
             Pair<View, String> p1 = Pair.create((View) ivBack, getString(R.string.transition_arrow));
             Pair<View, String> p2 = Pair.create((View) ivFlag, getString(R.string.transition_ivFlag));
             Pair<View, String> p3 = Pair.create((View) tvCode, getString(R.string.transition_tvCode));
             Pair<View, String> p4 = Pair.create((View) tvPhoneNo, getString(R.string.transition_tvPhoneNo));
             Pair<View, String> p5 = Pair.create((View) llphone, getString(R.string.transition_llPhone));
-
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2, p3, p4, p5);
             startActivity(intent, options.toBundle());
         }

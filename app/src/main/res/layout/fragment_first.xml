@@ -57,6 +57,7 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_add"
         app:fabSize="mini"
+        android:visibility="gone"
         android:layout_margin="@dimen/_13sdp"/>
 
 </RelativeLayout>

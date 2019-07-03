@@ -20,6 +20,7 @@
     <color name="button_color">#32236e</color>
     <color name="buttoncolor">#4000fd</color>
     <color name="black">#000000</color>
+    <color name="lightblack">#34000000</color>
     <color name="background">#ececec</color>
     <color name="icon_background">#7C7C7C</color>
     <color name="trip_background">#f5f5f5</color>
