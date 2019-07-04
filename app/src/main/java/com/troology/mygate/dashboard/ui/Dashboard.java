@@ -30,6 +30,7 @@ import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ActivityActivityMessage;
 import com.troology.mygate.utils.ApplicationConstant;
+import com.troology.mygate.utils.FragmentActivityMessage;
 import com.troology.mygate.utils.GlobalBus;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
@@ -56,6 +57,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private static long back_pressed;
     ApartmentDetails details;
     ImageView iv_cab,iv_delivery,iv_guest;
+    public static String type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         }
 
         details = UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
-
 
         Window window = this.getWindow();
         Drawable background = this.getResources().getDrawable(R.drawable.gradient_colour);
@@ -205,9 +206,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         iv_cab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = "1";
                 Intent intent = new Intent(Dashboard.this,PopupActivity.class);
-                intent.putExtra("type","1");
                 startActivity(intent);
+
             }
         });
 
@@ -216,8 +218,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         iv_delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = "2";
                 Intent intent = new Intent(Dashboard.this,PopupActivity.class);
-                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -227,8 +229,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         iv_guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = "3";
                 Intent intent = new Intent(Dashboard.this,PopupActivity.class);
-                intent.putExtra("type","3");
                 startActivity(intent);
             }
         });

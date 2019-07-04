@@ -2,6 +2,7 @@ package com.troology.mygate.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Window;
 
 import com.troology.mygate.R;
 

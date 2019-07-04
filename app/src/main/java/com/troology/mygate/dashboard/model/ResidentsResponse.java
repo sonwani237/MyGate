@@ -3,6 +3,7 @@ package com.troology.mygate.dashboard.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
+import com.troology.mygate.splash.model.NotificationModel;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,9 @@ public class ResidentsResponse {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("data")
+    @Expose
+    private ArrayList<NotificationModel> data;
     @SerializedName("ResientsData")
     @Expose
     private ArrayList<ApartmentDetails> ResidentsData;
@@ -26,6 +30,10 @@ public class ResidentsResponse {
 
     public String getMsg() {
         return msg;
+    }
+
+    public ArrayList<NotificationModel> getData() {
+        return data;
     }
 
     public ArrayList<ApartmentDetails> getResidentsData() {

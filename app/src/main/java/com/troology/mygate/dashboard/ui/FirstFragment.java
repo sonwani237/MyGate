@@ -23,7 +23,9 @@ import com.troology.mygate.dashboard.model.MemberData;
 import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
+import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.utils.ApplicationConstant;
+import com.troology.mygate.utils.BottomOffsetDecoration;
 import com.troology.mygate.utils.FragmentActivityMessage;
 import com.troology.mygate.utils.GlobalBus;
 import com.troology.mygate.utils.Loader;
@@ -40,7 +42,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     FloatingActionButton fab;
     Loader loader;
     RelativeLayout parent;
-    ArrayList<UserMeetings> userMeetings;
+    ArrayList<NotificationModel> userMeetings;
     RecyclerView recycler;
     LinearLayoutManager layoutManager;
     RequestAdapter adapter;
@@ -60,9 +62,12 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     private void inItView(View view) {
         fab = view.findViewById(R.id.fab);
 
-        loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        loader = new Loader(getActivity(), android.R.style.Theme_Translucent_NoTitleBar);
         parent = view.findViewById(R.id.parent);
         recycler = view.findViewById(R.id.recycler);
+        float offsetPx = getResources().getDimension(R.dimen._100sdp);
+        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int) offsetPx);
+        recycler.addItemDecoration(bottomOffsetDecoration);
         no_data = view.findViewById(R.id.no_data);
         swipe = view.findViewById(R.id.swipe);
         swipe.setOnRefreshListener(this);
@@ -98,7 +103,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener, Swi
     public void onFragmentActivityMessage(FragmentActivityMessage fragmentActivityMessage) {
         if (fragmentActivityMessage.getMessage().equalsIgnoreCase("RequestList")){
             swipe.setRefreshing(false);
-            userMeetings = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<UserMeetings>>(){}.getType());
+            userMeetings = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<NotificationModel>>(){}.getType());
             if (userMeetings!=null && userMeetings.size()>0){
                 no_data.setVisibility(View.GONE);
                 recycler.setVisibility(View.VISIBLE);

@@ -14,7 +14,7 @@
         android:src="@drawable/app_logo" />
 
     <include
-        layout="@layout/toolbar"
+        layout="@layout/tool_bar"
         android:id="@+id/toolbar"/>
 
     <LinearLayout
@@ -92,8 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_13sdp"
             android:layout_marginEnd="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp">
+            android:layout_marginTop="@dimen/_5sdp">
 
             <Spinner
                 android:id="@+id/flatNo"
@@ -103,6 +102,26 @@
                 android:visibility="gone" />
 
         </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/owner"
+                android:visibility="gone"
+                android:checked="true"
+                android:text="Owner"/>
+
+        </android.support.v7.widget.CardView>
+
+
 
     </LinearLayout>
 

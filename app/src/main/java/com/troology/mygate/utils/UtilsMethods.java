@@ -23,12 +23,15 @@ import com.troology.mygate.dashboard.ui.CreateRequest;
 import com.troology.mygate.dashboard.ui.Dashboard;
 import com.troology.mygate.dashboard.ui.LocalServices;
 import com.troology.mygate.dashboard.ui.NotificationActivity;
+import com.troology.mygate.dashboard.ui.PopupActivity;
 import com.troology.mygate.login_reg.model.ApartmentsResponse;
 import com.troology.mygate.login_reg.model.ApiResponse;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.login_reg.ui.OTPVerification;
 import com.troology.mygate.login_reg.ui.RegisterScreen;
 import com.troology.mygate.splash.ui.SplashActivity;
+
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +52,17 @@ public enum UtilsMethods {
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         snackbar.show();
+    }
+
+    public String DateTime(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+            Date parsedDate = dateFormat.parse(time);
+            DateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return date.format(parsedDate);
+        } catch (Exception e) {
+            return time;
+        }
     }
 
     public String ScheduleTime(String time) {
@@ -77,11 +91,47 @@ public enum UtilsMethods {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
             Date parsedDate = dateFormat.parse(time);
-            DateFormat date = new SimpleDateFormat("MMM\ndd");
+            DateFormat date = new SimpleDateFormat("MMM dd");
             return date.format(parsedDate);
         } catch (Exception e) {
             return time;
         }
+    }
+
+    public String Date(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
+            Date parsedDate = dateFormat.parse(time);
+            DateFormat date = new SimpleDateFormat("dd MMM yyyy");
+            return date.format(parsedDate);
+        } catch (Exception e) {
+            return time;
+        }
+    }
+
+    public String mDate(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
+            Date parsedDate = dateFormat.parse(time);
+            DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+            return date.format(parsedDate);
+        } catch (Exception e) {
+            return time;
+        }
+    }
+
+    public String ActiveTime(String time_stamp){
+        Date dt = new Timestamp(Long.parseLong(time_stamp));
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(dt);
+    }
+
+    public String endDate(String time_stamp){
+        Date dt = new Timestamp(Long.parseLong(time_stamp));
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(dt);
     }
 
     public void snackBarLong(final Context context, View view) {
@@ -430,9 +480,9 @@ public enum UtilsMethods {
 //                Log.e("getMeetingData", "response : " + new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
-                    if (response.body().getMeetingData()!=null && response.body().getMeetingData().getUser_meetings().size() > 0){
+                    if (response.body().getData()!=null && response.body().getData().size() > 0){
                         FragmentActivityMessage activityMessage =
-                                new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getMeetingData().getUser_meetings()));
+                                new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getData()));
                         GlobalBus.getBus().post(activityMessage);
                     }else {
                         FragmentActivityMessage activityMessage =
@@ -589,19 +639,22 @@ public enum UtilsMethods {
                 }
                 Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 //                {"status":500,"msg":"token not matched. Unauthorized access"}
-              /*  if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getServicemenData().size() > 0) {
-                    ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("ServicemenList", new Gson().toJson(response.body().getServicemenData()));
-                    GlobalBus.getBus().post(activityMessage);
-                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
-                    ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("ServicemenList", "");
-                    GlobalBus.getBus().post(activityMessage);
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") ) {
+                    snackBar(response.body().getMsg(), view);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ((PopupActivity)context).finish();
+                            } catch (Exception ignored) {
+                            }
+                        }
+                    }, 2000);
                 } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
                     snackBarLong(context, view);
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
-                }*/
+                }
             }
 
             @Override
@@ -790,7 +843,7 @@ public enum UtilsMethods {
                             } catch (Exception ignored) {
                             }
                         }
-                    }, 1000);
+                    }, 2000);
                 }else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }

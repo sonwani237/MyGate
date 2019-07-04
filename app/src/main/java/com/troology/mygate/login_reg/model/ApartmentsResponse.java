@@ -11,6 +11,9 @@ public class ApartmentsResponse {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("msg")
+    @Expose
+    private String msg;
     @SerializedName("user_details")
     @Expose
     private UserDetails user_details;
@@ -23,6 +26,10 @@ public class ApartmentsResponse {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getMsg() {
+        return msg;
     }
 
     public UserDetails getUser_details() {

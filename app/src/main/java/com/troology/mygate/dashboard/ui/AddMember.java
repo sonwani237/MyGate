@@ -1,6 +1,7 @@
 package com.troology.mygate.dashboard.ui;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
@@ -30,7 +32,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
     EditText ed_name, ed_number;
     Button addMember;
     Loader loader;
-    RelativeLayout parent;
+    LinearLayout parent;
     ApartmentDetails details;
 
     @Override
@@ -40,6 +42,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.add_member);
+        toolbar.setTitleTextColor(Color.BLACK);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -66,20 +69,22 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
             case R.id.img:
                 break;
             case R.id.addMember:
-                if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
-                    loader.show();
-                    loader.setCancelable(false);
-                    loader.setCanceledOnTouchOutside(false);
+                if (isValid()){
+                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
+                        loader.show();
+                        loader.setCancelable(false);
+                        loader.setCanceledOnTouchOutside(false);
 
-                    JsonObject object = new JsonObject();
-                    object.addProperty("flat_id", details.getFlat_id());
-                    object.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                    object.addProperty("name", ed_name.getText().toString().trim());
-                    object.addProperty("mobile", ed_number.getText().toString().trim());
+                        JsonObject object = new JsonObject();
+                        object.addProperty("flat_id", details.getFlat_id());
+                        object.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+                        object.addProperty("name", ed_name.getText().toString().trim());
+                        object.addProperty("mobile", ed_number.getText().toString().trim());
 
-                    UtilsMethods.INSTANCE.addMember(getApplicationContext(), object, parent, loader);
-                } else {
-                    UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                        UtilsMethods.INSTANCE.addMember(getApplicationContext(), object, parent, loader);
+                    } else {
+                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                    }
                 }
                 break;
         }
@@ -110,6 +115,21 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
                 }
             }, 1000);
         }
+    }
+
+    public boolean isValid() {
+
+        if (ed_name.getText().toString().equalsIgnoreCase("")) {
+            UtilsMethods.INSTANCE.snackBar("Name cannot be blank!", parent);
+            return false;
+        }
+
+        if (ed_number.getText().toString().length() != 10) {
+            UtilsMethods.INSTANCE.snackBar("Please enter valid Mobile Number!", parent);
+            return false;
+        }
+
+        return true;
     }
 
 }

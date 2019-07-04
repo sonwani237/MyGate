@@ -1,169 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/parent"
     tools:context=".dashboard.fragment.FragmentOnce">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/opensans_semibold"
-        android:padding="@dimen/_10sdp"
-        android:text="Select Date"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp" />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:id="@+id/oncedatepicker"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textview_borders"
-        android:drawableEnd="@drawable/downarrow"
-        android:fontFamily="@font/opensans_semibold"
-        android:paddingLeft="@dimen/_20sdp"
-        android:paddingRight="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_10sdp"
-        android:text="For 30 days"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/_13sdp" />
-
-
-    <!--for date-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp">
+        android:orientation="vertical">
 
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:fontFamily="@font/opensans_semibold"
+            android:padding="@dimen/_10sdp"
+            android:text="Select Date"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/oncedatepicker"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_borders"
+            android:drawableEnd="@drawable/downarrow"
+            android:fontFamily="@font/opensans_semibold"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:text="Today"
+            android:layout_marginRight="@dimen/_13sdp"
+            android:layout_marginLeft="@dimen/_13sdp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_13sdp" />
+
+        <LinearLayout
+            android:id="@+id/linlayname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/_5sdp">
+            android:visibility="gone">
 
-
-            <TextView
+            <EditText
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_semibold"
-                android:padding="@dimen/_10sdp"
-                android:text="Start Time"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:background="@drawable/textview_borders"
-                android:drawableEnd="@drawable/downarrow"
                 android:fontFamily="@font/opensans_semibold"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp"
+                android:hint="Name"
+                android:inputType="textCapSentences|textCapWords"
+                android:paddingStart="@dimen/_20sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="Select"
-                android:id="@+id/oncetimepicker1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_13sdp" />
 
+            <EditText
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/textview_borders"
+                android:fontFamily="@font/opensans_semibold"
+                android:hint="Mobile"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_13sdp" />
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/_5sdp">
+            android:id="@+id/time_layout"
+            android:orientation="vertical">
 
+            <!--for date-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginRight="@dimen/_13sdp"
+                android:layout_marginLeft="@dimen/_13sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Start Time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textview_borders"
+                        android:drawableEnd="@drawable/downarrow"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="Select"
+                        android:id="@+id/oncetimepicker1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="End Time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textview_borders"
+                        android:drawableEnd="@drawable/downarrow"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="Select"
+                        android:id="@+id/oncetimepicker2"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_semibold"
                 android:padding="@dimen/_10sdp"
-                android:text="End Time"
+                android:text="Remarks"
+                android:id="@+id/tRemark"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_13sdp"/>
 
-
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/textview_borders"
-                android:drawableEnd="@drawable/downarrow"
-                android:fontFamily="@font/opensans_semibold"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp"
+                android:hint="Your Remarks Here ......"
+                android:paddingStart="@dimen/_20sdp"
                 android:paddingTop="@dimen/_10sdp"
+                android:inputType="textCapSentences|textCapWords"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="Select"
-                android:id="@+id/oncetimepicker2"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_13sdp" />
+                android:layout_marginRight="@dimen/_10sdp"
+                android:id="@+id/etremarks_once"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/opensans_semibold"
+                android:textSize="@dimen/_13sdp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/submit"
         android:fontFamily="@font/opensans_semibold"
-        android:padding="@dimen/_10sdp"
-        android:text="Remarks"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp"/>
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnsubmitOnce"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textview_borders"
-        android:hint="Your Remarks Here ......"
-        android:padding="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:id="@+id/etremarks_once"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:fontFamily="@font/opensans_regular"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp"/>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Done"
-            android:fontFamily="@font/opensans_semibold"
-            android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/btnsubmitOnce"/>
-
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

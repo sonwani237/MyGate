@@ -1,12 +1,15 @@
 package com.troology.mygate.add_flat.ui;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -61,6 +64,9 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
     String country_id = "", state_id = "", city_id = "",  apartment_id = "", flat_id = "", flat_no = "";
     UserDetails userDetails;
+    CheckBox owner;
+    String own = "1";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.add_flat);
+        toolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
 
         userDetails = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class);
@@ -88,9 +95,11 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         iv_addflat.setAlpha(100);
 
         submit = findViewById(R.id.submit);
+        owner = findViewById(R.id.owner);
 
         getCountry();
         submit.setOnClickListener(this);
+        owner.setOnClickListener(this);
     }
 
     private void getCountry() {
@@ -178,6 +187,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         apartment.setVisibility(View.GONE);
         flatNo.setVisibility(View.GONE);
         submit.setVisibility(View.GONE);
+        owner.setVisibility(View.GONE);
         if (state_list != null && state_list.size() > 0) {
             state.setVisibility(View.VISIBLE);
             stateList.add("Select State");
@@ -227,6 +237,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         city.setVisibility(View.GONE);
         apartment.setVisibility(View.GONE);
         submit.setVisibility(View.GONE);
+        owner.setVisibility(View.GONE);
         flatNo.setVisibility(View.GONE);
         flatNo.setVisibility(View.GONE);
         if (city_list != null && city_list.size() > 0) {
@@ -278,6 +289,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         apartment.setVisibility(View.GONE);
         flatNo.setVisibility(View.GONE);
         submit.setVisibility(View.GONE);
+        owner.setVisibility(View.GONE);
         if (apartment_list != null && apartment_list.size() > 0) {
             apartment.setVisibility(View.VISIBLE);
             apartmentList.add("Select Apartment");
@@ -327,6 +339,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         flatList = new ArrayList<>();
         flatNo.setVisibility(View.GONE);
         submit.setVisibility(View.GONE);
+        owner.setVisibility(View.GONE);
         if (flat_list != null && flat_list.size() > 0) {
             flatNo.setVisibility(View.VISIBLE);
             flatList.add("Select Flat");
@@ -345,6 +358,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                     flat_id = flat_list.get(position - 1).getFlat_id();
                     flat_no = flat_list.get(position - 1).getFlat_no();
                     submit.setVisibility(View.VISIBLE);
+                    owner.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -377,9 +391,9 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
             case R.id.submit:
                 if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
-                    loader.show();
-                    loader.setCancelable(false);
-                    loader.setCanceledOnTouchOutside(false);
+//                    loader.show();
+//                    loader.setCancelable(false);
+//                    loader.setCanceledOnTouchOutside(false);
 
                     JsonObject object = new JsonObject();
                     object.addProperty("token", userDetails.getToken());
@@ -390,10 +404,21 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                     object.addProperty("city_id", city_id);
                     object.addProperty("state_id", state_id);
                     object.addProperty("country_id", country_id);
+                    object.addProperty("isOwner", own);
+                    Log.e("Req "," >>> "+new Gson().toJson(object));
 
-                    UtilsMethods.INSTANCE.AddFlat(getApplicationContext(), object, parent, loader);
+//                    UtilsMethods.INSTANCE.AddFlat(getApplicationContext(), object, parent, loader);
                 } else {
                     UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                }
+                break;
+            case R.id.owner:
+                if (owner.isChecked()){
+                    own = "2";
+                    owner.setChecked(false);
+                }else {
+                    own = "1";
+                    owner.setChecked(true);
                 }
                 break;
         }

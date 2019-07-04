@@ -62,7 +62,7 @@ public interface EndPointInterface {
     Call<ResidentsResponse> getResidents(@Header("Content-Type") String content,
                                          @Body JsonObject jsonObject);
 
-    @POST("/api/get_meetingdetails_foruser")
+    @POST("/api/user_activity_listing")
     Call<ResidentsResponse> getRequest(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 
@@ -74,7 +74,7 @@ public interface EndPointInterface {
     Call<ResidentsResponse> AddRequest(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 
-    @POST("/api/actionOn_meeting ")
+    @POST("api/approve_request")
     Call<ResidentsResponse> RequestAction(@Header("Content-Type") String content,
                                        @Body JsonObject jsonObject);
 

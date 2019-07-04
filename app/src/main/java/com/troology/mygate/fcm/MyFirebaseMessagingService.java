@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.dashboard.ui.Dashboard;
+import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.UtilsMethods;
@@ -53,20 +54,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         tag = remoteMessage.getData().get("body");
-        UserMeetings model = new Gson().fromJson(remoteMessage.getData().get("body"), UserMeetings.class);
-        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")
-                +" -- "+ remoteMessage.getData().get("body")+" -- "+ remoteMessage.getData().get("body"));
+        NotificationModel model = new Gson().fromJson(remoteMessage.getData().get("body"), NotificationModel.class);
+        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")+ remoteMessage.getData().get("body"));
 
         if (remoteMessage.getData() != null) {
-            if (model.getRequest_id()!=null && model.getStatus().equalsIgnoreCase("0")){
+            if (model.getRecordId()!=null && model.getStatus()== 1){
                 Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
                 broadcastIntent.putExtra("request", tag);
                 sendBroadcast(broadcastIntent);
-                methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate for, "+model.getRemarks());
-            }else  if (model.getRequest_id()!=null && model.getStatus().equalsIgnoreCase("5")){
-                methodNotify(remoteMessage.getData().get("title"), model.getName()+" has entered the apartment.");
-            }else  if (model.getRequest_id()!=null && model.getStatus().equalsIgnoreCase("2")){
-                methodNotify(remoteMessage.getData().get("title"), model.getName()+" has exit the apartment.");
+                methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate, for "+model.getRemarks());
+            }else  if (model.getStatus()!=null && model.getStatus()== 3){
+                if (model.getMemberType().equalsIgnoreCase("Delivery")){
+                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy has entered the apartment.");
+                }else {
+                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has entered the apartment.");
+                }
+            }else  if (model.getStatus()!=null && model.getStatus()== 2){
+                if (model.getMemberType().equalsIgnoreCase("Delivery")){
+                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy exit the apartment.");
+                }else {
+                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has exit the apartment.");
+                }
+
             }
         } else {
             Log.e(TAG, "FCM Notification failed");

@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.login_reg.model.UserDetails;
+import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
@@ -27,7 +28,7 @@ import com.troology.mygate.utils.UtilsMethods;
 public class NotificationActivity extends AppCompatActivity implements View.OnClickListener {
 
     String request = "";
-    UserMeetings model;
+    NotificationModel model;
     TextView name, remark;
     ImageView cancel, approve;
     Loader loader;
@@ -45,7 +46,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
 
         request = getIntent().getStringExtra("request");
         Log.e("onCreate "," >>> "+request);
-        model = new Gson().fromJson(request, UserMeetings.class);
+        model = new Gson().fromJson(request, NotificationModel.class);
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);
 
         name = findViewById(R.id.name);
@@ -88,15 +89,15 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
             loader.setCanceledOnTouchOutside(false);
 
             JsonObject object = new JsonObject();
-            object.addProperty("status", model.getStatus());
-            object.addProperty("request_id", model.getRequest_id());
-            object.addProperty("apartment_id", model.getApartment_id());
-            object.addProperty("flat_id", model.getFlat_id());
             object.addProperty("token", UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+            object.addProperty("ref_id", model.getRecordId());
+            object.addProperty("activity", "1");
+            object.addProperty("request_by", "1");
+
             if (i == 1) {
-                object.addProperty("action", "1");
+                object.addProperty("approval", "1");
             } else {
-                object.addProperty("action", "3");
+                object.addProperty("approval", "2");
             }
 
             UtilsMethods.INSTANCE.RequestAction(this, object, parent, loader);

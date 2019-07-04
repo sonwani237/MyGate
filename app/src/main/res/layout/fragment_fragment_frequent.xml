@@ -1,166 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:id="@+id/parent"
     tools:context=".dashboard.fragment.FragmentOnce">
 
     <!-- TODO: Update blank fragment layout -->
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/opensans_semibold"
-        android:padding="@dimen/_10sdp"
-        android:text="Select Validity"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp" />
-
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textview_borders"
-        android:drawableEnd="@drawable/downarrow"
-        android:fontFamily="@font/opensans_semibold"
-        android:paddingLeft="@dimen/_20sdp"
-        android:paddingRight="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_10sdp"
-        android:text="For 30 days"
-        android:popupBackground="@color/splashColor"
-        android:id="@+id/tvselectvalidity"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/_13sdp" />
-
-
-    <!--for date-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp">
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:fontFamily="@font/opensans_semibold"
+            android:padding="@dimen/_10sdp"
+            android:text="Select Validity"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp" />
+
+        <Spinner
+            android:id="@+id/tvselectvalidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/textview_borders"
+            android:drawableEnd="@drawable/downarrow"
+            android:fontFamily="@font/opensans_semibold"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:popupBackground="@color/splashColor"
+            android:text="For 30 days"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_13sdp" />
+
+        <!--for date-->
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/linlayname"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
-            android:id="@+id/linlayname">
+            android:visibility="gone">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_borders"
-            android:hint="Name"
-            android:padding="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:fontFamily="@font/opensans_regular"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_13sdp"
-            android:id="@+id/namefrequent"
-            android:layout_marginTop="@dimen/_10sdp"/>
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_borders"
-            android:hint="Mobile"
-            android:padding="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:fontFamily="@font/opensans_regular"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_13sdp"
-            android:id="@+id/mobilefrequent"/>
-
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/_5sdp"
-            android:id="@+id/linlaytime1"
-            android:visibility="visible">
-
-
-            <TextView
+            <EditText
+                android:id="@+id/namefrequent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/opensans_semibold"
-                android:padding="@dimen/_10sdp"
-                android:text="Start Time"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:background="@drawable/textview_borders"
-                android:drawableEnd="@drawable/downarrow"
                 android:fontFamily="@font/opensans_semibold"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp"
+                android:hint="Name"
+                android:paddingStart="@dimen/_20sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="Select"
-                android:id="@+id/starttime_frequent"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_13sdp" />
 
+            <EditText
+                android:id="@+id/mobilefrequent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/textview_borders"
+                android:fontFamily="@font/opensans_semibold"
+                android:hint="Mobile"
+                android:inputType="number"
+                android:maxLength="10"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_13sdp" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/_5sdp"
-            android:id="@+id/linlay2"
-            android:visibility="visible">
+            android:id="@+id/time_layout"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/linlaytime1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:visibility="visible">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Start Time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp" />
+
+
+                    <TextView
+                        android:id="@+id/starttime_frequent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textview_borders"
+                        android:drawableEnd="@drawable/downarrow"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="Select"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sdp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linlay2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:padding="@dimen/_10sdp"
+                        android:text="End Time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp" />
+
+
+                    <TextView
+                        android:id="@+id/endtimefrequent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textview_borders"
+                        android:drawableEnd="@drawable/downarrow"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:text="Select"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:fontFamily="@font/opensans_semibold"
                 android:padding="@dimen/_10sdp"
-                android:text="End Time"
+                android:text="Remarks"
+                android:id="@+id/tRemark"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp" />
 
-
-            <TextView
+            <EditText
+                android:id="@+id/etRemarks_frequent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:background="@drawable/textview_borders"
-                android:drawableEnd="@drawable/downarrow"
                 android:fontFamily="@font/opensans_semibold"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp"
+                android:hint="Your Remarks Here ......"
+                android:paddingStart="@dimen/_20sdp"
                 android:paddingTop="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
-                android:text="Select"
-                android:id="@+id/endtimefrequent"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_13sdp" />
 
@@ -169,47 +210,19 @@
     </LinearLayout>
 
 
-    <TextView
+
+    <Button
+        android:id="@+id/btnsubmitFrequent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:background="@color/colorPrimary"
         android:fontFamily="@font/opensans_semibold"
-        android:padding="@dimen/_10sdp"
-        android:text="Remarks"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textview_borders"
-        android:hint="Your Remarks Here ......"
-        android:padding="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:fontFamily="@font/opensans_regular"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp"
-        android:id="@+id/etRemarks_frequent"/>
+        android:text="@string/submit"
+        android:textColor="@color/white" />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Done"
-            android:fontFamily="@font/opensans_semibold"
-            android:textColor="@color/white"
-            android:id="@+id/btnsubmitFrequent"
-            android:layout_alignParentBottom="true"/>
 
 
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

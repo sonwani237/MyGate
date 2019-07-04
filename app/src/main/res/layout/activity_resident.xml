@@ -9,7 +9,7 @@
     tools:context=".dashboard.ui.ResidentActivity">
 
     <include
-        layout="@layout/toolbar"
+        layout="@layout/tool_bar"
         android:id="@+id/toolbar"/>
 
     <android.support.v4.widget.SwipeRefreshLayout

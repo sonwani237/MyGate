@@ -24,7 +24,7 @@
         tools:targetApi="n">
         <activity
             android:name=".dashboard.ui.PopupActivity"
-            android:theme="@style/Theme.Transparent"></activity>
+            android:theme="@style/Theme.Transparent"/>
         <activity
             android:name=".splash.ui.SplashActivity"
             android:screenOrientation="portrait"
@@ -93,6 +93,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".dashboard.ui.CreateRequest"
+            android:theme="@style/Theme.Transparent"
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -105,7 +106,8 @@
             android:name=".dashboard.ui.AddMember"
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.Transparent"/>
         <activity
             android:name=".login_reg.ui.LoginWithPhone"
             android:screenOrientation="portrait"
@@ -126,7 +128,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
