@@ -7,11 +7,10 @@
     android:id="@+id/parent"
     tools:context=".dashboard.fragment.FragmentOnce">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="vertical">
 
         <TextView
@@ -209,8 +208,6 @@
 
     </LinearLayout>
 
-
-
     <Button
         android:id="@+id/btnsubmitFrequent"
         android:layout_width="match_parent"
@@ -221,8 +218,5 @@
         android:fontFamily="@font/opensans_semibold"
         android:text="@string/submit"
         android:textColor="@color/white" />
-
-
-
 
 </RelativeLayout>

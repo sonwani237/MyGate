@@ -56,16 +56,12 @@ public class QrCodeActivity extends AppCompatActivity {
     private void initView() {
         Intent intent = getIntent();
         name = (String) intent.getExtras().get("name");
-        passcode = (String) intent.getExtras().get("passcode");
+        passcode = intent.getStringExtra("passcode").replace("#","");
         qr_code_img = findViewById(R.id.qr_code_img);
+        tvName.setText(name);
+        tvCode.setText("#"+passcode);
 
-        tvName.setText("Name : " + name);
-        tvCode.setText("Passcode : " + passcode);
-
-//        Toast.makeText(this, "" + passcode, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, "" + name, Toast.LENGTH_SHORT).show();
-
-        String text = passcode; // Whatever you need to encode in the QR code
+        String text = passcode.replace("#",""); // Whatever you need to encode in the QR code
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200);

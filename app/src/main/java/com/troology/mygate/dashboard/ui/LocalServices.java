@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
@@ -44,6 +45,7 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
     ServiceAdapter adapter;
     SwipeRefreshLayout swipe;
     LocalServices localServices;
+    LinearLayout no_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);
         parent = findViewById(R.id.parent);
         recycler = findViewById(R.id.recycler);
+        no_data = findViewById(R.id.no_data);
         swipe = findViewById(R.id.swipe);
         swipe.setOnRefreshListener(this);
         swipe.setColorSchemeResources(R.color.blue,
@@ -107,12 +110,19 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
             servicemenData = new Gson().fromJson(activityFragmentMessage.getFrom(), new TypeToken<List<ServicemenData>>(){}.getType());
             swipe.setRefreshing(false);
             if (servicemenData!=null && servicemenData.size()>0){
+
+                no_data.setVisibility(View.GONE);
+                recycler.setVisibility(View.VISIBLE);
+
                 layoutManager = new LinearLayoutManager(this);
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
                 recycler.setLayoutManager(layoutManager);
                 adapter = new ServiceAdapter(this, servicemenData);
                 recycler.setAdapter(adapter);
+            }else {
+                no_data.setVisibility(View.VISIBLE);
+                recycler.setVisibility(View.GONE);
             }
         }
     }

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
@@ -77,11 +76,12 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
 
                         JsonObject object = new JsonObject();
                         object.addProperty("flat_id", details.getFlat_id());
+                        object.addProperty("apartment_id", details.getApartment_id());
                         object.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
                         object.addProperty("name", ed_name.getText().toString().trim());
                         object.addProperty("mobile", ed_number.getText().toString().trim());
 
-                        UtilsMethods.INSTANCE.addMember(getApplicationContext(), object, parent, loader);
+                        UtilsMethods.INSTANCE.addMember(AddMember.this, object, parent, loader);
                     } else {
                         UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }

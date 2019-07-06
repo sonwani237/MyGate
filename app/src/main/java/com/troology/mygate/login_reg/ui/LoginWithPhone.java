@@ -81,7 +81,7 @@ public class LoginWithPhone extends AppCompatActivity implements View.OnClickLis
                         JsonObject object = new JsonObject();
                         object.addProperty("mobile", s.toString());
 
-                        UtilsMethods.INSTANCE.sendOTP(getApplicationContext(), object, rootFrame, loader);
+                        UtilsMethods.INSTANCE.sendOTP(LoginWithPhone.this, object, rootFrame, loader);
                     } else {
                         UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), rootFrame);
                     }

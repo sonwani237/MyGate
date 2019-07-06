@@ -32,7 +32,7 @@ public interface EndPointInterface {
 
     @POST("/api/get_servicerequest_details")
     Call<MemberListResponse> viewServiceMember(@Header("Content-Type") String content,
-                                        @Body JsonObject jsonObject);
+                                               @Body JsonObject jsonObject);
 
     @POST("/api/add_flat_member")
     Call<MemberListResponse> addMember(@Header("Content-Type") String content,
@@ -76,7 +76,7 @@ public interface EndPointInterface {
 
     @POST("api/approve_request")
     Call<ResidentsResponse> RequestAction(@Header("Content-Type") String content,
-                                       @Body JsonObject jsonObject);
+                                          @Body JsonObject jsonObject);
 
     @POST("/api/add_service_request")
     Call<ResidentsResponse> AddServiceRequest(@Header("Content-Type") String content,
@@ -92,6 +92,6 @@ public interface EndPointInterface {
 
     @POST("/api/add_activity")
     Call<ApartmentsResponse> AddActivity(@Header("Content-Type") String content,
-                                            @Body JsonObject jsonObject);
+                                         @Body JsonObject jsonObject);
 
 }

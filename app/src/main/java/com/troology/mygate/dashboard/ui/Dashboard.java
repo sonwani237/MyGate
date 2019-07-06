@@ -121,7 +121,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         logout.setOnClickListener(this);
 
         toolbar_flatno.setText(details.getFlat_no());
-        toolbar_flataddress.setText(details.getApartment_name());
+        toolbar_flataddress.setText(details.getApartment_name().toUpperCase());
         onClickimages();
     }
 

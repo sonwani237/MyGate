@@ -391,9 +391,9 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
             case R.id.submit:
                 if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
 
-//                    loader.show();
-//                    loader.setCancelable(false);
-//                    loader.setCanceledOnTouchOutside(false);
+                    loader.show();
+                    loader.setCancelable(false);
+                    loader.setCanceledOnTouchOutside(false);
 
                     JsonObject object = new JsonObject();
                     object.addProperty("token", userDetails.getToken());
@@ -404,21 +404,19 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                     object.addProperty("city_id", city_id);
                     object.addProperty("state_id", state_id);
                     object.addProperty("country_id", country_id);
-                    object.addProperty("isOwner", own);
-                    Log.e("Req "," >>> "+new Gson().toJson(object));
+                    object.addProperty("isowner", own);
+//                    Log.e("Req "," >>> "+new Gson().toJson(object));
 
-//                    UtilsMethods.INSTANCE.AddFlat(getApplicationContext(), object, parent, loader);
+                    UtilsMethods.INSTANCE.AddFlat(AddFlat.this, object, parent, loader);
                 } else {
                     UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                 }
                 break;
             case R.id.owner:
                 if (owner.isChecked()){
-                    own = "2";
-                    owner.setChecked(false);
-                }else {
                     own = "1";
-                    owner.setChecked(true);
+                }else {
+                    own = "0";
                 }
                 break;
         }

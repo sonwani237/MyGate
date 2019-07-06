@@ -47,6 +47,7 @@
     <string name="entry_time">Entry time</string>
     <string name="exit_time">Exit time</string>
     <string name="no_request_found">No request found.</string>
+    <string name="no_loc_service">No local service found.</string>
     <string name="once">Once</string>
     <string name="category_places">Frequent</string>
     <string name="time_error">Please select end time after start time.</string>

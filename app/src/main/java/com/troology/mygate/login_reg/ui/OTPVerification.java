@@ -56,7 +56,7 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
                 object.addProperty("otp", otp_code.getText().toString());
                 object.addProperty("fcm_token", fcm);
 
-                UtilsMethods.INSTANCE.verifyOTP(getApplicationContext(), object, parent, loader);
+                UtilsMethods.INSTANCE.verifyOTP(OTPVerification.this, object, parent, loader);
             } else {
                 UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
             }

@@ -66,16 +66,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }else  if (model.getStatus()!=null && model.getStatus()== 3){
                 if (model.getMemberType().equalsIgnoreCase("Delivery")){
                     methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy has entered the apartment.");
-                }else {
+                }if (model.getMemberType().equalsIgnoreCase("Guest")){
+                    methodNotify(remoteMessage.getData().get("title"), model.getName()+" has entered the apartment.");
+                }else if (model.getMemberType().equalsIgnoreCase("Cab")) {
                     methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has entered the apartment.");
                 }
             }else  if (model.getStatus()!=null && model.getStatus()== 2){
                 if (model.getMemberType().equalsIgnoreCase("Delivery")){
-                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy exit the apartment.");
-                }else {
-                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has exit the apartment.");
+                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy has exit from apartment.");
+                }else if (model.getMemberType().equalsIgnoreCase("Guest")){
+                    methodNotify(remoteMessage.getData().get("title"), model.getName()+" has exit from apartment.");
+                }else if (model.getMemberType().equalsIgnoreCase("Cab")) {
+                    methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has exit from apartment.");
                 }
-
             }
         } else {
             Log.e(TAG, "FCM Notification failed");

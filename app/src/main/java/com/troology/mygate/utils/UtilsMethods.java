@@ -29,6 +29,7 @@ import com.troology.mygate.login_reg.model.ApiResponse;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.login_reg.ui.OTPVerification;
 import com.troology.mygate.login_reg.ui.RegisterScreen;
+import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.splash.ui.SplashActivity;
 
 import java.sql.Timestamp;
@@ -181,14 +182,12 @@ public enum UtilsMethods {
 
                     Intent i = new Intent(context, OTPVerification.class);
                     i.putExtra("mobile", jsonObject.get("mobile").getAsString());
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
 
 //                    context.startActivity(new Intent(context, OTPVerification.class)
 //                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
                 } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
                     Intent i = new Intent(context, RegisterScreen.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("mobile", jsonObject.get("mobile").getAsString());
                     context.startActivity(i);
 
@@ -481,8 +480,17 @@ public enum UtilsMethods {
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
                     if (response.body().getData()!=null && response.body().getData().size() > 0){
+
+                        ArrayList<NotificationModel> models = new ArrayList<>();
+
+                        for (NotificationModel obj : response.body().getData()){
+                            if (!obj.getMemberType().equalsIgnoreCase("Family")){
+                                models.add(obj);
+                            }
+                        }
+
                         FragmentActivityMessage activityMessage =
-                                new FragmentActivityMessage("RequestList", new Gson().toJson(response.body().getData()));
+                                new FragmentActivityMessage("RequestList", new Gson().toJson(models));
                         GlobalBus.getBus().post(activityMessage);
                     }else {
                         FragmentActivityMessage activityMessage =

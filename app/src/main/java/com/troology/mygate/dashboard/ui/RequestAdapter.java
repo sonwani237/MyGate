@@ -2,6 +2,7 @@ package com.troology.mygate.dashboard.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -50,7 +51,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull RequestAdapter.MyViewHolder holder,  int position) {
+    public void onBindViewHolder(@NonNull final RequestAdapter.MyViewHolder holder,  int position) {
 
         if (!userMeetings.get(position).getMemberType().equalsIgnoreCase("Guest") ){
             holder.name.setText(""+userMeetings.get(position).getMemberType());
@@ -101,17 +102,17 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
         holder.time.setText(userMeetings.get(position).getTime());
 
-        if (userMeetings.get(position).getStatus()==1){
-            holder.passcode.setText("#"+userMeetings.get(position).getPasscode());//Hit sendRequest like method from this adapter when status  = 0
-        }else {
-            holder.passcode.setText("Click to Approve");
-           /* holder.rellayparent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sendRequest(position);
-                }
-            });*/
-        }
+        holder.passcode.setText("#"+userMeetings.get(position).getPasscode());//Hit sendRequest like method from this adapter when status  = 0
+
+        holder.rellayparent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,QrCodeActivity.class);
+                intent.putExtra("name", holder.name.getText().toString());
+                intent.putExtra("passcode", holder.passcode.getText().toString());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
