@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/rounded_white"
     android:layout_marginStart="@dimen/_5sdp"
-    android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_5sdp"
-    android:layout_marginBottom="@dimen/_5sdp"
     android:id="@+id/cvmemberList">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_5sdp">
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/user_img"
@@ -36,7 +34,7 @@
             android:hint="@string/add"
             android:singleLine="true"
             android:gravity="center"
-            android:layout_marginTop="@dimen/_10sdp" />
+            android:layout_marginTop="@dimen/_5sdp" />
 
         <TextView
             android:id="@+id/m_passcode"
@@ -56,7 +54,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="@dimen/_30sdp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -85,4 +83,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</RelativeLayout>

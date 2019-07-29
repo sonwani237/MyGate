@@ -1,11 +1,10 @@
 package com.troology.mygate.dashboard.ui;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.FragmentActivityMessage;
 import com.troology.mygate.utils.GlobalBus;
-import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,8 +45,8 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     LinearLayoutManager layoutManager;
     MemberListAdapter adapter;
     ServiceListAdapter serviceListAdapter;
-    ScrollView parent;
-    CardView cv_userdetails;
+    public static ScrollView parent;
+    RelativeLayout cv_userdetails;
     ImageView loc_services, family;
 
     @Override
@@ -59,6 +57,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     private void InItView(View view) {
         parent = view.findViewById(R.id.parent);
         name = view.findViewById(R.id.name);
@@ -72,13 +71,9 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
 
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
         if (details != null) {
-            name.setText(details.getUsername()+" (Me)");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    passcode.setText("#"+UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.userPassPerf, String.class));
-                }
-            }, 1500);
+            name.setText(details.getUsername() + " (Me)");
+            passcode.setText(details.getFlat_no() + ", " + details.getApartment_name() + ", " + details.getCity_name()
+                    + ", " + details.getState_name() + ", " + details.getCountry_name());
         }
 
         addMember.setOnClickListener(this);
@@ -113,7 +108,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         if (fragmentActivityMessage.getMessage().equalsIgnoreCase("MemberList")) {
             memberData = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<MemberData>>() {
             }.getType());
-            if (memberData!=null && memberData.size() > 0) {
+            if (memberData != null && memberData.size() > 0) {
                 family.setVisibility(View.GONE);
                 recycler.setVisibility(View.VISIBLE);
                 layoutManager = new LinearLayoutManager(getActivity());
@@ -121,7 +116,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
                 recycler.setLayoutManager(layoutManager);
                 adapter = new MemberListAdapter(memberData, getActivity());
                 recycler.setAdapter(adapter);
-            }else {
+            } else {
                 family.setVisibility(View.VISIBLE);
                 recycler.setVisibility(View.GONE);
             }
@@ -129,7 +124,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         if (fragmentActivityMessage.getMessage().equalsIgnoreCase("ServiceList")) {
             serviceRequestDetails = new Gson().fromJson(fragmentActivityMessage.getFrom(), new TypeToken<List<ServiceRequestDetails>>() {
             }.getType());
-            if (serviceRequestDetails!=null && serviceRequestDetails.size() > 0) {
+            if (serviceRequestDetails != null && serviceRequestDetails.size() > 0) {
                 loc_services.setVisibility(View.GONE);
                 service_recycler.setVisibility(View.VISIBLE);
                 layoutManager = new LinearLayoutManager(getActivity());
@@ -137,10 +132,13 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
                 service_recycler.setLayoutManager(layoutManager);
                 serviceListAdapter = new ServiceListAdapter(serviceRequestDetails, getActivity());
                 service_recycler.setAdapter(serviceListAdapter);
-            }else {
+            } else {
                 loc_services.setVisibility(View.VISIBLE);
                 service_recycler.setVisibility(View.GONE);
             }
+        }
+        if (fragmentActivityMessage.getMessage().equalsIgnoreCase("ServiceListUpdate")) {
+            getMemberData();
         }
     }
 
@@ -169,4 +167,5 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(getActivity(), UserProfile.class));
         }
     }
+
 }

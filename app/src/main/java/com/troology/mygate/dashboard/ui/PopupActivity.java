@@ -1,28 +1,17 @@
 package com.troology.mygate.dashboard.ui;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.fragment.FragmentFrequent;
 import com.troology.mygate.dashboard.fragment.FragmentOnce;
-import com.troology.mygate.utils.FragmentActivityMessage;
-import com.troology.mygate.utils.GlobalBus;
 import com.troology.mygate.utils.ViewPagerAdapter;
 
 public class PopupActivity extends AppCompatActivity {
@@ -52,13 +41,13 @@ public class PopupActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(this.getResources().getColor(R.color.colorPrimary));
-        if (Dashboard.type.equalsIgnoreCase("1")){
+        if (Dashboard.type.equalsIgnoreCase("1")) {
             Glide.with(this).load(getResources().getDrawable(R.drawable.car))
                     .into(ser_type);
-        }else if (Dashboard.type.equalsIgnoreCase("2")){
+        } else if (Dashboard.type.equalsIgnoreCase("2")) {
             Glide.with(this).load(getResources().getDrawable(R.drawable.motorbike))
                     .into(ser_type);
-        }else {
+        } else {
             Glide.with(this).load(getResources().getDrawable(R.drawable.guestt))
 //                    .centerCrop()
 //                    .apply(RequestOptions.circleCropTransform())

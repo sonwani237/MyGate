@@ -4,6 +4,7 @@ package com.troology.mygate.dashboard.fragment;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -37,8 +38,10 @@ import com.troology.mygate.utils.UtilsMethods;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +51,6 @@ public class FragmentOnce extends Fragment {
 
     TextView tv_date, tv_starttime, tv_endtime, tRemark;
     Button btn_submit;
-    int start_hrs;
     EditText et_remarks, name, mobile;
     ApartmentDetails details;
     String type;
@@ -136,9 +138,7 @@ public class FragmentOnce extends Fragment {
                         new TimePickerDialog.OnTimeSetListener() {
 
                             @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-                                start_hrs = hourOfDay;
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 start_time = hourOfDay + ":" + minute + ":00";
                                 tv_endtime.setText("Select");
                                 tv_starttime.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + start_time));
@@ -164,9 +164,8 @@ public class FragmentOnce extends Fragment {
                     mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
-                            if (start_hrs < selectedHour) {
-                                end_time = selectedHour + ":" + selectedMinute + ":00";
+                            end_time = selectedHour + ":" + selectedMinute + ":00";
+                            if (checkTimings(start_time, end_time)){
                                 tv_endtime.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + end_time));
                             } else {
                                 tv_endtime.setText("Select");
@@ -186,6 +185,7 @@ public class FragmentOnce extends Fragment {
 
                 if (isValid()){
                     if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
+                        btn_submit.setEnabled(false);
                         loader.show();
                         loader.setCancelable(false);
                         loader.setCanceledOnTouchOutside(false);
@@ -226,10 +226,32 @@ public class FragmentOnce extends Fragment {
                     } else {
                         UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_submit.setEnabled(true);
+                        }
+                    }, 1500);
                 }
             }
         });
 
+    }
+
+    private boolean checkTimings(String time, String endtime) {
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            Date date1 = sdf.parse(time);
+            Date date2 = sdf.parse(endtime);
+
+            return date1.before(date2);
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean isValid() {
@@ -268,7 +290,6 @@ public class FragmentOnce extends Fragment {
             }
 
         }
-
         return true;
     }
 

@@ -44,7 +44,6 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
     LinearLayoutManager layoutManager;
     ServiceAdapter adapter;
     SwipeRefreshLayout swipe;
-    LocalServices localServices;
     LinearLayout no_data;
 
     @Override
@@ -148,10 +147,12 @@ public class LocalServices extends AppCompatActivity implements SwipeRefreshLayo
             @Override
             public boolean onQueryTextChange(String newText) {
                 ArrayList<ServicemenData> temp = new ArrayList();
-                for(ServicemenData d: servicemenData){
+                if (servicemenData!=null){
+                    for(ServicemenData d: servicemenData){
 
-                    if(d.getName().toLowerCase().contains(newText.toLowerCase())|| d.getService_type().toLowerCase().contains(newText.toLowerCase())){
-                        temp.add(d);
+                        if(d.getName().toLowerCase().contains(newText.toLowerCase())|| d.getService_type().toLowerCase().contains(newText.toLowerCase())){
+                            temp.add(d);
+                        }
                     }
                 }
                 adapter.updateList(temp);

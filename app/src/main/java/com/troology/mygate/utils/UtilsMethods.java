@@ -735,6 +735,10 @@ public enum UtilsMethods {
                     FragmentActivityMessage fragmentActivityMessage =
                             new FragmentActivityMessage("MemberList", new Gson().toJson(memberData));
                     GlobalBus.getBus().post(fragmentActivityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 404) {
+                    FragmentActivityMessage fragmentActivityMessage =
+                            new FragmentActivityMessage("MemberList", "");
+                    GlobalBus.getBus().post(fragmentActivityMessage);
                 }else if (response.body() != null && response.body().getStatus() == 500) {
                     snackBarLong(context, view);
                 }else {
@@ -842,7 +846,7 @@ public enum UtilsMethods {
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
 
-                    snackBar(response.body().getMsg(), view);
+//                    snackBar(response.body().getMsg(), view);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -928,6 +932,42 @@ public enum UtilsMethods {
                         }
                     }, 1000);
 
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
+                    snackBar(response.body().getMsg(), view);
+                }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResidentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("Signresponse", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+    public void RemoveServiceRequest(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<ResidentsResponse> call = pointInterface.RemoveServiceRequest(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ResidentsResponse>() {
+            @Override
+            public void onResponse(Call<ResidentsResponse> call, Response<ResidentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("AddFlat", "response : " + new Gson().toJson(response.body()));
+
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
+
+                    snackBar(response.body().getMsg(), view);
+                    FragmentActivityMessage activityMessage = new FragmentActivityMessage("ServiceListUpdate","");
+                    GlobalBus.getBus().post(activityMessage);
                 }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
                     snackBar(response.body().getMsg(), view);
                 }else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {

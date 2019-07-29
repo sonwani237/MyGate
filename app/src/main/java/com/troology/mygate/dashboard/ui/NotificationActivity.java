@@ -75,7 +75,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
                 sendRequest(1);
                 break;
             case R.id.cancel:
-                sendRequest(3);
+                sendRequest(2);
                 break;
         }
     }
@@ -93,12 +93,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
             object.addProperty("ref_id", model.getRecordId());
             object.addProperty("activity", "1");
             object.addProperty("request_by", "1");
-
-            if (i == 1) {
-                object.addProperty("approval", "1");
-            } else {
-                object.addProperty("approval", "2");
-            }
+            object.addProperty("approval", i);
 
             UtilsMethods.INSTANCE.RequestAction(this, object, parent, loader);
         } else {

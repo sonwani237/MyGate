@@ -70,6 +70,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
             case R.id.addMember:
                 if (isValid()){
                     if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
+                        addMember.setEnabled(false);
                         loader.show();
                         loader.setCancelable(false);
                         loader.setCanceledOnTouchOutside(false);
@@ -85,6 +86,12 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
                     } else {
                         UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addMember.setEnabled(true);
+                        }
+                    }, 1500);
                 }
                 break;
         }

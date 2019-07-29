@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troology.mygate.R;
@@ -29,7 +30,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView m_name, m_passcode;
         ImageView call,iv_share;
-        CardView cv_memberList;
+        RelativeLayout cv_memberList;
 
         public MyViewHolder(View view) {
             super(view);

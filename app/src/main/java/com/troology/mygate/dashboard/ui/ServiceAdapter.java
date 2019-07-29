@@ -26,8 +26,11 @@ import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder> implements View.OnClickListener {
 
@@ -36,6 +39,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     private TextView d_name, d_number, in_time, out_time;
     private Button submit;
     private String unique_id;
+    private String start_time = "", end_time = "", formattedDate = "";
 
     public ServiceAdapter(Context ctx, ArrayList<ServicemenData> apartment) {
         this.context = ctx;
@@ -58,7 +62,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
         holder.service_lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocalService(servicemenData.get(position).getName(), servicemenData.get(position).getMobile(), servicemenData.get(position).getId());
+                LocalService(servicemenData.get(position).getName(), servicemenData.get(position).getMobile(), servicemenData.get(position).getUnique_id());
             }
         });
     }
@@ -70,6 +74,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
         Dialog dialog = new Dialog(context, R.style.DialogSlideAnim);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogView);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        formattedDate = df.format(calendar.getTime());
 
         unique_id = id;
 
@@ -124,7 +132,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                     object.addProperty("apartment_id", details.getApartment_id());
                     object.addProperty("unique_id", unique_id);
                     object.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                    object.addProperty("name", "1");
                     object.addProperty("name", d_name.getText().toString());
                     object.addProperty("mobile", d_number.getText().toString());
                     object.addProperty("time_slot_in", in_time.getText().toString());
@@ -151,13 +158,36 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         if (i==1){
-                            in_time.setText(hourOfDay + ":" + minute);
+                            start_time = hourOfDay + ":" + minute + ":00";
+                            in_time.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + start_time).toUpperCase());
                         }else {
-                            out_time.setText(hourOfDay + ":" + minute);
+                            end_time = hourOfDay + ":" + minute + ":00";
+                            if(checkTimings(start_time, end_time)){
+                                out_time.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + end_time).toUpperCase());
+                            }else {
+                                out_time.setText("Select");
+                                UtilsMethods.INSTANCE.snackBar(context.getResources().getString(R.string.time_error), dialogView);
+                            }
                         }
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
+    }
+
+    private boolean checkTimings(String time, String endtime) {
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            Date date1 = sdf.parse(time);
+            Date date2 = sdf.parse(endtime);
+
+            return date1.before(date2);
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
