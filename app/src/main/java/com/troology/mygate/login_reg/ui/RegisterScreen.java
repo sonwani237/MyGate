@@ -45,7 +45,10 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
         submit = findViewById(R.id.submit);
 
         submit.setOnClickListener(this);
+
     }
+
+
 
     @Override
     public void onClick(View v) {

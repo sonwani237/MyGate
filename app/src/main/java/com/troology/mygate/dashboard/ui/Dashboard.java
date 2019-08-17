@@ -53,10 +53,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     RelativeLayout active, inactive;
     Button logout;
     Handler handler;
-    TextView toolbar_flatno,toolbar_flataddress;
+    TextView toolbar_flatno, toolbar_flataddress;
     private static long back_pressed;
     ApartmentDetails details;
-    ImageView iv_cab,iv_delivery,iv_guest;
+    ImageView iv_cab, iv_delivery, iv_guest;
     public static String type = "";
 
     @Override
@@ -159,6 +159,21 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             intent.putExtra("EXIT", true);
             startActivity(intent);
         }
+        if (v == iv_cab) {
+            type = "1";
+            Intent intent = new Intent(Dashboard.this, PopupActivity.class);
+            startActivity(intent);
+        }
+        if (v == iv_delivery) {
+            type = "2";
+            Intent intent = new Intent(Dashboard.this, PopupActivity.class);
+            startActivity(intent);
+        }
+        if (v == iv_guest) {
+            type = "3";
+            Intent intent = new Intent(Dashboard.this, PopupActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -183,7 +198,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 inactive.setVisibility(View.GONE);
                 handler.removeCallbacks(null);
                 handler.removeCallbacksAndMessages(null);
-            }else {
+            } else {
                 active.setVisibility(View.GONE);
                 inactive.setVisibility(View.VISIBLE);
             }
@@ -201,39 +216,17 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         back_pressed = System.currentTimeMillis();
     }
 
-    public void onClickimages(){
+    public void onClickimages() {
 
-        iv_cab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type = "1";
-                Intent intent = new Intent(Dashboard.this,PopupActivity.class);
-                startActivity(intent);
-
-            }
-        });
+        iv_cab.setOnClickListener(this);
 
         //==========================================================================================
 
-        iv_delivery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type = "2";
-                Intent intent = new Intent(Dashboard.this,PopupActivity.class);
-                startActivity(intent);
-            }
-        });
+        iv_delivery.setOnClickListener(this);
 
         //==========================================================================================
 
-        iv_guest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type = "3";
-                Intent intent = new Intent(Dashboard.this,PopupActivity.class);
-                startActivity(intent);
-            }
-        });
+        iv_guest.setOnClickListener(this);
 
     }
 

@@ -1,6 +1,5 @@
 package com.troology.mygate.dashboard.ui;
 
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,8 +49,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     ImageView loc_services, family;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         InItView(view);
         return view;

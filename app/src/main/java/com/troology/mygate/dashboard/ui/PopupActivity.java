@@ -14,7 +14,7 @@ import com.troology.mygate.dashboard.fragment.FragmentFrequent;
 import com.troology.mygate.dashboard.fragment.FragmentOnce;
 import com.troology.mygate.utils.ViewPagerAdapter;
 
-public class PopupActivity extends AppCompatActivity {
+public class PopupActivity extends AppCompatActivity implements View.OnClickListener {
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -54,14 +54,14 @@ public class PopupActivity extends AppCompatActivity {
                     .into(ser_type);
         }
 
-        iv_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        iv_close.setOnClickListener(this);
 
     }
 
-
+    @Override
+    public void onClick(View v) {
+        if (v == iv_close){
+            finish();
+        }
+    }
 }
