@@ -138,4 +138,10 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             startActivity(intent, options.toBundle());
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
 }

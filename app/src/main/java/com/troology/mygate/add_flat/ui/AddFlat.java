@@ -1,5 +1,6 @@
 package com.troology.mygate.add_flat.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.troology.mygate.add_flat.model.CountryList;
 import com.troology.mygate.add_flat.model.FlatList;
 import com.troology.mygate.add_flat.model.LocationList;
 import com.troology.mygate.login_reg.model.UserDetails;
+import com.troology.mygate.login_reg.ui.LoginScreen;
+import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ActivityActivityMessage;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.GlobalBus;
@@ -41,14 +44,14 @@ import java.util.List;
 
 public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
-    Spinner country, state, city, apartment, flatNo;
+    Spinner officeType, country, state, city, apartment, flatNo;
     Button submit;
     Loader loader;
     RelativeLayout parent;
-    ImageView iv_addflat;
+    ImageView iv_addflat, iv_logout;
 
     ArrayList<CountryList> country_list = new ArrayList<>();
-    ArrayList<String> countryList = new ArrayList<>();
+    ArrayList<String> countryList;
 
     ArrayList<LocationList> state_list = new ArrayList<>();
     ArrayList<String> stateList;
@@ -62,10 +65,13 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
     ArrayList<FlatList> flat_list = new ArrayList<>();
     ArrayList<String> flatList;
 
-    String country_id = "", state_id = "", city_id = "",  apartment_id = "", flat_id = "", flat_no = "";
+    String country_id = "", state_id = "", city_id = "", apartment_id = "", flat_id = "", flat_no = "";
     UserDetails userDetails;
     CheckBox owner;
     String own = "1";
+    int type;
+    String addType = "Select Office";
+    String selectFlat = "Select flat";
 
 
     @Override
@@ -80,6 +86,8 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
         userDetails = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class);
         InItView();
+
+
     }
 
     private void InItView() {
@@ -87,20 +95,64 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         loader = new Loader(this, android.R.style.Theme_Translucent_NoTitleBar);
         parent = findViewById(R.id.parent);
         country = findViewById(R.id.country);
+        officeType = findViewById(R.id.officeType);
         state = findViewById(R.id.state);
         city = findViewById(R.id.city);
         apartment = findViewById(R.id.apartment);
         flatNo = findViewById(R.id.flatNo);
+        iv_logout = findViewById(R.id.iv_logout);
         iv_addflat = findViewById(R.id.ivaddflat);
         iv_addflat.setAlpha(100);
 
         submit = findViewById(R.id.submit);
         owner = findViewById(R.id.owner);
 
-        getCountry();
+//        getCountry();
         submit.setOnClickListener(this);
         owner.setOnClickListener(this);
+        iv_logout.setOnClickListener(this);
+
+
+        getType();
+
     }
+
+    private void getType() {
+        List<String> categories = new ArrayList<String>();
+        categories.add("Select Type");
+        categories.add("Office");
+        categories.add("Resident");
+
+        officeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (!parent.getItemAtPosition(position).toString().equals("Select Type")) {
+                    country.setVisibility(View.VISIBLE);
+                    getCountry();
+                    if (parent.getItemAtPosition(position).toString().equals("Office")) {
+                        type = 2;
+                        addType = "Select Office";
+                        selectFlat = "Select Branch";
+                    } else {
+                        type = 1;
+                        addType = "Select Apartment";
+                        selectFlat = "Select Flat";
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        officeType.setAdapter(dataAdapter);
+    }
+
 
     private void getCountry() {
         if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
@@ -120,6 +172,8 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
     @Subscribe
     public void onActivityActivityMessage(ActivityActivityMessage activityFragmentMessage) {
+
+
         if (activityFragmentMessage.getMessage().equalsIgnoreCase("CountryList")) {
             LoadCountryData(activityFragmentMessage.getFrom());
         }
@@ -140,6 +194,14 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
     private void LoadCountryData(String from) {
         country_list = new Gson().fromJson(from, new TypeToken<List<CountryList>>() {
         }.getType());
+        countryList = new ArrayList<>();
+        state.setVisibility(View.GONE);
+        city.setVisibility(View.GONE);
+        apartment.setVisibility(View.GONE);
+        flatNo.setVisibility(View.GONE);
+        submit.setVisibility(View.GONE);
+        owner.setVisibility(View.GONE);
+
         if (country_list != null && country_list.size() > 0) {
             countryList.add("Select Country");
             for (int i = 0; i < country_list.size(); i++) {
@@ -246,7 +308,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
             for (int i = 0; i < city_list.size(); i++) {
                 cityList.add(city_list.get(i).getName());
             }
-        }else {
+        } else {
             cityList.clear();
             city.setVisibility(View.GONE);
         }
@@ -265,6 +327,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                         JsonObject object = new JsonObject();
                         object.addProperty("city_id", city_list.get(position - 1).getId());
                         object.addProperty("token", userDetails.getToken());
+                        object.addProperty("type", type);
 
                         UtilsMethods.INSTANCE.getApartment(getApplicationContext(), object, parent, loader);
                     } else {
@@ -292,7 +355,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         owner.setVisibility(View.GONE);
         if (apartment_list != null && apartment_list.size() > 0) {
             apartment.setVisibility(View.VISIBLE);
-            apartmentList.add("Select Apartment");
+            apartmentList.add(addType);
             for (int i = 0; i < apartment_list.size(); i++) {
                 apartmentList.add(apartment_list.get(i).getApartment_no());
             }
@@ -304,7 +367,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         apartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).toString().equals("Select Apartment")) {
+                if (!parent.getItemAtPosition(position).toString().equals(addType)) {
                     apartment_id = apartment_list.get(position - 1).getApartment_id();
 
                     if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
@@ -342,7 +405,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         owner.setVisibility(View.GONE);
         if (flat_list != null && flat_list.size() > 0) {
             flatNo.setVisibility(View.VISIBLE);
-            flatList.add("Select Flat");
+            flatList.add(selectFlat);
             for (int i = 0; i < flat_list.size(); i++) {
                 flatList.add(flat_list.get(i).getFlat_no());
             }
@@ -354,11 +417,16 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         flatNo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).toString().equals("Select Flat")) {
+                if (!parent.getItemAtPosition(position).toString().equals(selectFlat)) {
                     flat_id = flat_list.get(position - 1).getFlat_id();
                     flat_no = flat_list.get(position - 1).getFlat_no();
                     submit.setVisibility(View.VISIBLE);
-                    owner.setVisibility(View.VISIBLE);
+                    if (type == 2){
+                        owner.setVisibility(View.GONE);
+                    }
+                    else {
+                        owner.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -413,12 +481,19 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.owner:
-                if (owner.isChecked()){
+                if (owner.isChecked()) {
                     own = "1";
-                }else {
+                } else {
                     own = "0";
                 }
                 break;
+
+            case R.id.iv_logout:
+                UtilsMethods.INSTANCE.save(this, ApplicationConstant.INSTANCE.userToken, "");
+                Intent intent = new Intent(AddFlat.this, SplashActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
         }
     }
 

@@ -32,11 +32,16 @@ import com.troology.mygate.login_reg.ui.RegisterScreen;
 import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.splash.ui.SplashActivity;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -670,15 +675,26 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-//                Log.e("ApartmentsDetail", "error " + t.getMessage());
                 snackBar(context.getResources().getString(R.string.error), view);
             }
         });
     }
 
-    public void addMember(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+    public void addMember(final Context context, final String path,final String flatid,final String apartment_id,
+                          final String token,final String name,final String mobile_no, final View view, final Loader loader) {
+
+        File file = new File(path);
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), fileReqBody);
+
+        RequestBody flatId = RequestBody.create(MediaType.parse("text/plain"), flatid);
+        RequestBody apartmentId = RequestBody.create(MediaType.parse("text/plain"), apartment_id);
+        RequestBody Token = RequestBody.create(MediaType.parse("text/plain"), token);
+        RequestBody Name = RequestBody.create(MediaType.parse("text/plain"), name);
+        RequestBody mobileNo = RequestBody.create(MediaType.parse("text/plain"), mobile_no);
+
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
-        Call<MemberListResponse> call = pointInterface.addMember(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        Call<MemberListResponse> call = pointInterface.addMember(part, flatId, apartmentId, Token, Name, mobileNo);
         call.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
@@ -699,7 +715,6 @@ public enum UtilsMethods {
                 }else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
-
             }
 
             @Override

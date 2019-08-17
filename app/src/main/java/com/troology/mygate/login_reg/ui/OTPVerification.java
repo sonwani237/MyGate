@@ -36,7 +36,6 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
         parent = findViewById(R.id.parent);
         otp_code = findViewById(R.id.otp_code);
         verify = findViewById(R.id.verify);
-
         verify.setOnClickListener(this);
     }
 

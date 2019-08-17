@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/inactive"
-    android:visibility="gone"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:visibility="gone">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_view"
@@ -13,30 +13,30 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_fileName="home.json"/>
+        app:lottie_fileName="home.json"
+        app:lottie_loop="true" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/flat_approval"
-        android:fontFamily="@font/opensans_regular"
-        android:textColor="@color/white"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:textSize="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_50sdp"/>
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:fontFamily="@font/opensans_regular"
+        android:gravity="center"
+        android:text="@string/flat_approval"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20sdp" />
 
     <Button
+        android:id="@+id/logout"
+        style="@android:style/Widget.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/_12sdp"
-        android:text="@string/logout"
-        android:textColor="@color/white"
-        style="@android:style/Widget.Button.Small"
         android:background="@drawable/rac_background"
         android:fontFamily="@font/opensans_semibold"
-        android:id="@+id/logout"/>
+        android:text="@string/logout"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

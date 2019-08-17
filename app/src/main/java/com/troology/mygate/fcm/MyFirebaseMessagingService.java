@@ -48,9 +48,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getData() != null) {
             if (model.getRecordId()!=null && model.getStatus()== 1){
-                Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
-                broadcastIntent.putExtra("request", tag);
-                sendBroadcast(broadcastIntent);
+//                Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+//                broadcastIntent.putExtra("request", tag);
+//                sendBroadcast(broadcastIntent);
                 methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate, for "+model.getRemarks());
             }else  if (model.getStatus()!=null && model.getStatus()== 3){
                 if (model.getMemberType().equalsIgnoreCase("Delivery")){

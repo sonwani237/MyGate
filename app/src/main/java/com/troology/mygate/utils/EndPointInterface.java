@@ -7,10 +7,14 @@ import com.troology.mygate.dashboard.model.ResidentsResponse;
 import com.troology.mygate.login_reg.model.ApartmentsResponse;
 import com.troology.mygate.login_reg.model.ApiResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface EndPointInterface {
 
@@ -34,9 +38,14 @@ public interface EndPointInterface {
     Call<MemberListResponse> viewServiceMember(@Header("Content-Type") String content,
                                                @Body JsonObject jsonObject);
 
+    @Multipart
     @POST("/api/add_flat_member")
-    Call<MemberListResponse> addMember(@Header("Content-Type") String content,
-                                       @Body JsonObject jsonObject);
+    Call<MemberListResponse> addMember(@Part MultipartBody.Part file,
+                                       @Part ("flat_id") RequestBody flat_id,
+                                       @Part ("apartment_id") RequestBody apartment_id,
+                                       @Part ("token") RequestBody token,
+                                       @Part ("name") RequestBody name,
+                                       @Part ("mobile") RequestBody mobile);
 
     @POST("/api/get_city")
     Call<AddFlatResponse> getCity(@Header("Content-Type") String content,
