@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rellay_profile"
     tools:context=".dashboard.ui.UserProfile">
 
     <ImageView
@@ -35,15 +36,20 @@
             android:background="@color/lightblue"
             android:gravity="center">
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_40sdp"
+                android:id="@+id/pbProfile"
+                android:visibility="gone"/>
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_120sdp"
-                android:src="@drawable/demoimage"
+                android:src="@drawable/uploadimage"
                 app:civ_border_color="@color/colorPrimaryDark"
                 app:civ_border_width="@dimen/_5sdp"
                 android:id="@+id/propic"/>
-
-
 
         </RelativeLayout>
 

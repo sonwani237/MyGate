@@ -48,7 +48,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
     ApartmentDetails details;
     int requestCode = 100;
     private File output = null;
-    private static final int CONTENT_REQUEST = 1337;
+    private int CONTENT_REQUEST = 1337;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,6 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
         ed_number = findViewById(R.id.ed_number);
         addMember = findViewById(R.id.addMember);
         parent = findViewById(R.id.parent);
-
         img.setOnClickListener(this);
         addMember.setOnClickListener(this);
         img.setOnClickListener(this);
@@ -83,7 +82,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // Permission is not granted so ask for permissions
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestCode);
                 }
@@ -103,14 +102,6 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
                         loader.setCancelable(false);
                         loader.setCanceledOnTouchOutside(false);
 
-                       /* JsonObject object = new JsonObject();
-                        object.addProperty("flat_id", details.getFlat_id());
-                        object.addProperty("apartment_id", details.getApartment_id());
-                        object.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                        object.addProperty("name", ed_name.getText().toString().trim());
-                        object.addProperty("mobile", ed_number.getText().toString().trim());*/
-
-//                        UtilsMethods.INSTANCE.addMember(AddMember.this, object, parent, loader);
                         String token = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken();
                         UtilsMethods.INSTANCE.addMember(AddMember.this, output.getPath(),
                                 details.getFlat_id(), details.getApartment_id(), token, ed_name.getText().toString().trim(),
@@ -177,11 +168,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
 
             if (resultCode == RESULT_OK) {
                 Uri imageUri;
-
                 imageUri = Uri.fromFile(output);
-//                intent.putExtra("imageUri", imageUri.toString());
-//                startActivity(intent);
-//                String path = imageUri.uri.getPath()
                 Log.d("pathhhhhh", "onActivityResult: " + output);
                 img.setImageURI(imageUri);
             }

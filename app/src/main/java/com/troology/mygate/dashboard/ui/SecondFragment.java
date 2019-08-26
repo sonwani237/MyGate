@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -34,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SecondFragment extends Fragment implements View.OnClickListener {
 
     TextView name, passcode, addMember;
@@ -47,6 +50,8 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     public static ScrollView parent;
     RelativeLayout cv_userdetails;
     ImageView loc_services, family;
+    CircleImageView user_img;
+    String imagepath = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,12 +71,18 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         recycler = view.findViewById(R.id.recycler);
         service_recycler = view.findViewById(R.id.service_recycler);
         cv_userdetails = view.findViewById(R.id.cv_profile);
+        user_img = view.findViewById(R.id.user_img);
 
         details = UtilsMethods.INSTANCE.get(Objects.requireNonNull(getActivity()), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class);
         if (details != null) {
             name.setText(details.getUsername() + " (Me)");
-            passcode.setText(details.getFlat_no() + ", " + details.getApartment_name() + ", " + details.getCity_name()
-                    + ", " + details.getState_name() + ", " + details.getCountry_name());
+            passcode.setText(details.getFlat_no() + ", " + details.getApartment_name() + ", " + details.getCity_name() + ", " + details.getState_name() + ", " + details.getCountry_name());
+        }
+
+        imagepath = UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getImage();
+
+        if (imagepath != null && imagepath.length() > 0) {
+            Glide.with(this).load(ApplicationConstant.INSTANCE.baseUrl + "/" + imagepath).into(user_img);
         }
 
         addMember.setOnClickListener(this);
@@ -165,5 +176,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(getActivity(), UserProfile.class));
         }
     }
+
+
 
 }

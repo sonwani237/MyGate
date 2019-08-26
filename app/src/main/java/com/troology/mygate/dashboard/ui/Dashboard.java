@@ -126,9 +126,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
     public void callPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
             ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, REQUEST_PERMISSIONS);
         } else {
@@ -219,15 +217,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     public void onClickimages() {
 
         iv_cab.setOnClickListener(this);
-
-        //==========================================================================================
-
+//==================================================================================================
         iv_delivery.setOnClickListener(this);
-
-        //==========================================================================================
-
+//==================================================================================================
         iv_guest.setOnClickListener(this);
-
     }
 
 }

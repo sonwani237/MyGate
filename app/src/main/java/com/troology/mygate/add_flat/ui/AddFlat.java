@@ -80,7 +80,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_add_flat);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.add_flat);
+        toolbar.setTitle("");
         toolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
 
@@ -380,7 +380,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                         object.addProperty("apartment_id", apartment_id);
                         object.addProperty("token", userDetails.getToken());
 
-                        UtilsMethods.INSTANCE.getFlat(getApplicationContext(), object, parent, loader);
+                        UtilsMethods.INSTANCE.getFlat(getApplicationContext(), object, parent, type, loader);
                     } else {
                         UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                     }
@@ -473,6 +473,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                     object.addProperty("state_id", state_id);
                     object.addProperty("country_id", country_id);
                     object.addProperty("isowner", own);
+                    object.addProperty("type", ""+type);
 //                    Log.e("Req "," >>> "+new Gson().toJson(object));
 
                     UtilsMethods.INSTANCE.AddFlat(AddFlat.this, object, parent, loader);

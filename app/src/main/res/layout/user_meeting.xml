@@ -18,7 +18,8 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_13sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:id="@+id/cv_request">
 
         <RelativeLayout
             android:layout_width="match_parent"

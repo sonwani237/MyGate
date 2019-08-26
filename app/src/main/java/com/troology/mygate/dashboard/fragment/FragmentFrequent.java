@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.ui.Dashboard;
+import com.troology.mygate.dashboard.ui.PopupActivity;
+import com.troology.mygate.dashboard.ui.RequestAdapter;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
 import com.troology.mygate.utils.ApplicationConstant;
@@ -156,82 +158,169 @@ public class FragmentFrequent extends Fragment {
 
         });
 
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (RequestAdapter.edit){
 
-                if (isValid()){
-                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
-                        btn_submit.setEnabled(false);
-                        loader.show();
-                        loader.setCancelable(false);
-                        loader.setCanceledOnTouchOutside(false);
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                        JsonObject object = new JsonObject();
-                        object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                        object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
-                        object.addProperty("flat_id", details.getFlat_id());
+                    if (isValid()) {
+                        if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
+                            btn_submit.setEnabled(false);
+                            loader.show();
+                            loader.setCancelable(false);
+                            loader.setCanceledOnTouchOutside(false);
 
-                        if (type.equals("1")) {
-                            object.addProperty("member_type", "Cab");
+                            JsonObject object = new JsonObject();
+                            object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+                            object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
+                            object.addProperty("flat_id", details.getFlat_id());
 
-                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                            String formattedDate = df.format(c.getTime());
-                            int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days","").trim());
-                            c.add(Calendar.DAY_OF_YEAR, +day);
-                            endTime = c.getTimeInMillis();
+                            if (type.equals("1")) {
+                                object.addProperty("member_type", "Cab");
 
-                            object.addProperty("time_from", formattedDate +" "+start_time);
-                            object.addProperty("time_to", UtilsMethods.INSTANCE.endDate(""+endTime) +" "+end_time);
-                        }
-                        if (type.equals("2")) {
-                            object.addProperty("member_type", "Delivery");
-                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                            String formattedDate = df.format(c.getTime());
-                            int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days","").trim());
-                            c.add(Calendar.DAY_OF_YEAR, +day);
-                            endTime = c.getTimeInMillis();
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                String formattedDate = df.format(c.getTime());
+                                int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
+                                c.add(Calendar.DAY_OF_YEAR, +day);
+                                endTime = c.getTimeInMillis();
 
-                            object.addProperty("time_from", formattedDate +" "+start_time);
-                            object.addProperty("time_to", UtilsMethods.INSTANCE.endDate(""+endTime) +" "+end_time);
-                        }
-                        if (type.equals("3")) {
-                            object.addProperty("member_type", "Guest");
-                            int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days","").trim());
-                            c.add(Calendar.DAY_OF_YEAR, +day);
-                            endTime = c.getTimeInMillis();
-                            Calendar calendar = Calendar.getInstance();
-                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String formattedDate = df.format(calendar.getTime());
-                            object.addProperty("time_from", formattedDate);
-                            object.addProperty("time_to", UtilsMethods.INSTANCE.ActiveTime(""+endTime));
-                        }
-                        if (type.equals("1") || type.equals("2")) {
-                            object.addProperty("name", "");
-                            object.addProperty("mobile", "");
+                                object.addProperty("time_from", formattedDate + " " + start_time);
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.endDate("" + endTime) + " " + end_time);
+                            }
+                            if (type.equals("2")) {
+                                object.addProperty("member_type", "Delivery");
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                String formattedDate = df.format(c.getTime());
+                                int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
+                                c.add(Calendar.DAY_OF_YEAR, +day);
+                                endTime = c.getTimeInMillis();
+
+                                object.addProperty("time_from", formattedDate + " " + start_time);
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.endDate("" + endTime) + " " + end_time);
+                            }
+                            if (type.equals("3")) {
+                                object.addProperty("member_type", "Guest");
+                                int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
+                                c.add(Calendar.DAY_OF_YEAR, +day);
+                                endTime = c.getTimeInMillis();
+                                Calendar calendar = Calendar.getInstance();
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String formattedDate = df.format(calendar.getTime());
+                                object.addProperty("time_from", formattedDate);
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.ActiveTime("" + endTime));
+                            }
+                            if (type.equals("1") || type.equals("2")) {
+                                object.addProperty("name", "");
+                                object.addProperty("mobile", "");
+                            } else {
+                                object.addProperty("name", et_name.getText().toString());
+                                object.addProperty("mobile", et_mobile.getText().toString());
+                            }
+
+                            object.addProperty("stay_days", tv_validity.getSelectedItem().toString());
+                            object.addProperty("remarks", et_remarks.getText().toString());
+                            object.addProperty("activity_type", "2");
+                            object.addProperty("request_by", "1");
+                            object.addProperty("record_id", "" + PopupActivity.record_id);
+                            object.addProperty("email", "");
+                            object.addProperty("contact_per_uid", "");
+
+
+                            UtilsMethods.INSTANCE.UpdateActivity(getActivity(), object, parent, loader);
+
                         } else {
-                            object.addProperty("name", et_name.getText().toString());
-                            object.addProperty("mobile", et_mobile.getText().toString());
+                            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                         }
-
-                        object.addProperty("stay_days", tv_validity.getSelectedItem().toString());
-                        object.addProperty("remarks", et_remarks.getText().toString());
-                        object.addProperty("activity_type", "2");
-                        object.addProperty("request_by", "1");
-
-                        UtilsMethods.INSTANCE.AddActivity(getActivity(), object, parent, loader);
-                    } else {
-                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_submit.setEnabled(true);
+                            }
+                        }, 1500);
                     }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btn_submit.setEnabled(true);
-                        }
-                    }, 1500);
                 }
-            }
-        });
+            });
+
+        } else {
+
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (isValid()) {
+                        if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
+                            btn_submit.setEnabled(false);
+                            loader.show();
+                            loader.setCancelable(false);
+                            loader.setCanceledOnTouchOutside(false);
+
+                            JsonObject object = new JsonObject();
+                            object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+                            object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
+                            object.addProperty("flat_id", details.getFlat_id());
+
+                            if (type.equals("1")) {
+                                object.addProperty("member_type", "Cab");
+
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                String formattedDate = df.format(c.getTime());
+                                int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
+                                c.add(Calendar.DAY_OF_YEAR, +day);
+                                endTime = c.getTimeInMillis();
+
+                                object.addProperty("time_from", formattedDate + " " + start_time);
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.endDate("" + endTime) + " " + end_time);
+                            }
+                            if (type.equals("2")) {
+                                object.addProperty("member_type", "Delivery");
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                String formattedDate = df.format(c.getTime());
+                                int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
+                                c.add(Calendar.DAY_OF_YEAR, +day);
+                                endTime = c.getTimeInMillis();
+
+                                object.addProperty("time_from", formattedDate + " " + start_time);
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.endDate("" + endTime) + " " + end_time);
+                            }
+                            if (type.equals("3")) {
+                                object.addProperty("member_type", "Guest");
+                                int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
+                                c.add(Calendar.DAY_OF_YEAR, +day);
+                                endTime = c.getTimeInMillis();
+                                Calendar calendar = Calendar.getInstance();
+                                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String formattedDate = df.format(calendar.getTime());
+                                object.addProperty("time_from", formattedDate);
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.ActiveTime("" + endTime));
+                            }
+                            if (type.equals("1") || type.equals("2")) {
+                                object.addProperty("name", "");
+                                object.addProperty("mobile", "");
+                            } else {
+                                object.addProperty("name", et_name.getText().toString());
+                                object.addProperty("mobile", et_mobile.getText().toString());
+                            }
+
+                            object.addProperty("stay_days", tv_validity.getSelectedItem().toString());
+                            object.addProperty("remarks", et_remarks.getText().toString());
+                            object.addProperty("activity_type", "2");
+                            object.addProperty("request_by", "1");
+
+                            UtilsMethods.INSTANCE.AddActivity(getActivity(), object, parent, loader);
+                        } else {
+                            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_submit.setEnabled(true);
+                            }
+                        }, 1500);
+                    }
+                }
+            });
+        }
 
     }
 

@@ -1,13 +1,31 @@
 package com.troology.mygate.dashboard.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -20,12 +38,23 @@ import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.UtilsMethods;
 
+import java.io.File;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class UserProfile extends AppCompatActivity implements View.OnClickListener {
 
     ImageView iv_back, iv_logout, qr_code_img;
     ApartmentDetails details;
     TextView tv_name, tv_email, tv_number, tv_flatdetails;
     Bitmap bitmap;
+    int requestCode = 100;
+    private File output = null;
+    private int CONTENT_REQUEST = 1337;
+    CircleImageView propicc;
+    RelativeLayout rellay_profile;
+    String imgPath = "";
+    ProgressBar pbProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +66,9 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         iv_back = findViewById(R.id.iv_backuserprofile);
         iv_logout = findViewById(R.id.iv_logout);
         qr_code_img = findViewById(R.id.qr_code_img);
-
+        propicc = findViewById(R.id.propic);
+        rellay_profile = findViewById(R.id.rellay_profile);
+        pbProfile = findViewById(R.id.pbProfile);
         tv_name = findViewById(R.id.tv_name);
         tv_email = findViewById(R.id.tv_email);
         tv_number = findViewById(R.id.tv_number);
@@ -46,6 +77,29 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
         iv_back.setOnClickListener(this);
         iv_logout.setOnClickListener(this);
         qr_code_img.setOnClickListener(this);
+        propicc.setOnClickListener(this);
+
+//        pbProfile.setVisibility(View.VISIBLE);
+
+        imgPath = UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getImage();
+
+        if (imgPath!=null && imgPath.length()>0){
+            Glide.with(this).load(ApplicationConstant.INSTANCE.baseUrl+"/"+imgPath).into(propicc);
+
+//            Glide.with(this).load(ApplicationConstant.INSTANCE.baseUrl+"/"+imgPath).listener(new RequestListener<Drawable>() {
+//                @Override
+//                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                    return false;
+//                }
+//                @Override
+//                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                    pbProfile.setVisibility(View.GONE);
+//                    return false;
+//                }
+//            }).into(propicc);
+        } else {
+            propicc.setImageDrawable(getResources().getDrawable(R.drawable.uploadimage));
+        }
 
         tv_name.setText(details.getUsername());
         tv_email.setText(UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getEmail());
@@ -69,6 +123,7 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
             case R.id.iv_backuserprofile:
                 onBackPressed();
                 break;
+
             case R.id.iv_logout:
                 UtilsMethods.INSTANCE.save(this, ApplicationConstant.INSTANCE.userToken, "");
                 Intent intent = new Intent(this, SplashActivity.class);
@@ -76,13 +131,49 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
                 break;
+
             case R.id.qr_code_img:
                 Intent i = new Intent(this, QrCodeActivity.class);
                 //i.putExtra("BitmapImage", bitmap);
-                i.putExtra("name",details.getUsername());
-                i.putExtra("passcode",UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.userPassPerf, String.class)); // Whatever you need to encode in the QR code);
+                i.putExtra("name", details.getUsername());
+                i.putExtra("passcode", UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.userPassPerf, String.class)); // Whatever you need to encode in the QR code);
                 startActivity(i);
+                break;
+
+            case R.id.propic:
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted so ask for permissions
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestCode);
+                }
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                output = new File(dir, System.currentTimeMillis()+".jpeg");
+                Uri photoURI = FileProvider.getUriForFile(UserProfile.this,
+                        getApplicationContext().getPackageName() + ".fileprovider", output);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(cameraIntent, CONTENT_REQUEST);
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CONTENT_REQUEST) {
+
+            if (resultCode == RESULT_OK) {
+                Uri imageUri;
+                imageUri = Uri.fromFile(output);
+                Log.d("pathhhhhh", "onActivityResult: " + output);
+                propicc.setImageURI(imageUri);
+//                pbProfile.setVisibility(View.VISIBLE);
+                String token = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken();
+
+                UtilsMethods.INSTANCE.uploadImage(UserProfile.this, output.getPath(),
+                        details.getUid(),token, rellay_profile, null);
+
+            }
+        }
+    }
+
 }

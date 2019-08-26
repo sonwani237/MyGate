@@ -38,15 +38,6 @@ public interface EndPointInterface {
     Call<MemberListResponse> viewServiceMember(@Header("Content-Type") String content,
                                                @Body JsonObject jsonObject);
 
-    @Multipart
-    @POST("/api/add_flat_member")
-    Call<MemberListResponse> addMember(@Part MultipartBody.Part file,
-                                       @Part ("flat_id") RequestBody flat_id,
-                                       @Part ("apartment_id") RequestBody apartment_id,
-                                       @Part ("token") RequestBody token,
-                                       @Part ("name") RequestBody name,
-                                       @Part ("mobile") RequestBody mobile);
-
     @POST("/api/get_city")
     Call<AddFlatResponse> getCity(@Header("Content-Type") String content,
                                   @Body JsonObject jsonObject);
@@ -106,5 +97,28 @@ public interface EndPointInterface {
     @POST("/api/add_activity")
     Call<ApartmentsResponse> AddActivity(@Header("Content-Type") String content,
                                          @Body JsonObject jsonObject);
+
+    @POST("/api/delete_activity")
+    Call<ApartmentsResponse> DeleteActivity(@Header("Content-Type") String content,
+                                         @Body JsonObject jsonObject);
+
+    @POST("/api/update_activity")
+    Call<ApartmentsResponse> UpdateActivity(@Header("Content-Type") String content,
+                                         @Body JsonObject jsonObject);
+
+    @Multipart
+    @POST("/api/add_flat_member")
+    Call<MemberListResponse> addMember(@Part MultipartBody.Part file,
+                                       @Part ("flat_id") RequestBody flat_id,
+                                       @Part ("apartment_id") RequestBody apartment_id,
+                                       @Part ("token") RequestBody token,
+                                       @Part ("name") RequestBody name,
+                                       @Part ("mobile") RequestBody mobile);
+
+    @Multipart
+    @POST("/api/upload_user_image")
+    Call<MemberListResponse> uploadImage(@Part MultipartBody.Part file,
+                                         @Part ("uid") RequestBody user_Id,
+                                         @Part ("token") RequestBody user_token);
 
 }

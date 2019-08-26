@@ -24,6 +24,7 @@ import com.troology.mygate.dashboard.ui.Dashboard;
 import com.troology.mygate.dashboard.ui.LocalServices;
 import com.troology.mygate.dashboard.ui.NotificationActivity;
 import com.troology.mygate.dashboard.ui.PopupActivity;
+import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.ApartmentsResponse;
 import com.troology.mygate.login_reg.model.ApiResponse;
 import com.troology.mygate.login_reg.model.UserDetails;
@@ -436,7 +437,7 @@ public enum UtilsMethods {
         });
     }
 
-    public void getFlat(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+    public void getFlat(final Context context, final JsonObject jsonObject, final View view, final int type, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<AddFlatResponse> call = pointInterface.getFlat(ApplicationConstant.INSTANCE.contentType, jsonObject);
         call.enqueue(new Callback<AddFlatResponse>() {
@@ -452,7 +453,14 @@ public enum UtilsMethods {
                             new ActivityActivityMessage("FlatList", new Gson().toJson(response.body().getFlats()));
                     GlobalBus.getBus().post(activityMessage);
                 } else if (response.body() != null && !response.body().getStatus()) {
-                    snackBar(response.body().getMsg(), view);
+                    if (type==1){
+                        snackBar(response.body().getMsg(), view);
+                    }
+                    else
+                    {
+                        snackBar("No Branch Available", view);
+                    }
+
                     ActivityActivityMessage activityMessage =
                             new ActivityActivityMessage("FlatList", "");
                     GlobalBus.getBus().post(activityMessage);
@@ -680,53 +688,7 @@ public enum UtilsMethods {
         });
     }
 
-    public void addMember(final Context context, final String path,final String flatid,final String apartment_id,
-                          final String token,final String name,final String mobile_no, final View view, final Loader loader) {
 
-        File file = new File(path);
-        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), fileReqBody);
-
-        RequestBody flatId = RequestBody.create(MediaType.parse("text/plain"), flatid);
-        RequestBody apartmentId = RequestBody.create(MediaType.parse("text/plain"), apartment_id);
-        RequestBody Token = RequestBody.create(MediaType.parse("text/plain"), token);
-        RequestBody Name = RequestBody.create(MediaType.parse("text/plain"), name);
-        RequestBody mobileNo = RequestBody.create(MediaType.parse("text/plain"), mobile_no);
-
-        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
-        Call<MemberListResponse> call = pointInterface.addMember(part, flatId, apartmentId, Token, Name, mobileNo);
-        call.enqueue(new Callback<MemberListResponse>() {
-            @Override
-            public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
-                if (loader != null && loader.isShowing()) {
-                    loader.dismiss();
-                }
-                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
-
-                if (response.body()!=null && response.body().getStatus() == 200){
-                    snackBar(response.body().getMsg(), view);
-                    ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("MemberAdd","");
-                    GlobalBus.getBus().post(activityMessage);
-                }else if (response.body() != null && response.body().getStatus() == 404) {
-                    snackBar(response.body().getMsg(), view);
-                }else if (response.body() != null && response.body().getStatus() == 500) {
-                    snackBarLong(context, view);
-                }else {
-                    snackBar(context.getResources().getString(R.string.error), view);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MemberListResponse> call, Throwable t) {
-                if (loader != null && loader.isShowing()) {
-                    loader.dismiss();
-                }
-//                Log.e("ApartmentsDetail", "error " + t.getMessage());
-                snackBar(context.getResources().getString(R.string.error), view);
-            }
-        });
-    }
 
     public void viewMember(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
@@ -966,6 +928,190 @@ public enum UtilsMethods {
             }
         });
     }
+
+
+    public void DeleteActivity(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<ApartmentsResponse> call = pointInterface.DeleteActivity(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ApartmentsResponse>() {
+            @Override
+            public void onResponse(Call<ApartmentsResponse> call, Response<ApartmentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("DeleteActivityresponse", "response : " + new Gson().toJson(response.body()));
+
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")  ) {
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("flat_id", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getFlat_id());
+                    jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+
+                    Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+
+                    UtilsMethods.INSTANCE.getRequest(context, jsonObject, view, loader);
+
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                } else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApartmentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+
+
+    public void addMember(final Context context, final String path,final String flatid,final String apartment_id,
+                          final String token,final String name,final String mobile_no, final View view, final Loader loader) {
+
+        File file = new File(path);
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), fileReqBody);
+
+        RequestBody flatId = RequestBody.create(MediaType.parse("text/plain"), flatid);
+        RequestBody apartmentId = RequestBody.create(MediaType.parse("text/plain"), apartment_id);
+        RequestBody Token = RequestBody.create(MediaType.parse("text/plain"), token);
+        RequestBody Name = RequestBody.create(MediaType.parse("text/plain"), name);
+        RequestBody mobileNo = RequestBody.create(MediaType.parse("text/plain"), mobile_no);
+
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<MemberListResponse> call = pointInterface.addMember(part, flatId, apartmentId, Token, Name, mobileNo);
+        call.enqueue(new Callback<MemberListResponse>() {
+            @Override
+            public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
+
+                if (response.body()!=null && response.body().getStatus() == 200){
+                    snackBar(response.body().getMsg(), view);
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("MemberAdd","");
+                    GlobalBus.getBus().post(activityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 404) {
+                    snackBar(response.body().getMsg(), view);
+                }else if (response.body() != null && response.body().getStatus() == 500) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MemberListResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("ApartmentsDetail", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+
+    public void uploadImage(final Context context, final String path,final String userId,
+                          final String token, final View view, final Loader loader) {
+
+        File file = new File(path);
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), fileReqBody);
+
+        RequestBody Token = RequestBody.create(MediaType.parse("text/plain"), token);
+        RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), userId);
+
+
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+        Call<MemberListResponse> call = pointInterface.uploadImage(part, uid, Token);
+        call.enqueue(new Callback<MemberListResponse>() {
+            @Override
+            public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("uploadImageResponse", "response : " + new Gson().toJson(response.body()));
+
+                if (response.body()!=null && response.body().getStatus() == 200){
+                    snackBar(response.body().getMsg(), view);
+                    ActivityActivityMessage activityMessage =
+                            new ActivityActivityMessage("MemberAdd","");
+                    GlobalBus.getBus().post(activityMessage);
+                }else if (response.body() != null && response.body().getStatus() == 404) {
+                    snackBar(response.body().getMsg(), view);
+                }else if (response.body() != null && response.body().getStatus() == 500) {
+                    snackBarLong(context, view);
+                }else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MemberListResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+//                Log.e("ApartmentsDetail", "error " + t.getMessage());
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
+
+
+
+
+
+
+    public void UpdateActivity(final Context context, final JsonObject jsonObject,
+                               final View view, final Loader loader) {
+
+        EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
+
+        Call<ApartmentsResponse> call = pointInterface.UpdateActivity(ApplicationConstant.INSTANCE.contentType, jsonObject);
+        call.enqueue(new Callback<ApartmentsResponse>() {
+            @Override
+            public void onResponse(Call<ApartmentsResponse> call, Response<ApartmentsResponse> response) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                Log.e("UpdateActivity", "response : " + new Gson().toJson(response.body()));
+
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")  ) {
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("flat_id", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getFlat_id());
+                    jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+
+                    Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
+
+                    UtilsMethods.INSTANCE.getRequest(context, jsonObject, view, loader);
+
+                } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("500")) {
+                    snackBarLong(context, view);
+                } else {
+                    snackBar(context.getResources().getString(R.string.error), view);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApartmentsResponse> call, Throwable t) {
+                if (loader != null && loader.isShowing()) {
+                    loader.dismiss();
+                }
+                snackBar(context.getResources().getString(R.string.error), view);
+            }
+        });
+    }
+
 
     public void RemoveServiceRequest(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);

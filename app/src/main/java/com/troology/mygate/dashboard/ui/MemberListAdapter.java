@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.MemberData;
+import com.troology.mygate.utils.ApplicationConstant;
 
 import java.util.ArrayList;
 
@@ -29,7 +33,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView m_name, m_passcode;
-        ImageView call,iv_share;
+        ImageView call,iv_share,user_img;
         RelativeLayout cv_memberList;
 
         public MyViewHolder(View view) {
@@ -39,6 +43,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
             call = view.findViewById(R.id.call);
             cv_memberList = view.findViewById(R.id.cvmemberList);
             iv_share = view.findViewById(R.id.iv_share);
+            user_img = view.findViewById(R.id.user_img);
         }
     }
 
@@ -88,6 +93,13 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                 mContext.startActivity(shareIntent);
             }
         });
+
+        Log.e("Image",""+ApplicationConstant.INSTANCE.baseUrl+"/"+memberData.getImage());
+
+        Glide.with(mContext).load(ApplicationConstant.INSTANCE.baseUrl+"/"+memberData.getImage())
+                .apply(RequestOptions.circleCropTransform())
+                .into(holder.user_img);
+
     }
 
     @Override

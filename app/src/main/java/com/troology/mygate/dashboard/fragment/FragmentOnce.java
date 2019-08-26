@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.dashboard.ui.Dashboard;
+import com.troology.mygate.dashboard.ui.PopupActivity;
 import com.troology.mygate.dashboard.ui.RequestAdapter;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.UserDetails;
@@ -109,16 +110,14 @@ public class FragmentOnce extends Fragment {
                 int mMonth = c.get(Calendar.MONTH);
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-                                formattedDate = UtilsMethods.INSTANCE.mDate("" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                                tv_date.setText(UtilsMethods.INSTANCE.Date("" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth));
-                            }
-                        }, mYear, mMonth, mDay);
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        formattedDate = UtilsMethods.INSTANCE.mDate("" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        tv_date.setText(UtilsMethods.INSTANCE.Date("" + year + "-" + (monthOfYear + 1) + "-" + dayOfMonth));
+                    }
+                }, mYear, mMonth, mDay);
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
 
@@ -134,17 +133,16 @@ public class FragmentOnce extends Fragment {
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
-                        new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
 
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                start_time = hourOfDay + ":" + minute + ":00";
-                                tv_endtime.setText("Select");
-                                tv_starttime.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + start_time));
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        start_time = hourOfDay + ":" + minute + ":00";
+                        tv_endtime.setText("Select");
+                        tv_starttime.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + start_time));
 
-                            }
-                        }, mHour, mMinute, false);
+                    }
+                }, mHour, mMinute, false);
                 timePickerDialog.show();
             }
         });
@@ -165,7 +163,7 @@ public class FragmentOnce extends Fragment {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                             end_time = selectedHour + ":" + selectedMinute + ":00";
-                            if (checkTimings(start_time, end_time)){
+                            if (checkTimings(start_time, end_time)) {
                                 tv_endtime.setText(UtilsMethods.INSTANCE.ShortTime(formattedDate + " " + end_time));
                             } else {
                                 tv_endtime.setText("Select");
@@ -178,63 +176,130 @@ public class FragmentOnce extends Fragment {
             }
         });
 
-        /*btn submit*/
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (isValid()){
-                    if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
-                        btn_submit.setEnabled(false);
-                        loader.show();
-                        loader.setCancelable(false);
-                        loader.setCanceledOnTouchOutside(false);
+        if (RequestAdapter.edit) {
 
-                        JsonObject object = new JsonObject();
-                        object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                        object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
-                        object.addProperty("flat_id", details.getFlat_id());
-                        if (type.equals("1")) {
-                            object.addProperty("member_type", "Cab");
-                            object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
-                            object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
-                        }
-                        if (type.equals("2")) {
-                            object.addProperty("member_type", "Delivery");
-                            object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
-                            object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
-                        }
-                        if (type.equals("3")) {
-                            object.addProperty("member_type", "Guest");
-                            object.addProperty("time_from", "");
-                            object.addProperty("time_to", formattedDate);
-                        }
-                        if (type.equals("1") || type.equals("2")) {
-                            object.addProperty("name", "");
-                            object.addProperty("mobile", "");
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (isValid()) {
+                        if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
+                            btn_submit.setEnabled(false);
+                            loader.show();
+                            loader.setCancelable(false);
+                            loader.setCanceledOnTouchOutside(false);
+
+                            JsonObject object = new JsonObject();
+                            object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+                            object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
+                            object.addProperty("flat_id", details.getFlat_id());
+                            if (type.equals("1")) {
+                                object.addProperty("member_type", "Cab");
+                                object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
+                            }
+                            if (type.equals("2")) {
+                                object.addProperty("member_type", "Delivery");
+                                object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
+                            }
+                            if (type.equals("3")) {
+                                object.addProperty("member_type", "Guest");
+                                object.addProperty("time_from", "");
+                                object.addProperty("time_to", formattedDate);
+                            }
+                            if (type.equals("1") || type.equals("2")) {
+                                object.addProperty("name", "");
+                                object.addProperty("mobile", "");
+                            } else
+                                {
+                                object.addProperty("name", name.getText().toString().trim());
+                                object.addProperty("mobile", mobile.getText().toString().trim());
+                            }
+                            object.addProperty("stay_days", "");
+                            object.addProperty("remarks", et_remarks.getText().toString());
+                            object.addProperty("activity_type", "1");
+                            object.addProperty("request_by", "1");
+                            object.addProperty("record_id", "" + PopupActivity.record_id);
+                            object.addProperty("email", "");
+                            object.addProperty("contact_per_uid", "");
+
+                            UtilsMethods.INSTANCE.UpdateActivity(getActivity(), object, parent, loader);
+
                         } else {
-                            object.addProperty("name", name.getText().toString().trim());
-                            object.addProperty("mobile", mobile.getText().toString().trim());
+                            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                         }
-                        object.addProperty("stay_days", "");
-                        object.addProperty("remarks", et_remarks.getText().toString());
-                        object.addProperty("activity_type", "1");
-                        object.addProperty("request_by", "1");
-
-                        UtilsMethods.INSTANCE.AddActivity(getActivity(), object, parent, loader);
-
-                    } else {
-                        UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_submit.setEnabled(true);
+                            }
+                        }, 1500);
                     }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btn_submit.setEnabled(true);
-                        }
-                    }, 1500);
                 }
-            }
-        });
+            });
+
+
+        } else {
+
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (isValid()) {
+                        if (UtilsMethods.INSTANCE.isNetworkAvailable(getActivity())) {
+                            btn_submit.setEnabled(false);
+                            loader.show();
+                            loader.setCancelable(false);
+                            loader.setCanceledOnTouchOutside(false);
+
+                            JsonObject object = new JsonObject();
+                            object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+                            object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
+                            object.addProperty("flat_id", details.getFlat_id());
+                            if (type.equals("1")) {
+                                object.addProperty("member_type", "Cab");
+                                object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
+                            }
+                            if (type.equals("2")) {
+                                object.addProperty("member_type", "Delivery");
+                                object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
+                                object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
+                            }
+                            if (type.equals("3")) {
+                                object.addProperty("member_type", "Guest");
+                                object.addProperty("time_from", "");
+                                object.addProperty("time_to", formattedDate);
+                            }
+                            if (type.equals("1") || type.equals("2")) {
+                                object.addProperty("name", "");
+                                object.addProperty("mobile", "");
+                            } else {
+                                object.addProperty("name", name.getText().toString().trim());
+                                object.addProperty("mobile", mobile.getText().toString().trim());
+                            }
+                            object.addProperty("stay_days", "");
+                            object.addProperty("remarks", et_remarks.getText().toString());
+                            object.addProperty("activity_type", "1");
+                            object.addProperty("request_by", "1");
+
+                            UtilsMethods.INSTANCE.AddActivity(getActivity(), object, parent, loader);
+
+                        } else {
+                            UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
+                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_submit.setEnabled(true);
+                            }
+                        }, 1500);
+                    }
+                }
+            });
+        }
 
     }
 
@@ -248,7 +313,7 @@ public class FragmentOnce extends Fragment {
             Date date2 = sdf.parse(endtime);
 
             return date1.before(date2);
-        } catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return false;
@@ -256,7 +321,7 @@ public class FragmentOnce extends Fragment {
 
     public boolean isValid() {
 
-        if (type.equalsIgnoreCase("3")){
+        if (type.equalsIgnoreCase("3")) {
             if (name.getText().toString().equalsIgnoreCase("")) {
                 UtilsMethods.INSTANCE.snackBar("Name cannot be blank!", parent);
                 return false;
@@ -266,7 +331,7 @@ public class FragmentOnce extends Fragment {
                 UtilsMethods.INSTANCE.snackBar("Please enter valid Mobile Number!", parent);
                 return false;
             }
-        }else {
+        } else {
             if (tv_starttime.getText().toString().equalsIgnoreCase("Select")) {
                 UtilsMethods.INSTANCE.snackBar("Please select start time.", parent);
                 return false;
@@ -276,14 +341,14 @@ public class FragmentOnce extends Fragment {
                 UtilsMethods.INSTANCE.snackBar("Please select end time.", parent);
                 return false;
             }
-            if (type.equalsIgnoreCase("1")){
-                if(et_remarks.getText().toString().equalsIgnoreCase("")){
+            if (type.equalsIgnoreCase("1")) {
+                if (et_remarks.getText().toString().equalsIgnoreCase("")) {
                     UtilsMethods.INSTANCE.snackBar("Cab no cannot be blank!", parent);
                     return false;
                 }
             }
-            if (type.equalsIgnoreCase("2")){
-                if(et_remarks.getText().toString().equalsIgnoreCase("")){
+            if (type.equalsIgnoreCase("2")) {
+                if (et_remarks.getText().toString().equalsIgnoreCase("")) {
                     UtilsMethods.INSTANCE.snackBar("Remark cannot be blank!", parent);
                     return false;
                 }

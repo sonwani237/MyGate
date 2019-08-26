@@ -23,6 +23,9 @@ public class UserDetails {
     @SerializedName("token")
     @Expose
     private String token;
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     public String getId() {
         return id;
@@ -48,4 +51,7 @@ public class UserDetails {
         return token;
     }
 
+    public String getImage() {
+        return image;
+    }
 }

@@ -30,7 +30,7 @@ public class ApiClient {
                         .addConverterFactory(GsonConverterFactory.create())
                         .client(okHttpClient)
                         .build();
-            }else {
+            } else {
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
                         .connectTimeout(2, TimeUnit.MINUTES)
                         .writeTimeout(2, TimeUnit.MINUTES)
@@ -43,10 +43,7 @@ public class ApiClient {
                         .client(okHttpClient)
                         .build();
             }
-
-
         }
         return retrofit;
-
     }
 }

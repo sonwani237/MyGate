@@ -20,6 +20,9 @@ public class MemberData {
     @SerializedName("passcode")
     @Expose
     private String passcode;
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     public String getId() {
         return id;
@@ -28,6 +31,8 @@ public class MemberData {
     public String getUid() {
         return uid;
     }
+
+    public String getImage() { return image; }
 
     public String getmName() {
         return mName;
@@ -40,4 +45,6 @@ public class MemberData {
     public String getPasscode() {
         return passcode;
     }
+
+
 }

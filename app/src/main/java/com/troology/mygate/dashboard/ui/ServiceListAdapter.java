@@ -51,7 +51,6 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
     public ServiceListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.local_service_list, parent, false);
-
         return new ServiceListAdapter.MyViewHolder(itemView);
     }
 
