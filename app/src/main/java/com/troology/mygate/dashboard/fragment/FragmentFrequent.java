@@ -173,11 +173,8 @@ public class FragmentFrequent extends Fragment {
 
                             JsonObject object = new JsonObject();
                             object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                            object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
-                            object.addProperty("flat_id", details.getFlat_id());
 
                             if (type.equals("1")) {
-                                object.addProperty("member_type", "Cab");
 
                                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                                 String formattedDate = df.format(c.getTime());
@@ -189,7 +186,6 @@ public class FragmentFrequent extends Fragment {
                                 object.addProperty("time_to", UtilsMethods.INSTANCE.endDate("" + endTime) + " " + end_time);
                             }
                             if (type.equals("2")) {
-                                object.addProperty("member_type", "Delivery");
                                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                                 String formattedDate = df.format(c.getTime());
                                 int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
@@ -200,7 +196,6 @@ public class FragmentFrequent extends Fragment {
                                 object.addProperty("time_to", UtilsMethods.INSTANCE.endDate("" + endTime) + " " + end_time);
                             }
                             if (type.equals("3")) {
-                                object.addProperty("member_type", "Guest");
                                 int day = Integer.parseInt(tv_validity.getSelectedItem().toString().toLowerCase().replace(" days", "").trim());
                                 c.add(Calendar.DAY_OF_YEAR, +day);
                                 endTime = c.getTimeInMillis();
@@ -222,10 +217,7 @@ public class FragmentFrequent extends Fragment {
                             object.addProperty("remarks", et_remarks.getText().toString());
                             object.addProperty("activity_type", "2");
                             object.addProperty("request_by", "1");
-                            object.addProperty("record_id", "" + PopupActivity.record_id);
-                            object.addProperty("email", "");
-                            object.addProperty("contact_per_uid", "");
-
+                            object.addProperty("record_id", "" + PopupActivity.record_id);;
 
                             UtilsMethods.INSTANCE.UpdateActivity(getActivity(), object, parent, loader);
 

@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
@@ -167,10 +169,12 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
         if (requestCode == CONTENT_REQUEST) {
 
             if (resultCode == RESULT_OK) {
-                Uri imageUri;
-                imageUri = Uri.fromFile(output);
+                Uri imageUri = Uri.fromFile(output);
                 Log.d("pathhhhhh", "onActivityResult: " + output);
-                img.setImageURI(imageUri);
+                Glide.with(this).load(imageUri)
+                        .centerCrop()
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(img);
             }
         }
     }

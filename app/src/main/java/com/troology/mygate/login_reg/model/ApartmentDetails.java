@@ -40,6 +40,12 @@ public class ApartmentDetails {
     @SerializedName("approval_status")
     @Expose
     private String approval_status;
+    @SerializedName("res_type")
+    @Expose
+    private String res_type;
+    @SerializedName("image")
+    @Expose
+    private String image;
 
     public String getId() {
         return id;
@@ -89,4 +95,11 @@ public class ApartmentDetails {
         return apartment_id;
     }
 
+    public String getRes_type() {
+        return res_type;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }

@@ -12,6 +12,9 @@ public class MemberListResponse {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("data")
+    @Expose
+    private String data;
     @SerializedName("member_data")
     @Expose
     private ArrayList<MemberData> memberData;
@@ -25,6 +28,10 @@ public class MemberListResponse {
 
     public String getMsg() {
         return msg;
+    }
+
+    public String getData() {
+        return data;
     }
 
     public ArrayList<MemberData> getMemberData() {

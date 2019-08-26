@@ -41,6 +41,7 @@
     <string name="no_flat">Opps, No Flat found</string>
     <string name="invalid_session">Invalid session.</string>
     <string name="flat_approval">Please wait, Your flat approval is pending..</string>
+    <string name="office_approval">Please wait, Your office approval is pending..</string>
     <string name="logout">Logout</string>
     <string name="verify">Verify</string>
     <string name="select_time">Select Time</string>

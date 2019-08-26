@@ -40,7 +40,7 @@ public class PopupActivity extends AppCompatActivity implements View.OnClickList
         viewPager = findViewById(R.id.viewpager_popup);
         tabLayout = findViewById(R.id.tablayout_popup);
 
-        if (RequestAdapter.edit) {
+        if (RequestAdapter.edit  && getIntent()!=null) {
             record_id = (Integer) getIntent().getExtras().get("record_id");
             membertype = (String) getIntent().getExtras().get("memberType");
         }

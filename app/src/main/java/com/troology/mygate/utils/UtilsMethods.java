@@ -3,6 +3,8 @@ package com.troology.mygate.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -24,6 +26,7 @@ import com.troology.mygate.dashboard.ui.Dashboard;
 import com.troology.mygate.dashboard.ui.LocalServices;
 import com.troology.mygate.dashboard.ui.NotificationActivity;
 import com.troology.mygate.dashboard.ui.PopupActivity;
+import com.troology.mygate.dashboard.ui.RequestAdapter;
 import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.login_reg.model.ApartmentsResponse;
 import com.troology.mygate.login_reg.model.ApiResponse;
@@ -34,6 +37,7 @@ import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.splash.ui.SplashActivity;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -229,6 +233,9 @@ public enum UtilsMethods {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getUserDetails().get(0) != null) {
                     save(context, ApplicationConstant.INSTANCE.loginPerf, response.body().getUserDetails().get(0));
                     save(context, ApplicationConstant.INSTANCE.userToken, response.body().getUserDetails().get(0).getToken());
+                    if ( response.body().getUserDetails().get(0).getImage()!=null) {
+                        save(context, ApplicationConstant.INSTANCE.profilePic, response.body().getUserDetails().get(0).getImage());
+                    }
 
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());
@@ -497,8 +504,11 @@ public enum UtilsMethods {
                         ArrayList<NotificationModel> models = new ArrayList<>();
 
                         for (NotificationModel obj : response.body().getData()){
-                            if (!obj.getMemberType().equalsIgnoreCase("Family")){
+                            if (!obj.getTimeTo().equalsIgnoreCase("0")){
                                 models.add(obj);
+                            }
+                            if (obj.getMobile().equalsIgnoreCase(get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getMobile())){
+                                save(context, ApplicationConstant.INSTANCE.userPassPerf, obj.getPasscode());
                             }
                         }
 
@@ -947,7 +957,7 @@ public enum UtilsMethods {
                     jsonObject.addProperty("flat_id", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getFlat_id());
                     jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
-                    Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    snackBar(response.body().getMsg(), view);
 
                     UtilsMethods.INSTANCE.getRequest(context, jsonObject, view, loader);
 
@@ -968,12 +978,20 @@ public enum UtilsMethods {
         });
     }
 
-
-
     public void addMember(final Context context, final String path,final String flatid,final String apartment_id,
                           final String token,final String name,final String mobile_no, final View view, final Loader loader) {
 
+        int compressionRatio = 25; //1 == originalImage, 2 = 50% compression, 4=25% compress
         File file = new File(path);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile (file.getPath());
+            bitmap.compress (Bitmap.CompressFormat.JPEG, compressionRatio, new FileOutputStream(file));
+        }
+        catch (Throwable t) {
+            Log.e("ERROR", "Error compressing file." + t.toString ());
+            t.printStackTrace ();
+        }
+
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), fileReqBody);
 
@@ -1022,7 +1040,17 @@ public enum UtilsMethods {
     public void uploadImage(final Context context, final String path,final String userId,
                           final String token, final View view, final Loader loader) {
 
+        int compressionRatio = 25; //1 == originalImage, 2 = 50% compression, 4=25% compress
         File file = new File(path);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile (file.getPath());
+            bitmap.compress (Bitmap.CompressFormat.JPEG, compressionRatio, new FileOutputStream(file));
+        }
+        catch (Throwable t) {
+            Log.e("ERROR", "Error compressing file." + t.toString ());
+            t.printStackTrace ();
+        }
+
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), fileReqBody);
 
@@ -1042,9 +1070,7 @@ public enum UtilsMethods {
 
                 if (response.body()!=null && response.body().getStatus() == 200){
                     snackBar(response.body().getMsg(), view);
-                    ActivityActivityMessage activityMessage =
-                            new ActivityActivityMessage("MemberAdd","");
-                    GlobalBus.getBus().post(activityMessage);
+                    save(context, ApplicationConstant.INSTANCE.profilePic, response.body().getData());
                 }else if (response.body() != null && response.body().getStatus() == 404) {
                     snackBar(response.body().getMsg(), view);
                 }else if (response.body() != null && response.body().getStatus() == 500) {
@@ -1071,8 +1097,7 @@ public enum UtilsMethods {
 
 
 
-    public void UpdateActivity(final Context context, final JsonObject jsonObject,
-                               final View view, final Loader loader) {
+    public void UpdateActivity(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
 
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
 
@@ -1087,11 +1112,21 @@ public enum UtilsMethods {
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")  ) {
 
+                    RequestAdapter.edit = false;
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("flat_id", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getFlat_id());
                     jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
 
-                    Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                    snackBar(response.body().getMsg(), view);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ((PopupActivity)context).finish();
+                            } catch (Exception ignored) {
+                            }
+                        }
+                    }, 2000);
 
                     UtilsMethods.INSTANCE.getRequest(context, jsonObject, view, loader);
 

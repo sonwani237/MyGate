@@ -48,12 +48,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     String approval_status = "";
     RelativeLayout parent;
     Loader loader;
-    private static String[] PERMISSIONS = {Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static String[] PERMISSIONS = {Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private static final int REQUEST_PERMISSIONS = 1;
     RelativeLayout active, inactive;
     Button logout;
     Handler handler;
-    TextView toolbar_flatno, toolbar_flataddress;
+    TextView toolbar_flatno, toolbar_flataddress, flat_msg;
     private static long back_pressed;
     ApartmentDetails details;
     ImageView iv_cab, iv_delivery, iv_guest;
@@ -88,6 +89,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         inactive = findViewById(R.id.inactive);
         logout = findViewById(R.id.logout);
         iv_cab = findViewById(R.id.ivcar);
+        flat_msg = findViewById(R.id.flat_msg);
         iv_delivery = findViewById(R.id.ivscooter);
         iv_guest = findViewById(R.id.ivguest);
         toolbar_flatno = toolbar.findViewById(R.id.toolbar_flatno);
@@ -102,6 +104,12 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             active.setVisibility(View.GONE);
             inactive.setVisibility(View.VISIBLE);
 
+            if (UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getRes_type().equalsIgnoreCase("1")){
+                flat_msg.setText(getResources().getString(R.string.flat_approval));
+            }else {
+                flat_msg.setText(getResources().getString(R.string.office_approval));
+            }
+
             handler = new Handler(Dashboard.this.getMainLooper());
             handler.postDelayed(new Runnable() {
                 @Override
@@ -110,7 +118,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("uid", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getUid());
                     jsonObject.addProperty("token", UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-
 
                     UtilsMethods.INSTANCE.ApartmentsDetail(Dashboard.this, jsonObject, parent, 1, null);
 
@@ -126,7 +133,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
     public void callPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)|| ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
 
             ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, REQUEST_PERMISSIONS);
         } else {

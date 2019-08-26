@@ -192,20 +192,15 @@ public class FragmentOnce extends Fragment {
 
                             JsonObject object = new JsonObject();
                             object.addProperty("token", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-                            object.addProperty("apartment_id", UtilsMethods.INSTANCE.get(getActivity(), ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getApartment_id());
-                            object.addProperty("flat_id", details.getFlat_id());
                             if (type.equals("1")) {
-                                object.addProperty("member_type", "Cab");
                                 object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
                                 object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
                             }
                             if (type.equals("2")) {
-                                object.addProperty("member_type", "Delivery");
                                 object.addProperty("time_from", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + start_time));
                                 object.addProperty("time_to", UtilsMethods.INSTANCE.DateTime(formattedDate + " " + end_time));
                             }
                             if (type.equals("3")) {
-                                object.addProperty("member_type", "Guest");
                                 object.addProperty("time_from", "");
                                 object.addProperty("time_to", formattedDate);
                             }
@@ -222,8 +217,6 @@ public class FragmentOnce extends Fragment {
                             object.addProperty("activity_type", "1");
                             object.addProperty("request_by", "1");
                             object.addProperty("record_id", "" + PopupActivity.record_id);
-                            object.addProperty("email", "");
-                            object.addProperty("contact_per_uid", "");
 
                             UtilsMethods.INSTANCE.UpdateActivity(getActivity(), object, parent, loader);
 

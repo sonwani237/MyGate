@@ -10,4 +10,5 @@ public enum ApplicationConstant {
     public String userPassPerf = "prefUserPass";
     public String fireBaseToken = "prefToken";
     public String userToken = "prefUserToken";
+    public String profilePic = "prefProfilePic";
 }

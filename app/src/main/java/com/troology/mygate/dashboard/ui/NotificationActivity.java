@@ -1,9 +1,11 @@
 package com.troology.mygate.dashboard.ui;
 
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +17,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.dashboard.model.UserMeetings;
 import com.troology.mygate.login_reg.model.UserDetails;
+import com.troology.mygate.login_reg.ui.LoginScreen;
 import com.troology.mygate.splash.model.NotificationModel;
+import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.Loader;
 import com.troology.mygate.utils.UtilsMethods;
@@ -34,6 +40,8 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     Loader loader;
     RelativeLayout parent;
     Ringtone ringtone;
+    ImageView user_img;
+    int SPLASH_TIME_OUT = 60000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         name = findViewById(R.id.name);
         remark = findViewById(R.id.remark);
         parent = findViewById(R.id.parent);
+        user_img = findViewById(R.id.user_img);
 
         cancel = findViewById(R.id.cancel);
         approve = findViewById(R.id.approve);
@@ -59,12 +68,26 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         name.setText(model.getName());
         remark.setText(model.getRemarks());
 
+
+        Glide.with(this).load(ApplicationConstant.INSTANCE.baseUrl+"/"+model.getImage())
+                .centerCrop()
+                .apply(RequestOptions.circleCropTransform())
+                .error(getResources().getDrawable(R.drawable.man))
+                .into(user_img);
+
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(this, alarmUri);
         ringtone.play();
 
         cancel.setOnClickListener(this);
         approve.setOnClickListener(this);
+
+       /* new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, SPLASH_TIME_OUT);*/
 
     }
 

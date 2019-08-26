@@ -17,11 +17,13 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.troology.mygate.R;
+import com.troology.mygate.login_reg.model.ApartmentDetails;
 import com.troology.mygate.splash.model.NotificationModel;
 import com.troology.mygate.splash.ui.SplashActivity;
 import com.troology.mygate.utils.ApplicationConstant;
 import com.troology.mygate.utils.UtilsMethods;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -43,16 +45,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         tag = remoteMessage.getData().get("body");
+        Log.e(TAG, "onMessageReceived: >> "+tag );
         NotificationModel model = new Gson().fromJson(remoteMessage.getData().get("body"), NotificationModel.class);
         Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")+ remoteMessage.getData().get("body"));
 
         if (remoteMessage.getData() != null) {
-            if (model.getRecordId()!=null && model.getStatus()== 1){
-//                Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
-//                broadcastIntent.putExtra("request", tag);
-//                sendBroadcast(broadcastIntent);
+            if (model.getRecordId()!=null && model.getStatus()== 1 &&
+                    UtilsMethods.INSTANCE.get(this, ApplicationConstant.INSTANCE.flatPerf, ApartmentDetails.class).getRes_type().equalsIgnoreCase("1")){
+                Intent broadcastIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+                broadcastIntent.putExtra("request", tag);
+                sendBroadcast(broadcastIntent);
                 methodNotify(remoteMessage.getData().get("title"), model.getName()+" is on the gate, for "+model.getRemarks());
-            }else  if (model.getStatus()!=null && model.getStatus()== 3){
+            }else  if (model.getIn_out()!=null && model.getIn_out().equalsIgnoreCase("1")){
                 if (model.getMemberType().equalsIgnoreCase("Delivery")){
                     methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy has entered the apartment.");
                 }if (model.getMemberType().equalsIgnoreCase("Guest")){
@@ -60,7 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }else if (model.getMemberType().equalsIgnoreCase("Cab")) {
                     methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has entered the apartment.");
                 }
-            }else  if (model.getStatus()!=null && model.getStatus()== 2){
+            }else  if (model.getIn_out()!=null && model.getIn_out().equalsIgnoreCase("2")){
                 if (model.getMemberType().equalsIgnoreCase("Delivery")){
                     methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" boy has exit from apartment.");
                 }else if (model.getMemberType().equalsIgnoreCase("Guest")){
@@ -77,7 +81,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        Log.e(TAG, "onNewToken: >>>> " + s);
+//        Log.e(TAG, "onNewToken: >>>> " + s);
         if (s != null) {
             UtilsMethods.INSTANCE.save(getApplicationContext(), ApplicationConstant.INSTANCE.fireBaseToken, s);
         }
@@ -94,7 +98,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =

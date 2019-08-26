@@ -49,7 +49,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="20dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/ivFlag"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"

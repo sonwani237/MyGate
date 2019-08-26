@@ -80,6 +80,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                 Intent intent = new Intent(mContext,QrCodeActivity.class);
                 intent.putExtra("name",memberData.getmName());
                 intent.putExtra("passcode",memberData.getPasscode());
+                intent.putExtra("image",memberData.getImage());
                 mContext.startActivity(intent);
             }
         });

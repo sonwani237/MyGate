@@ -23,7 +23,7 @@ public class UserDetails {
     @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName("image")
+    @SerializedName(value = "image", alternate = "data")
     @Expose
     private String image;
 

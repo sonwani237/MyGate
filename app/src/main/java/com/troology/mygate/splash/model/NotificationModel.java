@@ -47,6 +47,12 @@ public class NotificationModel {
     @SerializedName("remarks")
     @Expose
     private String remarks;
+    @SerializedName("in_out")
+    @Expose
+    private String in_out;
+    @SerializedName("image")
+    @Expose
+    private String image;
     @SerializedName("status")
     @Expose
     private Integer status;
@@ -109,5 +115,13 @@ public class NotificationModel {
 
     public Integer getStatus() {
         return status;
+    }
+
+    public String getIn_out() {
+        return in_out;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
