@@ -82,9 +82,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             }
         }
 
-        if (userMeetings.get(position).getTimeTo()!=null && !userMeetings.get(position).getTimeTo().equalsIgnoreCase("")){
+        if (userMeetings.get(position).getTimeTo() != null && !userMeetings.get(position).getTimeTo().equalsIgnoreCase("")) {
             holder.e_time.setText("Valid till " + UtilsMethods.INSTANCE.ShortDate(userMeetings.get(position).getTimeTo()));
-        }else {
+        } else {
             holder.e_time.setText("Valid till " + UtilsMethods.INSTANCE.ShortDate(userMeetings.get(position).getTime()));
         }
 
@@ -110,27 +110,26 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
         holder.time.setText(userMeetings.get(position).getTime());
 
-        if (userMeetings.get(position).getStatus()==1){
+        if (userMeetings.get(position).getStatus() == 1) {
             holder.passcode.setText("Pending");//Hit sendRequest like method from this adapter when status  = 0
-        }else {
+        } else {
             holder.passcode.setText("#" + userMeetings.get(position).getPasscode());//Hit sendRequest like method from this adapter when status  = 0
         }
 
         holder.rellayparent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!userMeetings.get(position).getRequestBy().equalsIgnoreCase("2")) {
+                if (userMeetings.get(position).getStatus() == 1) {
+                    context.startActivity(new Intent(context, NotificationActivity.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra("request", new Gson().toJson(userMeetings.get(position))));
+                } else {
                     Intent intent = new Intent(context, QrCodeActivity.class);
                     intent.putExtra("name", holder.name.getText().toString());
                     intent.putExtra("passcode", holder.passcode.getText().toString());
                     intent.putExtra("image", userMeetings.get(position).getImage());
                     context.startActivity(intent);
-                }else {
-                    context.startActivity(new Intent(context, NotificationActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra("request", new Gson().toJson(userMeetings.get(position))));
                 }
-
             }
         });
 
@@ -174,8 +173,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
                                 UtilsMethods.INSTANCE.DeleteActivity(context, jsonObject, parent, loader);
                                 notifyItemRemoved(position);
-                            }
-                            else {
+                            } else {
                                 UtilsMethods.INSTANCE.snackBar(context.getResources().getString(R.string.network_error), parent);
                             }
                         }
@@ -231,7 +229,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
             JsonObject object = new JsonObject();
             object.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-            object.addProperty("ref_id",recordId);
+            object.addProperty("ref_id", recordId);
             object.addProperty("activity", "1");
             object.addProperty("request_by", "1");
             object.addProperty("approval", i);
