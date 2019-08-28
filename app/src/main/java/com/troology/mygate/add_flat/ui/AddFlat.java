@@ -476,7 +476,7 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
                     object.addProperty("type", ""+type);
 //                    Log.e("Req "," >>> "+new Gson().toJson(object));
 
-                    UtilsMethods.INSTANCE.AddFlat(AddFlat.this, object, parent, loader);
+                    UtilsMethods.INSTANCE.AddFlat(AddFlat.this, object, type, parent, loader);
                 } else {
                     UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
                 }

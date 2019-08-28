@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.troology.mygate.R;
 import com.troology.mygate.login_reg.model.UserDetails;
@@ -81,7 +82,11 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             }
         }
 
-        holder.e_time.setText("Valid till " + UtilsMethods.INSTANCE.ShortDate(userMeetings.get(position).getTimeTo()));
+        if (userMeetings.get(position).getTimeTo()!=null && !userMeetings.get(position).getTimeTo().equalsIgnoreCase("")){
+            holder.e_time.setText("Valid till " + UtilsMethods.INSTANCE.ShortDate(userMeetings.get(position).getTimeTo()));
+        }else {
+            holder.e_time.setText("Valid till " + UtilsMethods.INSTANCE.ShortDate(userMeetings.get(position).getTime()));
+        }
 
         if (userMeetings.get(position).getMemberType().equalsIgnoreCase("Cab")) {
             Glide.with(context).load(ApplicationConstant.INSTANCE.baseUrl + "/" + userMeetings.get(position).getImage())
@@ -105,16 +110,27 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
         holder.time.setText(userMeetings.get(position).getTime());
 
-        holder.passcode.setText("#" + userMeetings.get(position).getPasscode());//Hit sendRequest like method from this adapter when status  = 0
+        if (userMeetings.get(position).getStatus()==1){
+            holder.passcode.setText("Pending");//Hit sendRequest like method from this adapter when status  = 0
+        }else {
+            holder.passcode.setText("#" + userMeetings.get(position).getPasscode());//Hit sendRequest like method from this adapter when status  = 0
+        }
 
         holder.rellayparent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, QrCodeActivity.class);
-                intent.putExtra("name", holder.name.getText().toString());
-                intent.putExtra("passcode", holder.passcode.getText().toString());
-                intent.putExtra("image", userMeetings.get(position).getImage());
-                context.startActivity(intent);
+                if (!userMeetings.get(position).getRequestBy().equalsIgnoreCase("2")) {
+                    Intent intent = new Intent(context, QrCodeActivity.class);
+                    intent.putExtra("name", holder.name.getText().toString());
+                    intent.putExtra("passcode", holder.passcode.getText().toString());
+                    intent.putExtra("image", userMeetings.get(position).getImage());
+                    context.startActivity(intent);
+                }else {
+                    context.startActivity(new Intent(context, NotificationActivity.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra("request", new Gson().toJson(userMeetings.get(position))));
+                }
+
             }
         });
 
@@ -205,23 +221,44 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         }
     }
 
-    public void sendRequest(int pos) {
-
+    public void sendRequest(int i, String recordId) {
         if (UtilsMethods.INSTANCE.isNetworkAvailable(context)) {
+
+
             loader.show();
             loader.setCancelable(false);
             loader.setCanceledOnTouchOutside(false);
 
             JsonObject object = new JsonObject();
-            object.addProperty("status", userMeetings.get(pos).getStatus());
-            object.addProperty("request_id", userMeetings.get(pos).getName());
             object.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
-            object.addProperty("action", "1");
+            object.addProperty("ref_id",recordId);
+            object.addProperty("activity", "1");
+            object.addProperty("request_by", "1");
+            object.addProperty("approval", i);
 
             UtilsMethods.INSTANCE.RequestAction(context, object, parent, loader);
         } else {
             UtilsMethods.INSTANCE.snackBar(context.getResources().getString(R.string.network_error), parent);
         }
     }
+
+//    public void sendRequest(int pos) {
+//
+//        if (UtilsMethods.INSTANCE.isNetworkAvailable(context)) {
+//            loader.show();
+//            loader.setCancelable(false);
+//            loader.setCanceledOnTouchOutside(false);
+//
+//            JsonObject object = new JsonObject();
+//            object.addProperty("status", userMeetings.get(pos).getStatus());
+//            object.addProperty("request_id", userMeetings.get(pos).getName());
+//            object.addProperty("token", UtilsMethods.INSTANCE.get(context, ApplicationConstant.INSTANCE.loginPerf, UserDetails.class).getToken());
+//            object.addProperty("action", "1");
+//
+//            UtilsMethods.INSTANCE.RequestAction(context, object, parent, loader);
+//        } else {
+//            UtilsMethods.INSTANCE.snackBar(context.getResources().getString(R.string.network_error), parent);
+//        }
+//    }
 
 }
