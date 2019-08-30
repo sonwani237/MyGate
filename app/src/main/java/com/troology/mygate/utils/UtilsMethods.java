@@ -181,7 +181,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("SignUpRequest", "Sign_up response : " + new Gson().toJson(response.body()));
+//                Log.e("SignUpRequest", "Sign_up response : " + new Gson().toJson(response.body()));
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
                     try {
                         ((RegisterScreen)context).finish();
@@ -194,15 +194,11 @@ public enum UtilsMethods {
                     i.putExtra("mobile", jsonObject.get("mobile").getAsString());
                     context.startActivity(i);
 
-//                    context.startActivity(new Intent(context, OTPVerification.class)
-//                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
                 } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("404")) {
                     Intent i = new Intent(context, RegisterScreen.class);
                     i.putExtra("mobile", jsonObject.get("mobile").getAsString());
                     context.startActivity(i);
 
-//                    context.startActivity(new Intent(context, RegisterScreen.class)
-//                            .putExtra("mobile", jsonObject.get("mobile").getAsString()));
                 } else {
                     snackBar(context.getResources().getString(R.string.error), view);
                 }
@@ -272,7 +268,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("register", "Signup response : " + response.body() + "   " + new Gson().toJson(response.body()));
+//                Log.e("register", "Signup response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
 
@@ -280,8 +276,6 @@ public enum UtilsMethods {
                     object.addProperty("mobile", jsonObject.get("mobile").getAsString());
 
                     sendOTP(context, object, view, null);
-
-//                    context.startActivity(new Intent(context, Dashboard.class));
                 } else if (response.body() != null) {
                     snackBar(response.body().getMsg(), view);
                 } else {
@@ -310,7 +304,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
+//                Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus() && response.body().getCountries().size() > 0) {
                     ActivityActivityMessage activityMessage =
@@ -344,7 +338,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
+//                Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus() && response.body().getCities().size() > 0) {
                     ActivityActivityMessage activityMessage =
@@ -381,7 +375,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("getCity", "response : " + response.body() + "   " + new Gson().toJson(response.body()));
+//                Log.e("getCity", "response :  " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus() && response.body().getLocations().size() > 0) {
                     ActivityActivityMessage activityMessage =
@@ -417,7 +411,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("getApartment", "response : " + new Gson().toJson(response.body()));
+//                Log.e("getApartment", "response : " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus() && response.body().getApartment_no().size() > 0) {
                     ActivityActivityMessage activityMessage =
@@ -453,7 +447,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("getApartment", "response : " + new Gson().toJson(response.body()));
+//                Log.e("getApartment", "response : " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus() && response.body().getFlats().size() > 0) {
                     ActivityActivityMessage activityMessage =
@@ -545,7 +539,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("getResidents", "response : " + new Gson().toJson(response.body()));
+//                Log.e("getResidents", "response : " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getResidentsData().size() > 0) {
                     ActivityActivityMessage activityMessage =
@@ -583,7 +577,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
+//                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 //                {"status":500,"msg":"token not matched. Unauthorized access"}
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getApartment_details().size() > 0) {
 
@@ -631,8 +625,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
-//                {"status":500,"msg":"token not matched. Unauthorized access"}
+//                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") && response.body().getServicemenData().size() > 0) {
                     ActivityActivityMessage activityMessage =
                             new ActivityActivityMessage("ServicemenList", new Gson().toJson(response.body().getServicemenData()));
@@ -668,7 +661,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
+//                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
 //                {"status":500,"msg":"token not matched. Unauthorized access"}
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200") ) {
                     snackBar(response.body().getMsg(), view);
@@ -698,8 +691,6 @@ public enum UtilsMethods {
         });
     }
 
-
-
     public void viewMember(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<MemberListResponse> call = pointInterface.viewMember(ApplicationConstant.INSTANCE.contentType, jsonObject);
@@ -709,7 +700,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
+//                Log.e("ApartmentsDetail", "response : " + new Gson().toJson(response.body()));
                 if (response.body()!=null && response.body().getMemberData()!=null){
                     ArrayList<MemberData> memberData = new ArrayList<>();
                     for (MemberData obj : response.body().getMemberData()){
@@ -753,7 +744,7 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("ServiceRequest", "response : " + new Gson().toJson(response.body()));
+//                Log.e("ServiceRequest", "response : " + new Gson().toJson(response.body()));
                 if (response.body()!=null && response.body().getStatus() == 200 ){
                     if (response.body().getServiceRequestDetails()!=null && response.body().getServiceRequestDetails().size()>0){
                         FragmentActivityMessage fragmentActivityMessage =
@@ -785,7 +776,7 @@ public enum UtilsMethods {
         });
     }
 
-    public void AddFlat(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
+    public void AddFlat(final Context context, final JsonObject jsonObject, final int type, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<AddFlatResponse> call = pointInterface.AddFlat(ApplicationConstant.INSTANCE.contentType, jsonObject);
         call.enqueue(new Callback<AddFlatResponse>() {
@@ -794,8 +785,6 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("AddFlat", "response : " + new Gson().toJson(response.body()));
-
                 if (response.body() != null && response.body().getStatus()) {
 
                     JsonObject jsonObject = new JsonObject();
@@ -805,7 +794,11 @@ public enum UtilsMethods {
                     UtilsMethods.INSTANCE.ApartmentsDetail(context, jsonObject, view, 0,null);
 
                 } else {
-                    snackBar(response.body().getMsg(), view);
+                    if (type == 1){
+                        snackBar(response.body().getMsg(), view);
+                    }else {
+                        snackBar("Office Already Added!", view);
+                    }
                 }
             }
 
@@ -814,7 +807,6 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-//                Log.e("Signresponse", "error " + t.getMessage());
                 snackBar(context.getResources().getString(R.string.error), view);
             }
         });
@@ -829,7 +821,6 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-//                Log.e("AddFlat", "response : " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")) {
 
@@ -939,7 +930,6 @@ public enum UtilsMethods {
         });
     }
 
-
     public void DeleteActivity(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);
         Call<ApartmentsResponse> call = pointInterface.DeleteActivity(ApplicationConstant.INSTANCE.contentType, jsonObject);
@@ -949,7 +939,6 @@ public enum UtilsMethods {
                 if (loader != null && loader.isShowing()) {
                     loader.dismiss();
                 }
-                Log.e("DeleteActivityresponse", "response : " + new Gson().toJson(response.body()));
 
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("200")  ) {
 
@@ -978,8 +967,8 @@ public enum UtilsMethods {
         });
     }
 
-    public void addMember(final Context context, final String path,final String flatid,final String apartment_id,
-                          final String token,final String name,final String mobile_no, final View view, final Loader loader) {
+    public void addMember(final Context context, final String path,final String flatid,final String apartment_id, final String token,
+                          final String name,final String mobile_no, final View view, final Loader loader) {
 
         int compressionRatio = 25; //1 == originalImage, 2 = 50% compression, 4=25% compress
         File file = new File(path);
@@ -988,7 +977,7 @@ public enum UtilsMethods {
             bitmap.compress (Bitmap.CompressFormat.JPEG, compressionRatio, new FileOutputStream(file));
         }
         catch (Throwable t) {
-            Log.e("ERROR", "Error compressing file." + t.toString ());
+//            Log.e("ERROR", "Error compressing file." + t.toString ());
             t.printStackTrace ();
         }
 
@@ -1036,9 +1025,8 @@ public enum UtilsMethods {
         });
     }
 
-
-    public void uploadImage(final Context context, final String path,final String userId,
-                          final String token, final View view, final Loader loader) {
+    public void uploadImage(final Context context, final String path,final String userId, final String token, final View view,
+                            final Loader loader) {
 
         int compressionRatio = 25; //1 == originalImage, 2 = 50% compression, 4=25% compress
         File file = new File(path);
@@ -1047,7 +1035,7 @@ public enum UtilsMethods {
             bitmap.compress (Bitmap.CompressFormat.JPEG, compressionRatio, new FileOutputStream(file));
         }
         catch (Throwable t) {
-            Log.e("ERROR", "Error compressing file." + t.toString ());
+//            Log.e("ERROR", "Error compressing file." + t.toString ());
             t.printStackTrace ();
         }
 
@@ -1090,12 +1078,6 @@ public enum UtilsMethods {
             }
         });
     }
-
-
-
-
-
-
 
     public void UpdateActivity(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
 
@@ -1146,7 +1128,6 @@ public enum UtilsMethods {
             }
         });
     }
-
 
     public void RemoveServiceRequest(final Context context, final JsonObject jsonObject, final View view, final Loader loader) {
         EndPointInterface pointInterface = ApiClient.getClient().create(EndPointInterface.class);

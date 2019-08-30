@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         tag = remoteMessage.getData().get("body");
         Log.e(TAG, "onMessageReceived: >> "+tag );
         NotificationModel model = new Gson().fromJson(remoteMessage.getData().get("body"), NotificationModel.class);
-        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")+ remoteMessage.getData().get("body"));
+//        Log.e(TAG, "RemoteMessage: " + remoteMessage.getData().get("requestId")+" -- "+ remoteMessage.getData().get("title")+ remoteMessage.getData().get("body"));
 
         if (remoteMessage.getData() != null) {
             if (model.getRecordId()!=null && model.getStatus()== 1 &&
@@ -73,8 +73,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     methodNotify(remoteMessage.getData().get("title"), model.getMemberType()+" has exit from apartment.");
                 }
             }
-        } else {
-            Log.e(TAG, "FCM Notification failed");
         }
     }
 
