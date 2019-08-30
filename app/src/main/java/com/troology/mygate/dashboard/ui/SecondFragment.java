@@ -187,7 +187,4 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(getActivity(), UserProfile.class));
         }
     }
-
-
-
 }
