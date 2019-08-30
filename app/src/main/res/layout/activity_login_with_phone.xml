@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootFrame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
         android:id="@+id/llphone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
+        android:background="@drawable/login_bg"
         android:orientation="vertical"
         android:paddingTop="80dp"
         android:transitionName="@string/transition_llPhone">
@@ -66,8 +67,9 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/opensans_regular"
-                android:hint="xxxxx xxxxx"
+                android:hint="0000 0000 00"
                 android:inputType="phone"
+                android:paddingLeft="@dimen/_5sdp"
                 android:textColorHint="#DADBDF"
                 android:textSize="18sp" />
 

@@ -120,7 +120,6 @@ public class FragmentOnce extends Fragment {
                 }, mYear, mMonth, mDay);
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
-
             }
         });
 

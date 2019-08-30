@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
@@ -18,8 +19,9 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
     EditText name, email;
     Button submit;
     Loader loader;
-    String mobile= "";
+    String mobile = "";
     RelativeLayout parent;
+    ImageView back_register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +45,23 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         submit = findViewById(R.id.submit);
+        back_register = findViewById(R.id.back_register);
 
         submit.setOnClickListener(this);
+
+        back_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
 
-
     @Override
     public void onClick(View v) {
-        if (v == submit){
+        if (v == submit) {
             if (UtilsMethods.INSTANCE.isNetworkAvailable(getApplicationContext())) {
                 loader.show();
                 loader.setCancelable(false);
@@ -64,7 +73,8 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                 object.addProperty("email", email.getText().toString());
 
                 UtilsMethods.INSTANCE.register(RegisterScreen.this, object, parent, loader);
-            } else {
+            }
+           else {
                 UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), parent);
             }
         }

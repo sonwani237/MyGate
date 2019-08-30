@@ -73,7 +73,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
     String addType = "Select Office";
     String selectFlat = "Select flat";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +85,6 @@ public class AddFlat extends AppCompatActivity implements View.OnClickListener {
 
         userDetails = UtilsMethods.INSTANCE.get(getApplicationContext(), ApplicationConstant.INSTANCE.loginPerf, UserDetails.class);
         InItView();
-
-
     }
 
     private void InItView() {

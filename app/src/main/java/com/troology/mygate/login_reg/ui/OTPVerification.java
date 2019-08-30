@@ -23,12 +23,14 @@ public class OTPVerification extends AppCompatActivity implements View.OnClickLi
     PinView otp_code;
     Button verify;
     Loader loader;
-    String mobile= "";
+    String mobile = "";
     RelativeLayout parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_otpverification);
 
         mobile = getIntent().getStringExtra("mobile");

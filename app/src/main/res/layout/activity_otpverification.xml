@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent"
+    android:background="@drawable/login_bg"
     tools:context=".login_reg.ui.OTPVerification">
 
     <LinearLayout
@@ -39,13 +40,12 @@
             android:paddingLeft="@dimen/_50sdp"
             android:paddingRight="@dimen/_50sdp"/>
 
-
         <com.chaos.view.PinView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:cursorVisible="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             app:itemCount="4"
             style="@style/PinWidget.PinView"
             app:viewType="line"
@@ -69,8 +69,9 @@
             android:visibility="visible"
             android:id="@+id/verify"
             android:layout_marginTop="@dimen/_20sdp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/roundbtn"
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:fontFamily="@font/opensans_semibold"
             android:layout_marginLeft="@dimen/_50sdp"
             android:layout_marginRight="@dimen/_50sdp"/>

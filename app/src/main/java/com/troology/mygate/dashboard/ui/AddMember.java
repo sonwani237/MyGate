@@ -77,7 +77,7 @@ public class AddMember extends AppCompatActivity implements View.OnClickListener
         parent = findViewById(R.id.parent);
         img.setOnClickListener(this);
         addMember.setOnClickListener(this);
-        img.setOnClickListener(this);
+
     }
 
     @Override

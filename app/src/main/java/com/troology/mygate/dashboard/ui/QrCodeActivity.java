@@ -41,6 +41,7 @@ public class QrCodeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qr_code);
+
         tvName = findViewById(R.id.qrName);
         tvCode = findViewById(R.id.qrpascode);
         back = findViewById(R.id.backqr);

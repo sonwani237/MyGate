@@ -59,6 +59,7 @@
                             android:fontFamily="@font/opensans_semibold"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_12sdp"
+                            android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
@@ -66,7 +67,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
-                            android:fontFamily="@font/roboto_mono"
+                            android:fontFamily="@font/opensans_regular"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/_10sdp"
                             android:textStyle="bold" />
@@ -100,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:fontFamily="@font/opensans_semibold"
+                    android:fontFamily="@font/opensans_extra_bold"
                     android:text="@string/add"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_10sdp" />

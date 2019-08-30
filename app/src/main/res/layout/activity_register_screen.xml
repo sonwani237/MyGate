@@ -1,91 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent"
-    android:gravity="center"
     android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/login_bg"
     tools:context=".login_reg.ui.RegisterScreen">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_margin="@dimen/_20sdp"
         android:background="@drawable/roundedcorners"
+        android:orientation="vertical"
         android:padding="@dimen/_20sdp"
-        android:layout_margin="@dimen/_20sdp">
+        android:visibility="gone">
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar"
-        android:visibility="gone"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical">
-
-
-        <ImageView
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:src="@drawable/app_logo"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_15sdp"/>
-
-        <android.support.design.widget.TextInputLayout
+        <Button
+            android:id="@+id/submitt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_13sdp"
-            android:layout_marginEnd="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_13sdp">
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/opensans_semibold"
+            android:text="Submit"
+            android:textColor="@color/white" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Name"
-                android:inputType="textCapSentences|textCapWords"
-                android:textSize="@dimen/_9sdp"
-                android:singleLine="true"
-                android:id="@+id/name"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_13sdp"
-            android:layout_marginEnd="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_5sdp">
+            android:layout_below="@+id/toolbar"
+            android:orientation="vertical">
 
-            <EditText
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:src="@drawable/app_logo" />
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:singleLine="true"
-                android:textSize="@dimen/_9sdp"
-                android:inputType="textEmailAddress"
-                android:id="@+id/email" />
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_13sdp"
+                android:layout_marginEnd="@dimen/_13sdp">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/namee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:inputType="textCapSentences|textCapWords"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_9sdp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_13sdp">
+
+                <EditText
+                    android:id="@+id/emaill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_9sdp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/toolbarr"
+            layout="@layout/toolbar"
+            android:visibility="gone" />
+
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Submit"
-        android:textColor="@color/white"
-        android:background="@color/colorPrimaryDark"
-        android:fontFamily="@font/opensans_semibold"
-        android:id="@+id/submit"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_50sdp"/>
+        android:src="@drawable/backblack"
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/back_register"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_20sdp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/logo"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_13sdp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Welcome,"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Fill details to continue"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textSize="@dimen/_13sdp" />
+
+      <!--  <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_53sdp"
+            android:layout_marginEnd="@dimen/_13sdp">-->
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_53sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:fontFamily="@font/opensans_regular"
+                android:inputType="textCapSentences|textCapWords"
+                android:singleLine="true"
+                android:textSize="@dimen/_12sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/et_background"/>
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+       <!-- <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+           >-->
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:fontFamily="@font/opensans_regular"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:textSize="@dimen/_12sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/et_background"/>
+
+<!--        </android.support.design.widget.TextInputLayout>-->
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/roundbtn"
+            android:fontFamily="@font/opensans_semibold"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:visibility="gone" />
 
 
     </LinearLayout>
