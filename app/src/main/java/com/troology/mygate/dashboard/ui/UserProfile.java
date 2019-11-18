@@ -170,9 +170,6 @@ public class UserProfile extends AppCompatActivity implements View.OnClickListen
                 } else {
                     UtilsMethods.INSTANCE.snackBar(getResources().getString(R.string.network_error), rellay_profile);
                 }
-
-
-
             }
         }
     }
